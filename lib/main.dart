@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/screen/sight_list_screen.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
@@ -10,56 +11,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Places',
+      title: 'places',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
       ),
-      home: MyFirstWidget(),
+      home: const SightListScreen(),
       // home: const MySecondWidget(),
-    );
-  }
-}
-
-class MyFirstWidget extends StatelessWidget {
-  MyFirstWidget({super.key});
-
-  int _count = 0;
-
-  // Type getContext() => context.runtimeType;
-
-  @override
-  Widget build(BuildContext context) {
-    _count++;
-    debugPrint('Функция вызвана $_count раз');
-    return Container(
-      child: const Center(
-        child: Text('Hello!'),
-      ),
-    );
-  }
-}
-
-class MySecondWidget extends StatefulWidget {
-  const MySecondWidget({super.key});
-
-  @override
-  State<MySecondWidget> createState() => _MySecondWidgetState();
-}
-
-class _MySecondWidgetState extends State<MySecondWidget> {
-  int _count = 0;
-
-  Type getContext() => context.runtimeType;
-
-  @override
-  Widget build(BuildContext context) {
-    _count++;
-    debugPrint('Функция вызвана $_count раз');
-    return Container(
-      child: const Center(
-        child: Text('Hello!'),
-      ),
     );
   }
 }
