@@ -44,16 +44,56 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           top: MediaQuery.of(context).padding.top, // + 24
         ),
       ),
-      child: Text(
-        title,
+
+      // child: Text(
+      //   title,
+      //   textAlign: TextAlign.left,
+      //   maxLines: 2,
+      //   style: const TextStyle(
+      //     color: Color(0xFF252849),
+      //     fontFamily: 'Roboto',
+      //     fontSize: 32,
+      //     height: 1.125,
+      //     fontWeight: FontWeight.w700,
+      //   ),
+      // ),
+
+      child: RichText(
         textAlign: TextAlign.left,
         maxLines: 2,
-        style: const TextStyle(
-          color: Color(0xFF252849),
-          fontFamily: 'Roboto',
-          fontSize: 32,
-          height: 1.125,
-          fontWeight: FontWeight.w700,
+        overflow: TextOverflow.ellipsis,
+        text: const TextSpan(
+          text: 'С',
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 32,
+            height: 1.125,
+            fontWeight: FontWeight.w700,
+          ),
+          children: [
+            TextSpan(
+              text: 'писок\n',
+              style: TextStyle(
+                color: Color(0xFF3B3E5B),
+              ),
+              children: [
+                TextSpan(
+                  text: 'и',
+                  style: TextStyle(
+                    color: Colors.yellow,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'нтересных мест',
+                      style: TextStyle(
+                        color: Color(0xFF3B3E5B),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
