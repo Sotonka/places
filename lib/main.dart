@@ -16,6 +16,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
       ),
+      debugShowCheckedModeBanner: false,
       home: const SightListScreen(),
       // home: const MySecondWidget(),
     );
