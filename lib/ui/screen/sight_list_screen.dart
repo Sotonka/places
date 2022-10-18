@@ -11,21 +11,50 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: const Text('Hello'),
-            alignment: Alignment.center,
-            width: 200,
-            height: 400,
-            decoration: BoxDecoration(
-              border: Border.all(),
-            ),
-          ),
-          TextFormField(),
-        ],
+      backgroundColor: Colors.white,
+      appBar: const CustomAppBar(title: 'Список\nинтересных мест'),
+      body: Container(
+        color: Colors.purple,
+      ),
+    );
+  }
+}
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(400);
+
+  const CustomAppBar({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 40,
+        bottom: 16,
+        left: 16,
+        right: 16,
+      ).add(
+        EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top, // + 24
+        ),
+      ),
+      child: Text(
+        title,
+        textAlign: TextAlign.left,
+        maxLines: 2,
+        style: const TextStyle(
+          color: Color(0xFF252849),
+          fontFamily: 'Roboto',
+          fontSize: 32,
+          height: 1.125,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
