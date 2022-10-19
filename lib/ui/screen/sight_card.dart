@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/screen/sight_details.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -11,33 +12,45 @@ class SightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        bottom: 16,
-      ),
-      color: const Color(0xFFF5f5f5),
-      clipBehavior: Clip.antiAlias,
-      elevation: 0,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16),
-        ),
-      ),
-      child: Stack(
-        children: [
-          SizedBox(
-            height: 188,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _TopCardPart(sight: sight),
-                _BottomCardPart(sight: sight),
-              ],
+    return InkWell(
+      onTap: () {
+        Navigator.push<void>(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SightDetails(
+              sight: sight,
             ),
           ),
-        ],
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: 16,
+        ),
+        color: const Color(0xFFF5f5f5),
+        clipBehavior: Clip.antiAlias,
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16),
+          ),
+        ),
+        child: Stack(
+          children: [
+            SizedBox(
+              height: 188,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _TopCardPart(sight: sight),
+                  _BottomCardPart(sight: sight),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
