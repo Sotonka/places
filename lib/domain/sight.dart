@@ -13,6 +13,10 @@ class Sight {
   final String details;
   final SightType type;
 
+  String get typeAsText =>
+      _typeTranslations[type.toString()] ??
+      type.toString().replaceAll(RegExp(r'.*\.'), '');
+
   Sight({
     required this.name,
     required this.lat,
@@ -22,3 +26,10 @@ class Sight {
     required this.type,
   });
 }
+
+final Map<String, String> _typeTranslations = {
+  'SightType.cafe': 'кафе',
+  'SightType.restaurant': 'ресторан',
+  'SightType.park': 'парк',
+  'SightType.museum': 'музей',
+};

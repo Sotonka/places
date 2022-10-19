@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/mocks.dart';
+import 'package:places/ui/screen/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
   const SightListScreen({super.key});
@@ -13,8 +15,13 @@ class _SightListScreenState extends State<SightListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: 'Список\nинтересных мест'),
-      body: Container(
-        color: Colors.purple,
+      body: ListView(
+        children: [
+          for (final sight in mocks)
+            SightCard(
+              sight: sight,
+            ),
+        ],
       ),
     );
   }
@@ -44,56 +51,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           top: MediaQuery.of(context).padding.top, // + 24
         ),
       ),
-
-      // child: Text(
-      //   title,
-      //   textAlign: TextAlign.left,
-      //   maxLines: 2,
-      //   style: const TextStyle(
-      //     color: Color(0xFF252849),
-      //     fontFamily: 'Roboto',
-      //     fontSize: 32,
-      //     height: 1.125,
-      //     fontWeight: FontWeight.w700,
-      //   ),
-      // ),
-
-      child: RichText(
+      child: Text(
+        title,
         textAlign: TextAlign.left,
         maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-        text: const TextSpan(
-          text: 'С',
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: 32,
-            height: 1.125,
-            fontWeight: FontWeight.w700,
-          ),
-          children: [
-            TextSpan(
-              text: 'писок\n',
-              style: TextStyle(
-                color: Color(0xFF3B3E5B),
-              ),
-              children: [
-                TextSpan(
-                  text: 'и',
-                  style: TextStyle(
-                    color: Colors.yellow,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'нтересных мест',
-                      style: TextStyle(
-                        color: Color(0xFF3B3E5B),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+        style: const TextStyle(
+          color: Color(0xFF252849),
+          fontFamily: 'Roboto',
+          fontSize: 32,
+          height: 1.125,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
