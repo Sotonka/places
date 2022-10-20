@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
+import 'package:places/ui/widget/colored_button.dart';
+import 'package:places/ui/widget/transparent_button.dart';
 
 class SightDetails extends StatelessWidget {
   final Sight sight;
@@ -61,20 +62,10 @@ class SightDetails extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  // кнопка не совсем такая, переделаю как будут отдельные виджеты
-                  ElevatedButton.icon(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        UIKit.colors.greenF50,
-                      ),
-                    ),
+                  ColoredButton(
+                    text: UIKit.strings.sightDetailsScreenRoute,
                     onPressed: () {},
-                    icon: UIKit.assets.svg.route(
-                      color: Colors.white,
-                    ),
-                    label: Text(
-                      UIKit.strings.sightDetailsScreenRoute,
-                    ),
+                    icon: UIKit.assets.svg.route(),
                   ),
                   const SizedBox(height: 24),
                   const Divider(
@@ -85,60 +76,28 @@ class SightDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        child: CustomButton(
-                          icon: UIKit.assets.svg.calendar(),
+                        child: TransparentButton(
+                          text: UIKit.strings.sightDetailsScreenSchedule,
+                          onPressed: () {},
                           isActive: false,
-                          title: UIKit.strings.sightDetailsScreenSchedule,
+                          icon: UIKit.assets.svg.calendar(
+                            color: UIKit.colors.inactiveFontColor,
+                          ),
                         ),
                       ),
                       Expanded(
-                        child: CustomButton(
-                          icon: UIKit.assets.svg.heart(),
+                        child: TransparentButton(
+                          text: UIKit.strings.sightDetailsScreenFavorite,
+                          onPressed: () {},
                           isActive: true,
-                          title: UIKit.strings.sightDetailsScreenFavorite,
+                          icon: UIKit.assets.svg.heart(
+                            color: UIKit.colors.mainFontColor,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  final SvgPicture icon;
-  final bool isActive;
-  final String title;
-  const CustomButton({
-    super.key,
-    required this.icon,
-    required this.isActive,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: SizedBox(
-        height: 40,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // у иконки нельзя выбрать цвет, поменяю когда отдельно будут виджеты
-            icon,
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: UIKit.fonts.normal14.copyWith(
-                color: isActive
-                    ? UIKit.colors.mainFontColor
-                    : UIKit.colors.inactiveFontColor,
               ),
             ),
           ],

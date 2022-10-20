@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class Svg {
   final String _defaultPath = 'res/icons/';
-  final _defaultColor = Colors.black54;
+  final _defaultColor = Colors.white;
 
   SvgPicture calendar({
     double? width,
