@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -29,7 +30,7 @@ class SightCard extends StatelessWidget {
           right: 16,
           bottom: 16,
         ),
-        color: const Color(0xFFF5f5f5),
+        color: UIKit.colors.cardBackground,
         clipBehavior: Clip.antiAlias,
         elevation: 0,
         shape: const RoundedRectangleBorder(
@@ -80,21 +81,17 @@ class _TopCardPart extends StatelessWidget {
             top: 16,
             child: Text(
               sight.typeAsText,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-                height: 18 / 14,
-                fontWeight: FontWeight.bold,
-              ),
+              style: UIKit.fonts.sightType14,
             ),
           ),
           Positioned(
             right: 16,
             top: 16,
-            child: Container(
-              height: 18,
-              width: 20,
-              color: Colors.red,
+            child: InkWell(
+              onTap: () {},
+              child: UIKit.assets.svg.heart(
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -120,21 +117,11 @@ class _BottomCardPart extends StatelessWidget {
           maxLines: 4,
           text: TextSpan(
             text: '${sight.name}\n',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFF3B3E5B),
-              height: 20 / 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: UIKit.fonts.sightName16,
             children: [
               TextSpan(
                 text: '${sight.details}\n',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF7C7E92),
-                  height: 18 / 14,
-                  fontWeight: FontWeight.normal,
-                ),
+                style: UIKit.fonts.normal14,
               ),
             ],
           ),

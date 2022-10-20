@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SightDetails extends StatelessWidget {
   final Sight sight;
@@ -33,45 +35,29 @@ class SightDetails extends StatelessWidget {
                 children: [
                   Text(
                     sight.name,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      color: Color(0xFF3B3E5B),
-                      height: 28.8 / 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: UIKit.fonts.sightName24,
                   ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
                       Text(
                         sight.typeAsText,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF3B3E5B),
-                          height: 18 / 14,
-                          fontWeight: FontWeight.bold,
+                        style: UIKit.fonts.sightType14.copyWith(
+                          color: UIKit.colors.mainFontColor,
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Text(
+                      Text(
                         'закрыто до 09:00',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF7C7E92),
-                          height: 18 / 14,
-                          fontWeight: FontWeight.normal,
-                        ),
+                        style: UIKit.fonts.normal14,
                       ),
                     ],
                   ),
                   const SizedBox(height: 24),
                   Text(
                     sight.details,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF3B3E5B),
-                      height: 18 / 14,
-                      fontWeight: FontWeight.normal,
+                    style: UIKit.fonts.normal14.copyWith(
+                      color: UIKit.colors.mainFontColor,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -79,12 +65,16 @@ class SightDetails extends StatelessWidget {
                   ElevatedButton.icon(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFF4CAF50),
+                        UIKit.colors.greenF50,
                       ),
                     ),
                     onPressed: () {},
-                    icon: const Icon(Icons.route),
-                    label: const Text('ПОСТРОИТЬ МАРШРУТ'),
+                    icon: UIKit.assets.svg.route(
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      UIKit.strings.sightDetailsScreenRoute,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   const Divider(
@@ -93,19 +83,19 @@ class SightDetails extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
+                    children: [
                       Expanded(
                         child: CustomButton(
-                          icon: Icon(Icons.calendar_today),
+                          icon: UIKit.assets.svg.calendar(),
                           isActive: false,
-                          title: 'Запланировать',
+                          title: UIKit.strings.sightDetailsScreenSchedule,
                         ),
                       ),
                       Expanded(
                         child: CustomButton(
-                          icon: Icon(Icons.favorite),
+                          icon: UIKit.assets.svg.heart(),
                           isActive: true,
-                          title: 'В Избранное',
+                          title: UIKit.strings.sightDetailsScreenFavorite,
                         ),
                       ),
                     ],
@@ -121,7 +111,7 @@ class SightDetails extends StatelessWidget {
 }
 
 class CustomButton extends StatelessWidget {
-  final Icon icon;
+  final SvgPicture icon;
   final bool isActive;
   final String title;
   const CustomButton({
@@ -145,13 +135,10 @@ class CustomButton extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               title,
-              style: TextStyle(
+              style: UIKit.fonts.normal14.copyWith(
                 color: isActive
-                    ? const Color(0xFF3B3E5B)
-                    : const Color(0xFF7C7E92).withOpacity(0.56),
-                fontSize: 14,
-                height: 18 / 14,
-                fontWeight: FontWeight.normal,
+                    ? UIKit.colors.mainFontColor
+                    : UIKit.colors.inactiveFontColor,
               ),
             ),
           ],

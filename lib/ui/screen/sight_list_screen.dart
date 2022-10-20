@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SightListScreen extends StatefulWidget {
   const SightListScreen({super.key});
@@ -14,7 +15,7 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(title: 'Список\nинтересных мест'),
+      appBar: CustomAppBar(title: UIKit.strings.sightListScreenTitle),
       body: ListView(
         children: [
           for (final sight in mocks)
@@ -48,20 +49,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         right: 16,
       ).add(
         EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, // + 24
+          top: MediaQuery.of(context).padding.top,
         ),
       ),
       child: Text(
         title,
         textAlign: TextAlign.left,
         maxLines: 2,
-        style: const TextStyle(
-          color: Color(0xFF252849),
-          fontFamily: 'Roboto',
-          fontSize: 32,
-          height: 1.125,
-          fontWeight: FontWeight.w700,
-        ),
+        style: UIKit.fonts.appBar32,
       ),
     );
   }
