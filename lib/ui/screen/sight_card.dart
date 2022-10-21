@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
+import 'package:places/ui/widget/loadable_image.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -74,9 +75,10 @@ class _TopCardPart extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.network(
-            'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
-            fit: BoxFit.cover,
+          // пока url оставил тут
+          const LoadableImage(
+            url:
+                'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
           ),
           Positioned(
             left: 16,
