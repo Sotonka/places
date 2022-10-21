@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -23,33 +24,35 @@ class SightCard extends StatelessWidget {
           ),
         );
       },
-      child: Card(
-        margin: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: 16,
-        ),
-        color: const Color(0xFFF5f5f5),
-        clipBehavior: Clip.antiAlias,
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(16),
+      child: AspectRatio(
+        aspectRatio: 3 / 2,
+        child: Card(
+          margin: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: 16,
           ),
-        ),
-        child: Stack(
-          children: [
-            SizedBox(
-              height: 188,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _TopCardPart(sight: sight),
-                  _BottomCardPart(sight: sight),
-                ],
-              ),
+          color: UIKit.colors.cardBackground,
+          clipBehavior: Clip.antiAlias,
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(16),
             ),
-          ],
+          ),
+          child: Stack(
+            children: [
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _TopCardPart(sight: sight),
+                    _BottomCardPart(sight: sight),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -67,7 +70,7 @@ class _TopCardPart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      height: 96,
+      height: (MediaQuery.of(context).size.width / 2 - 16) * 2 / 3,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -80,21 +83,17 @@ class _TopCardPart extends StatelessWidget {
             top: 16,
             child: Text(
               sight.typeAsText,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-                height: 18 / 14,
-                fontWeight: FontWeight.bold,
-              ),
+              style: UIKit.fonts.sightType14,
             ),
           ),
           Positioned(
             right: 16,
             top: 16,
-            child: Container(
-              height: 18,
-              width: 20,
-              color: Colors.red,
+            child: InkWell(
+              onTap: () {},
+              child: UIKit.assets.svg.heart(
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -112,32 +111,35 @@ class _BottomCardPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: RichText(
-          overflow: TextOverflow.ellipsis,
-          maxLines: 4,
-          text: TextSpan(
-            text: '${sight.name}\n',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFF3B3E5B),
-              height: 20 / 16,
-              fontWeight: FontWeight.w500,
-            ),
-            children: [
-              TextSpan(
-                text: '${sight.details}\n',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF7C7E92),
-                  height: 18 / 14,
-                  fontWeight: FontWeight.normal,
-                ),
+    return Container(
+      // некрасиво, но это потом переделаю
+      height: (MediaQuery.of(context).size.width / 2 - 16) * 2 / 3,
+      padding: const EdgeInsets.all(16),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width / 2 - 16,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: Text(
+                sight.name,
+                style: UIKit.fonts.sightName16,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
-            ],
-          ),
+            ),
+            Flexible(
+              child: Text(
+                sight.details,
+                style: UIKit.fonts.normal14,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+            ),
+          ],
         ),
       ),
     );
