@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
+import 'package:places/ui/widget/loadable_image.dart';
 import 'package:places/ui/widget/transparent_button.dart';
 
 class SightDetails extends StatelessWidget {
@@ -19,9 +20,9 @@ class SightDetails extends StatelessWidget {
             Container(
               color: Colors.white,
               height: 360,
-              child: Image.network(
-                'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
-                fit: BoxFit.cover,
+              child: const LoadableImage(
+                url:
+                    'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
               ),
             ),
             Padding(

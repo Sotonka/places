@@ -17,13 +17,13 @@ class _SightListScreenState extends State<SightListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(title: UIKit.strings.sightListScreenTitle),
-      body: ListView(
-        children: [
-          for (final sight in mocks)
-            SightCard(
-              sight: sight,
-            ),
-        ],
+      body: ListView.builder(
+        itemCount: mocks.length,
+        itemBuilder: (context, index) {
+          return SightCard(
+            sight: mocks[index],
+          );
+        },
       ),
     );
   }
