@@ -12,6 +12,9 @@ class Sight {
   final String url;
   final String details;
   final SightType type;
+  final String? visitTime;
+  final String? visited;
+  final String? opensAt;
 
   String get typeAsText =>
       _typeTranslations[type.toString()] ??
@@ -24,6 +27,9 @@ class Sight {
     required this.url,
     required this.details,
     required this.type,
+    this.visitTime,
+    this.visited,
+    this.opensAt,
   });
 }
 
