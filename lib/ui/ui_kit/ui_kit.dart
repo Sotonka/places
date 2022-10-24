@@ -12,7 +12,6 @@ abstract class UIKit {
   static Constants constants = Constants();
   static DecorationCollection decoration = DecorationCollection();
   static TextThemeCollection fonts = TextThemeCollection();
-
   static MutableCollection mutable = MutableCollection();
   static Strings strings = Strings();
 }

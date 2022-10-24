@@ -18,7 +18,6 @@ class App extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const SightListScreen(),
-      // home: const MySecondWidget(),
     );
   }
 }

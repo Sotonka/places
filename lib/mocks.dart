@@ -8,6 +8,8 @@ final List<Sight> mocks = [
     url: 'https://cofrep.ru/',
     details: 'Кофе Репаблик, Хабаровск',
     type: SightType.cafe,
+    visitTime: '111',
+    visited: '111',
   ),
   Sight(
     name: 'Plantacia Coffee11111111111111111111',
@@ -16,6 +18,8 @@ final List<Sight> mocks = [
     url: 'https://vk.com/plantaciacoffee',
     details: 'Plantacia Coffee, Хабаровск11111111111111111111111',
     type: SightType.cafe,
+    visitTime: '111',
+    visited: '111',
   ),
   Sight(
     name: 'Парк Динамо',
@@ -25,5 +29,7 @@ final List<Sight> mocks = [
         'https://www.dvhab.ru/city/%D0%B4%D0%BE%D1%81%D1%82%D0%BE%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%87%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8/%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D1%81%D0%BA%D0%BE%D0%B9%20%D0%BF%D0%B0%D1%80%D0%BA%20%D0%BE%D1%82%D0%B4%D1%8B%D1%85%D0%B0%20%C2%AB%D0%94%D0%B8%D0%BD%D0%B0%D0%BC%D0%BE%C2%BB/',
     details: 'Городской парк культуры',
     type: SightType.park,
+    visitTime: '111',
+    visited: '111',
   ),
 ];

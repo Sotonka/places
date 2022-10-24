@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
-
 import 'package:places/ui/ui_kit/ui_kit.dart';
-import 'package:places/ui/widget/sight_cards.dart';
+import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/sight_list_screen_app_bar.dart';
 
 class SightListScreen extends StatefulWidget {
@@ -18,20 +18,17 @@ class _SightListScreenState extends State<SightListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(title: UIKit.strings.sightListScreenTitle),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: ListView.separated(
-          itemCount: mocks.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 16),
-          itemBuilder: (context, index) {
-            return ListCard(
-              sight: mocks[index],
-            );
-          },
-        ),
+      body: ListView.separated(
+        itemCount: mocks.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
+        itemBuilder: (context, index) {
+          return SightCard(
+            sight: mocks[index],
+            type: CardType.list,
+          );
+        },
       ),
+      bottomNavigationBar: const BottomNavBar(index: 0),
     );
   }
 }
