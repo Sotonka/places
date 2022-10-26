@@ -31,7 +31,7 @@ class SmallAppBar extends StatelessWidget implements PreferredSizeWidget {
             textAlign: TextAlign.center,
             style: UIKit.fonts.bold18,
           ),
-          if (bottom != null) ...{const SizedBox(height: 22), bottom!},
+          if (bottom != null) ...[const SizedBox(height: 22), bottom!],
         ],
       ),
     );

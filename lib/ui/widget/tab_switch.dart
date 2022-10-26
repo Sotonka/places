@@ -54,7 +54,6 @@ class _SwitchButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: 40,
-        // width: double.infinity,
         decoration: BoxDecoration(
           color: isActive ? UIKit.colors.mainFontColor : Colors.transparent,
           borderRadius: BorderRadius.circular(40),
