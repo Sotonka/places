@@ -13,10 +13,12 @@ class TabSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 48,
+        height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
-          color: UIKit.colors.cardBackground,
+          color: Theme.of(context).brightness == Brightness.light
+              ? UIKit.colors.primaryLight5F5
+              : UIKit.colors.primaryDarkA20,
         ),
         child: Row(
           children: [
@@ -55,13 +57,21 @@ class _SwitchButton extends StatelessWidget {
         alignment: Alignment.center,
         height: 40,
         decoration: BoxDecoration(
-          color: isActive ? UIKit.colors.mainFontColor : Colors.transparent,
+          color: isActive
+              ? (Theme.of(context).brightness == Brightness.light
+                  ? UIKit.colors.primaryBlueE5B
+                  : UIKit.colors.primaryLightFFF)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(40),
         ),
         child: Text(
           text,
-          style: UIKit.fonts.sightType14.copyWith(
-            color: isActive ? Colors.white : UIKit.colors.secondaryFontColor,
+          style: UIKit.fonts.bold14.copyWith(
+            color: isActive
+                ? (Theme.of(context).brightness == Brightness.light
+                    ? UIKit.colors.primaryLightFFF
+                    : UIKit.colors.primaryBlueE5B)
+                : UIKit.colors.primaryLightE92,
           ),
         ),
       ),

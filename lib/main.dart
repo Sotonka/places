@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 
 void main() {
   runApp(const App());
@@ -12,10 +13,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'places',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
-      ),
+      //theme: UIKit.themes.lightTheme,
+      theme: UIKit.themes.darkTheme,
       debugShowCheckedModeBanner: false,
       home: const SightListScreen(),
     );

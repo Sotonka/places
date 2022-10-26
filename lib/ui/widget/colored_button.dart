@@ -32,7 +32,9 @@ class ColoredButton extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               text,
-              style: UIKit.fonts.sightType14,
+              style: UIKit.fonts.bold14.copyWith(
+                color: UIKit.colors.primaryLightFFF,
+              ),
             ),
           ],
         ),

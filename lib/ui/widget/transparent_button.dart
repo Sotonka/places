@@ -32,8 +32,10 @@ class TransparentButton extends StatelessWidget {
               text,
               style: UIKit.fonts.normal14.copyWith(
                 color: isActive
-                    ? UIKit.colors.mainFontColor
-                    : UIKit.colors.inactiveFontColor,
+                    ? (Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF)
+                    : UIKit.colors.primaryLightInactive,
               ),
             ),
           ],

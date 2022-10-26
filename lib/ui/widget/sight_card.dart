@@ -40,7 +40,9 @@ class SightCard extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  color: UIKit.colors.cardBackground,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? UIKit.colors.primaryLight5F5
+                      : UIKit.colors.primaryDarkA20,
                 ),
                 Column(
                   children: [
@@ -88,7 +90,9 @@ class _TopPart extends StatelessWidget {
           top: 16,
           child: Text(
             sight.typeAsText,
-            style: UIKit.fonts.sightType14,
+            style: UIKit.fonts.bold14.copyWith(
+              color: UIKit.colors.primaryLightFFF,
+            ),
           ),
         ),
         Positioned(
@@ -96,17 +100,17 @@ class _TopPart extends StatelessWidget {
           top: 16,
           child: type == CardType.list
               ? UIKit.assets.svg.heart(
-                  color: Colors.white,
+                  color: UIKit.colors.primaryLightFFF,
                 )
               : Row(
                   children: type == CardType.wishlist
                       ? [
                           UIKit.assets.svg.calendar(
-                            color: Colors.white,
+                            color: UIKit.colors.primaryLightFFF,
                           ),
                           const SizedBox(width: 16),
                           UIKit.assets.svg.close(
-                            color: Colors.white,
+                            color: UIKit.colors.primaryLightFFF,
                           ),
                         ]
                       : [
@@ -115,7 +119,7 @@ class _TopPart extends StatelessWidget {
                           ),
                           const SizedBox(width: 16),
                           UIKit.assets.svg.close(
-                            color: Colors.white,
+                            color: UIKit.colors.primaryLightFFF,
                           ),
                         ],
                 ),
@@ -137,7 +141,6 @@ class _BottomPart extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.centerLeft,
-      // заменить на row: widget + sizedbox
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: (MediaQuery.of(context).size.width - 32) / 1.3,
@@ -148,7 +151,7 @@ class _BottomPart extends StatelessWidget {
             Flexible(
               child: Text(
                 sight.name,
-                style: UIKit.fonts.sightName16,
+                style: Theme.of(context).primaryTextTheme.headline6,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
@@ -157,7 +160,9 @@ class _BottomPart extends StatelessWidget {
             Flexible(
               child: Text(
                 sight.details,
-                style: UIKit.fonts.normal14,
+                style: UIKit.fonts.normal14.copyWith(
+                  color: UIKit.colors.primaryLightE92,
+                ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),

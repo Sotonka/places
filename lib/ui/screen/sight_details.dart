@@ -18,7 +18,9 @@ class SightDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? UIKit.colors.primaryLightFFF
+                  : UIKit.colors.primaryDarkA20,
               height: 360,
               child: const LoadableImage(
                 url:
@@ -37,21 +39,26 @@ class SightDetails extends StatelessWidget {
                 children: [
                   Text(
                     sight.name,
-                    style: UIKit.fonts.sightName24,
+                    style: UIKit.fonts.bold24,
                   ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
                       Text(
                         sight.typeAsText,
-                        style: UIKit.fonts.sightType14.copyWith(
-                          color: UIKit.colors.mainFontColor,
+                        style: UIKit.fonts.bold14.copyWith(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? UIKit.colors.primaryBlueE5B
+                                  : UIKit.colors.primaryLightE92,
                         ),
                       ),
                       const SizedBox(width: 16),
                       Text(
                         'закрыто до 09:00',
-                        style: UIKit.fonts.normal14,
+                        style: UIKit.fonts.normal14.copyWith(
+                          color: UIKit.colors.primaryLightE92,
+                        ),
                       ),
                     ],
                   ),
@@ -59,7 +66,9 @@ class SightDetails extends StatelessWidget {
                   Text(
                     sight.details,
                     style: UIKit.fonts.normal14.copyWith(
-                      color: UIKit.colors.mainFontColor,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? UIKit.colors.primaryBlueE5B
+                          : UIKit.colors.primaryLightE92,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -82,7 +91,7 @@ class SightDetails extends StatelessWidget {
                           onPressed: () {},
                           isActive: false,
                           icon: UIKit.assets.svg.calendar(
-                            color: UIKit.colors.inactiveFontColor,
+                            color: UIKit.colors.primaryLightInactive,
                           ),
                         ),
                       ),
@@ -92,7 +101,10 @@ class SightDetails extends StatelessWidget {
                           onPressed: () {},
                           isActive: true,
                           icon: UIKit.assets.svg.heart(
-                            color: UIKit.colors.mainFontColor,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? UIKit.colors.primaryBlueE5B
+                                    : UIKit.colors.primaryLightFFF,
                           ),
                         ),
                       ),

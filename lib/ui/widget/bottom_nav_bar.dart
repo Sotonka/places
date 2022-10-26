@@ -13,6 +13,9 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BottomNavigationBar(
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? UIKit.colors.primaryLightFFF
+            : UIKit.colors.primaryDark22C,
         currentIndex: index,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
@@ -42,40 +45,56 @@ class BottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: index == 0
                 ? UIKit.assets.svg.listFull(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   )
                 : UIKit.assets.svg.list(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   ),
             label: 'List',
           ),
           BottomNavigationBarItem(
             icon: index == 1
                 ? UIKit.assets.svg.mapFull(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   )
                 : UIKit.assets.svg.map(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   ),
             label: 'Map',
           ),
           BottomNavigationBarItem(
             icon: index == 2
                 ? UIKit.assets.svg.heartFull(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   )
                 : UIKit.assets.svg.heart(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   ),
             label: 'Visiting',
           ),
           BottomNavigationBarItem(
             icon: index == 3
                 ? UIKit.assets.svg.settingsFull(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   )
                 : UIKit.assets.svg.settings(
-                    color: UIKit.colors.mainFontColor,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? UIKit.colors.primaryBlueE5B
+                        : UIKit.colors.primaryLightFFF,
                   ),
             label: 'Settings',
           ),

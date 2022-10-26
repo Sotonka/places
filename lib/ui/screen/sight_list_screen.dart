@@ -16,7 +16,6 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: CustomAppBar(title: UIKit.strings.sightListScreenTitle),
       body: ListView.separated(
         itemCount: mocks.length,

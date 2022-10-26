@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
         textAlign: TextAlign.left,
         maxLines: 2,
-        style: UIKit.fonts.appBar32,
+        style: Theme.of(context).primaryTextTheme.headline1,
       ),
     );
   }

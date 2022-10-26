@@ -5,6 +5,7 @@ import 'package:places/ui/ui_kit/decoration.dart';
 import 'package:places/ui/ui_kit/fonts.dart';
 import 'package:places/ui/ui_kit/mutable.dart';
 import 'package:places/ui/ui_kit/strings.dart';
+import 'package:places/ui/ui_kit/themes.dart';
 
 abstract class UIKit {
   static AppColors colors = AppColors();
@@ -14,4 +15,5 @@ abstract class UIKit {
   static TextThemeCollection fonts = TextThemeCollection();
   static MutableCollection mutable = MutableCollection();
   static Strings strings = Strings();
+  static ThemeCollection themes = ThemeCollection();
 }
