@@ -44,4 +44,12 @@ class TextThemeCollection {
         height: 18 / 14,
         fontWeight: FontWeight.normal,
       );
+
+  TextStyle get bold18 => TextStyle(
+        fontFamily: 'Roboto',
+        fontSize: 18,
+        color: UIKit.colors.mainFontColor,
+        height: 1.25,
+        fontWeight: FontWeight.bold,
+      );
 }
