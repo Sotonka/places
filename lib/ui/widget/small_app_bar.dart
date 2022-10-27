@@ -16,6 +16,8 @@ class SmallAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(16).add(
         EdgeInsets.only(
@@ -29,7 +31,7 @@ class SmallAppBar extends StatelessWidget implements PreferredSizeWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).primaryTextTheme.headline3,
+            style: theme.primaryTextTheme.headline3,
           ),
           if (bottom != null) ...[const SizedBox(height: 22), bottom!],
         ],

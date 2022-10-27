@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class TransparentButton extends StatelessWidget {
@@ -18,6 +19,8 @@ class TransparentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+
     return InkWell(
       onTap: () {},
       child: SizedBox(
@@ -32,9 +35,7 @@ class TransparentButton extends StatelessWidget {
               text,
               style: UIKit.fonts.normal14.copyWith(
                 color: isActive
-                    ? (Theme.of(context).brightness == Brightness.light
-                        ? UIKit.colors.primaryBlueE5B
-                        : UIKit.colors.primaryLightFFF)
+                    ? themeColors.icons
                     : UIKit.colors.primaryLightInactive,
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/loadable_image.dart';
@@ -12,15 +13,16 @@ class SightDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<ThemeColors>()!;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? UIKit.colors.primaryLightFFF
-                  : UIKit.colors.primaryDarkA20,
+              color: themeColors.sightDetails,
               height: 360,
               child: const LoadableImage(
                 url:
@@ -46,12 +48,7 @@ class SightDetails extends StatelessWidget {
                     children: [
                       Text(
                         sight.typeAsText,
-                        style: UIKit.fonts.bold14.copyWith(
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? UIKit.colors.primaryBlueE5B
-                                  : UIKit.colors.primaryLightE92,
-                        ),
+                        style: theme.primaryTextTheme.bodyText1,
                       ),
                       const SizedBox(width: 16),
                       Text(
@@ -65,11 +62,7 @@ class SightDetails extends StatelessWidget {
                   const SizedBox(height: 24),
                   Text(
                     sight.details,
-                    style: UIKit.fonts.normal14.copyWith(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? UIKit.colors.primaryBlueE5B
-                          : UIKit.colors.primaryLightE92,
-                    ),
+                    style: Theme.of(context).primaryTextTheme.bodyText1,
                   ),
                   const SizedBox(height: 24),
                   ColoredButton(
@@ -101,10 +94,7 @@ class SightDetails extends StatelessWidget {
                           onPressed: () {},
                           isActive: true,
                           icon: UIKit.assets.svg.heart(
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? UIKit.colors.primaryBlueE5B
-                                    : UIKit.colors.primaryLightFFF,
+                            color: themeColors.icons,
                           ),
                         ),
                       ),

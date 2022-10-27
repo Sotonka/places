@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 
@@ -18,6 +19,8 @@ class SightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: InkWell(
@@ -40,9 +43,7 @@ class SightCard extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? UIKit.colors.primaryLight5F5
-                      : UIKit.colors.primaryDarkA20,
+                  color: themeColors.sightCard,
                 ),
                 Column(
                   children: [
@@ -138,6 +139,8 @@ class _BottomPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.centerLeft,
@@ -151,7 +154,7 @@ class _BottomPart extends StatelessWidget {
             Flexible(
               child: Text(
                 sight.name,
-                style: Theme.of(context).primaryTextTheme.headline6,
+                style: theme.primaryTextTheme.headline6,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
