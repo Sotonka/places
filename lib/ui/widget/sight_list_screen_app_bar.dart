@@ -14,6 +14,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 40,
@@ -29,7 +31,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
         textAlign: TextAlign.left,
         maxLines: 2,
-        style: UIKit.fonts.appBar32,
+        style: theme.primaryTextTheme.headline1,
       ),
     );
   }
