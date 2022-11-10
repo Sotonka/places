@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/ui_kit/colors.dart';
@@ -38,6 +39,15 @@ class BottomNavBar extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => const VisitingScreen(),
+              ),
+            );
+            break;
+
+          case 3:
+            Navigator.pushReplacement<void, void>(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SettingsScreen(),
               ),
             );
             break;

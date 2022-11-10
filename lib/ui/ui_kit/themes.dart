@@ -46,6 +46,7 @@ class ThemeCollection {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
+        splashFactory: InkRipple.splashFactory,
         useMaterial3: true,
         primaryTextTheme: _lightTextTheme,
       );

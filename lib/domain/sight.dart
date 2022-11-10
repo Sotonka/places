@@ -1,14 +1,17 @@
+import 'package:places/domain/coordinates.dart';
+
 enum SightType {
   cafe,
-  restaurant,
-  park,
+  hotel,
   museum,
+  park,
+  particular,
+  restaurant,
 }
 
 class Sight {
   final String name;
-  final double lat;
-  final double lon;
+  final Coord coord;
   final String url;
   final String details;
   final SightType type;
@@ -22,8 +25,7 @@ class Sight {
 
   Sight({
     required this.name,
-    required this.lat,
-    required this.lon,
+    required this.coord,
     required this.url,
     required this.details,
     required this.type,

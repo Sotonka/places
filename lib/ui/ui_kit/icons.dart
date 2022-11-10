@@ -5,6 +5,18 @@ class Svg {
   final String _defaultPath = 'res/icons/';
   final _defaultColor = Colors.white;
 
+  SvgPicture back({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('back'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
   SvgPicture calendar({
     double? width,
     double? height,
@@ -12,6 +24,42 @@ class Svg {
   }) =>
       SvgPicture.asset(
         _name('calendar'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture cafe({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('cafe'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture choice({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('choice'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture forward({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('forward'),
         width: width,
         height: height,
         color: color ?? _defaultColor,
@@ -40,6 +88,19 @@ class Svg {
         height: height,
         color: color ?? _defaultColor,
       );
+
+  SvgPicture hotel({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('hotel'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
   SvgPicture list({
     double? width,
     double? height,
@@ -59,6 +120,54 @@ class Svg {
   }) =>
       SvgPicture.asset(
         _name('list_full'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture museum({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('museum'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture park({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('park'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture particular({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('particular'),
+        width: width,
+        height: height,
+        color: color ?? _defaultColor,
+      );
+
+  SvgPicture restaurant({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        _name('restaurant'),
         width: width,
         height: height,
         color: color ?? _defaultColor,

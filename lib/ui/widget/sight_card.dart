@@ -23,43 +23,81 @@ class SightCard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: InkWell(
-        onTap: () {
-          Navigator.push<void>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SightDetails(
-                sight: sight,
+      child: AspectRatio(
+        aspectRatio: 1.5,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(16),
+          ),
+          child: Stack(
+            children: [
+              Container(
+                color: themeColors.sightCard,
               ),
-            ),
-          );
-        },
-        child: AspectRatio(
-          aspectRatio: 1.5,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16),
-            ),
-            child: Stack(
-              children: [
-                Container(
-                  color: themeColors.sightCard,
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: _TopPart(
-                        sight: sight,
-                        type: type,
+              Column(
+                children: [
+                  Expanded(
+                    child: _TopPart(
+                      sight: sight,
+                      type: type,
+                    ),
+                  ),
+                  Expanded(
+                    child: _BottomPart(sight: sight),
+                  ),
+                ],
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  splashColor: UIKit.colors.splash4C4,
+                  customBorder: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SightDetails(
+                          sight: sight,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: _BottomPart(sight: sight),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+              Positioned(
+                right: 16,
+                top: 16,
+                child: type == CardType.list
+                    ? UIKit.assets.svg.heart(
+                        color: UIKit.colors.primaryLightFFF,
+                      )
+                    : Row(
+                        children: type == CardType.wishlist
+                            ? [
+                                UIKit.assets.svg.calendar(
+                                  color: UIKit.colors.primaryLightFFF,
+                                ),
+                                const SizedBox(width: 16),
+                                UIKit.assets.svg.close(
+                                  color: UIKit.colors.primaryLightFFF,
+                                ),
+                              ]
+                            : [
+                                UIKit.assets.svg.share(
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 16),
+                                UIKit.assets.svg.close(
+                                  color: UIKit.colors.primaryLightFFF,
+                                ),
+                              ],
+                      ),
+              ),
+            ],
           ),
         ),
       ),
@@ -95,35 +133,6 @@ class _TopPart extends StatelessWidget {
               color: UIKit.colors.primaryLightFFF,
             ),
           ),
-        ),
-        Positioned(
-          right: 16,
-          top: 16,
-          child: type == CardType.list
-              ? UIKit.assets.svg.heart(
-                  color: UIKit.colors.primaryLightFFF,
-                )
-              : Row(
-                  children: type == CardType.wishlist
-                      ? [
-                          UIKit.assets.svg.calendar(
-                            color: UIKit.colors.primaryLightFFF,
-                          ),
-                          const SizedBox(width: 16),
-                          UIKit.assets.svg.close(
-                            color: UIKit.colors.primaryLightFFF,
-                          ),
-                        ]
-                      : [
-                          UIKit.assets.svg.share(
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 16),
-                          UIKit.assets.svg.close(
-                            color: UIKit.colors.primaryLightFFF,
-                          ),
-                        ],
-                ),
         ),
       ],
     );

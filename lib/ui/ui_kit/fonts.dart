@@ -46,4 +46,9 @@ class TextThemeCollection {
         fontSize: 14,
         height: 18 / 14,
       );
+
+  TextStyle get normal12 => _textNormal.copyWith(
+        fontSize: 12,
+        height: 16 / 12,
+      );
 }

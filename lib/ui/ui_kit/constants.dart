@@ -1,5 +1,4 @@
 class Constants {
-  final double bottomBarHeight = 70;
-  final String emptyImage = '';
+  final maxDistance = 10.0;
   Constants();
 }

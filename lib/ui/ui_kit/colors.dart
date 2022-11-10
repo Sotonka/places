@@ -12,6 +12,7 @@ class AppColors {
   Color get primaryDark849 => const Color(0xFF252849);
 
   Color get greenF50 => const Color(0xFF4CAF50);
+  Color get splash4C4 => const Color(0xFFC4C4C4).withOpacity(0.5);
 }
 
 @immutable
