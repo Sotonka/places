@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   Color get primaryBlueE5B => const Color(0xFF3B3E5B);
+
   Color get primaryLightE92 => const Color(0xFF7C7E92);
   Color get primaryLightInactive => const Color(0x8F7C7E92);
   Color get primaryLight5F5 => const Color(0xFFF5F5F5);

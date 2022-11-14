@@ -27,7 +27,7 @@ class TextThemeCollection {
         height: 1.2,
       );
 
-  TextStyle get bold18 => _textBold.copyWith(
+  TextStyle get middle18 => _textW500.copyWith(
         fontSize: 18,
         height: 1.25,
       );

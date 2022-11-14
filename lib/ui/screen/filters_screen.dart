@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/ui_kit/utils.dart';
@@ -17,12 +18,6 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   late Filter filter;
-  bool cafeIsAcive = false;
-  bool hotelIsAcive = false;
-  bool restaurantIsAcive = false;
-  bool particularIsAcive = false;
-  bool parkIsAcive = false;
-  bool museumIsAcive = false;
 
   @override
   void initState() {
@@ -32,13 +27,54 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: const _BuildAppBar(),
+      appBar: SmallAppBar(
+        titleWidget: Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement<void, void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SightListScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 32,
+                  width: 32,
+                  color: Colors.transparent,
+                  child: UIKit.assets.svg.back(
+                    color: UIKit.colors.primaryBlueE5B,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    filter = filter.clear();
+                  });
+                },
+                child: Text(
+                  'Очистить',
+                  style: theme.primaryTextTheme.headline6!.copyWith(
+                    color: UIKit.colors.greenF50,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
                 padding: const EdgeInsets.only(
@@ -48,9 +84,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'КАТЕГОРИИ',
-                    style: UIKit.fonts.normal12.copyWith(
-                      color: UIKit.colors.primaryLightInactive,
-                    ),
+                    style: theme.primaryTextTheme.bodyText2,
                   ),
                 ),
               ),
@@ -63,10 +97,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     icon: UIKit.assets.svg.hotel(
                       color: UIKit.colors.greenF50,
                     ),
-                    isActive: hotelIsAcive,
+                    isActive: filter.categories.contains(SightType.hotel),
                     onPressed: () {
                       setState(() {
-                        hotelIsAcive = !hotelIsAcive;
                         filter = filter.toggleCategory(SightType.hotel);
                       });
                       // ignore: avoid_print
@@ -78,10 +111,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     icon: UIKit.assets.svg.restaurant(
                       color: UIKit.colors.greenF50,
                     ),
-                    isActive: restaurantIsAcive,
+                    isActive: filter.categories.contains(SightType.restaurant),
                     onPressed: () {
                       setState(() {
-                        restaurantIsAcive = !restaurantIsAcive;
                         filter = filter.toggleCategory(SightType.restaurant);
                       });
                       // ignore: avoid_print
@@ -93,10 +125,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     icon: UIKit.assets.svg.particular(
                       color: UIKit.colors.greenF50,
                     ),
-                    isActive: particularIsAcive,
+                    isActive: filter.categories.contains(SightType.particular),
                     onPressed: () {
                       setState(() {
-                        particularIsAcive = !particularIsAcive;
                         filter = filter.toggleCategory(SightType.particular);
                       });
                       // ignore: avoid_print
@@ -114,10 +145,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     icon: UIKit.assets.svg.park(
                       color: UIKit.colors.greenF50,
                     ),
-                    isActive: parkIsAcive,
+                    isActive: filter.categories.contains(SightType.park),
                     onPressed: () {
                       setState(() {
-                        parkIsAcive = !parkIsAcive;
                         filter = filter.toggleCategory(SightType.park);
                       });
                       // ignore: avoid_print
@@ -129,10 +159,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     icon: UIKit.assets.svg.museum(
                       color: UIKit.colors.greenF50,
                     ),
-                    isActive: museumIsAcive,
+                    isActive: filter.categories.contains(SightType.museum),
                     onPressed: () {
                       setState(() {
-                        museumIsAcive = !museumIsAcive;
                         filter = filter.toggleCategory(SightType.museum);
                       });
                       // ignore: avoid_print
@@ -144,10 +173,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     icon: UIKit.assets.svg.cafe(
                       color: UIKit.colors.greenF50,
                     ),
-                    isActive: cafeIsAcive,
+                    isActive: filter.categories.contains(SightType.cafe),
                     onPressed: () {
                       setState(() {
-                        cafeIsAcive = !cafeIsAcive;
                         filter = filter.toggleCategory(SightType.cafe);
                       });
                       // ignore: avoid_print
@@ -166,11 +194,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   children: [
                     Text(
                       'Расстояние',
-                      style: UIKit.fonts.middle16,
+                      style: theme.primaryTextTheme.headline6,
                     ),
                     Text(
                       'от ${(filter.distance.start / 1000).round()} до ${(filter.distance.end / 1000).round()} км',
-                      style: UIKit.fonts.middle16.copyWith(
+                      style: theme.primaryTextTheme.headline6!.copyWith(
                         color: UIKit.colors.primaryLightInactive,
                       ),
                     ),
@@ -178,25 +206,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ),
               SliderTheme(
-                data: SliderThemeData(
-                  disabledThumbColor: Colors.white,
-                  trackHeight: 2,
-                  thumbColor: Colors.white,
-                  inactiveTrackColor: UIKit.colors.primaryLightInactive,
-                  activeTrackColor: UIKit.colors.greenF50,
-                  rangeTrackShape: const RectangularRangeSliderTrackShape(),
-                  rangeThumbShape: const RoundRangeSliderThumbShape(
-                    enabledThumbRadius: 8,
-                    elevation: 2,
-                  ),
-                ),
+                data: UIKit.themes.sliderTheme,
                 child: RangeSlider(
                   values:
                       RangeValues(filter.distance.start, filter.distance.end),
                   max: 30000,
                   divisions: 30,
-                  //activeColor: UIKit.colors.greenF50,
-                  //inactiveColor: UIKit.colors.primaryLightInactive,
                   onChanged: (values) {
                     if (values.start.round() >= values.end.round()) return;
                     setState(() {
@@ -204,15 +219,22 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         distance: Range(values.start, values.end),
                       );
                     });
-                    // ignore: avoid_print
-                    print(
-                      '${filter.distance.start.round()} --- ${filter.distance.end.round()}',
-                    );
                   },
                 ),
               ),
             ],
           ),
+          //-----------------------TEST
+          // TODO убрать
+
+          Column(
+            children: [
+              for (Sight sight in mocks)
+                if (filter.categories.contains(sight.type)) Text(sight.name),
+            ],
+          ),
+
+          //-----------------------TEST
           Padding(
             padding: const EdgeInsets.only(
               top: 8,
@@ -231,6 +253,63 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 }
 
+
+/* 
+class FiltersInheritedWidget extends InheritedWidget {
+  final _FiltersScreenState state;
+
+  const FiltersInheritedWidget({
+    Key? key,
+    required Widget child,
+    required this.state,
+  }) : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(FiltersInheritedWidget oldWidget) {
+    return oldWidget.state.filter.distance.end != state.filter.distance.end ||
+        oldWidget.state.filter.distance.start != state.filter.distance.start ||
+        oldWidget.state.filter.categories != state.filter.categories;
+  }
+
+  static FiltersInheritedWidget? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType();
+  }
+}
+
+class FiltersScreen extends StatefulWidget {
+  const FiltersScreen({super.key});
+
+  @override
+  State<FiltersScreen> createState() => _FiltersScreenState();
+}
+
+class _FiltersScreenState extends State<FiltersScreen> {
+  late Filter filter;
+
+  @override
+  void initState() {
+    super.initState();
+    filter = Filter();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FiltersInheritedWidget(
+      state: this,
+      child: Scaffold(
+        appBar: const _BuildAppBar(),
+        body: Column(
+          children: const [
+            _BuildCategories(),
+            SizedBox(height: 60),
+            _BuildSlider(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(400);
@@ -239,6 +318,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final rootWidgetState = FiltersInheritedWidget.of(context)!.state;
 
     return SmallAppBar(
       titleWidget: Padding(
@@ -258,14 +338,22 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Container(
                 height: 32,
                 width: 32,
-                color: Colors.white,
+                color: Colors.transparent,
                 child: UIKit.assets.svg.back(
                   color: UIKit.colors.primaryBlueE5B,
                 ),
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                rootWidgetState.filter = rootWidgetState.filter.clear();
+                // ignore: avoid_print
+                print(rootWidgetState.filter.categories);
+                // ignore: avoid_print
+                print(
+                  '${rootWidgetState.filter.distance.start.round()} --- ${rootWidgetState.filter.distance.end.round()}',
+                );
+              },
               child: Text(
                 'Очистить',
                 style: theme.primaryTextTheme.headline6!.copyWith(
@@ -279,3 +367,92 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+
+class _BuildCategories extends StatelessWidget {
+  const _BuildCategories({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final rootWidgetState = FiltersInheritedWidget.of(context)!.state;
+
+    return FilterTile(
+      placeType: 'Отель',
+      icon: UIKit.assets.svg.hotel(
+        color: UIKit.colors.greenF50,
+      ),
+      isActive: rootWidgetState.filter.categories.contains(SightType.hotel),
+      onPressed: () {
+        rootWidgetState.filter =
+            rootWidgetState.filter.toggleCategory(SightType.hotel);
+
+        // ignore: avoid_print
+        print(rootWidgetState.filter.categories);
+      },
+    );
+  }
+}
+
+class _BuildSlider extends StatefulWidget {
+  const _BuildSlider({super.key});
+
+  @override
+  State<_BuildSlider> createState() => _BuildSliderState();
+}
+
+class _BuildSliderState extends State<_BuildSlider> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final rootWidgetState = FiltersInheritedWidget.of(context)!.state;
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Расстояние',
+                style: theme.primaryTextTheme.headline6,
+              ),
+              Text(
+                'от ${(rootWidgetState.filter.distance.start / 1000).round()} до ${(rootWidgetState.filter.distance.end / 1000).round()} км',
+                style: theme.primaryTextTheme.headline6!.copyWith(
+                  color: UIKit.colors.primaryLightInactive,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SliderTheme(
+          data: UIKit.themes.sliderTheme,
+          child: RangeSlider(
+            values: RangeValues(
+              rootWidgetState.filter.distance.start,
+              rootWidgetState.filter.distance.end,
+            ),
+            max: 30000,
+            divisions: 30,
+            onChanged: (values) {
+              if (values.start.round() >= values.end.round()) return;
+              setState(() {
+                rootWidgetState.filter = rootWidgetState.filter.copyWith(
+                  distance: Range(values.start, values.end),
+                );
+              });
+
+              // ignore: avoid_print
+              print(
+                '${rootWidgetState.filter.distance.start.round()} --- ${rootWidgetState.filter.distance.end.round()}',
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+} */

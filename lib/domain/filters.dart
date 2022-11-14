@@ -28,4 +28,9 @@ class Filter {
             : UnmodifiableSetView<SightType>(categories),
         distance: distance ?? this.distance,
       );
+
+  Filter clear() => Filter(
+        categories: {},
+        distance: const Range<double>(0, 10000),
+      );
 }

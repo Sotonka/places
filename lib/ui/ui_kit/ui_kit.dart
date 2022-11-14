@@ -2,7 +2,7 @@ import 'package:places/ui/ui_kit/assets.dart';
 import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/constants.dart';
 import 'package:places/ui/ui_kit/decoration.dart';
-import 'package:places/ui/ui_kit/fonts.dart';
+import 'package:places/ui/ui_kit/text_styles.dart';
 import 'package:places/ui/ui_kit/mutable.dart';
 import 'package:places/ui/ui_kit/strings.dart';
 import 'package:places/ui/ui_kit/themes.dart';
