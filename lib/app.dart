@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/app_router.dart';
 import 'package:places/domain/settings.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/ui_kit/colors.dart';
@@ -17,6 +18,8 @@ class _AppState extends State<App> {
     return ValueListenableBuilder(
       valueListenable: Settings.themeIsLight,
       builder: (_, isLight, __) => MaterialApp(
+        initialRoute: AppRouter.root,
+        onGenerateRoute: AppRouter.generateRoute,
         title: 'places',
         theme: isLight
             ? UIKit.themes.lightTheme.copyWith(

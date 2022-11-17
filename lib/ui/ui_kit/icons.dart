@@ -1,9 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+/* class AppAssets {
+  static const back = '${_defaultPath}back.svg';
+  static const cafe = '${_defaultPath}cafe.svg';
+  static const calendar = '${_defaultPath}calendar.svg';
+  static const choice = '${_defaultPath}choice.svg';
+  static const fotward = '${_defaultPath}forward.svg';
+  static const heart = '${_defaultPath}heart.svg';
+  static const heartFull = '${_defaultPath}heart_full.svg';
+  static const hotel = '${_defaultPath}hotel.svg';
+  static const list = '${_defaultPath}list.svg';
+  static const listFull = '${_defaultPath}list_full.svg';
+  static const map = '${_defaultPath}map.svg';
+  static const mapFull = '${_defaultPath}map_full.svg';
+  static const museum = '${_defaultPath}museum.svg';
+  static const park = '${_defaultPath}park.svg';
+  static const particular = '${_defaultPath}particular.svg';
+  static const restaurant = '${_defaultPath}restaurant.svg';
+  static const route = '${_defaultPath}route.svg';
+  static const settings = '${_defaultPath}settings.svg';
+  static const settingsFull = '${_defaultPath}settings_full.svg';
+  static const share = '${_defaultPath}share.svg';
+
+  static const String _defaultPath = 'res/icons/';
+}
+
+class AppIcons{
+   SvgPicture appIcon({
+    double? width,
+    double? height,
+    Color? color,
+    required String path,
+  }) =>
+      SvgPicture.asset(
+        path,
+        width: width,
+        height: height,
+        color: color ?? Colors.white,
+      );
+
+
+} */
+
 class Svg {
-  final String _defaultPath = 'res/icons/';
-  final _defaultColor = Colors.white;
+  static const String _defaultPath = 'res/icons/';
+  static const _defaultColor = Colors.white;
 
   SvgPicture back({
     double? width,

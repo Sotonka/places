@@ -41,7 +41,7 @@ class FilterTile extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 right: 0,
-                child: UIKit.assets.svg.choice(
+                child: UIKit.svg.choice(
                   color: UIKit.colors.primaryBlueE5B,
                 ),
               ),

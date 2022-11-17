@@ -1,11 +1,11 @@
 import 'dart:collection';
 
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/ui_kit/utils.dart';
+import 'package:places/utils/utils.dart';
 
 class Filter {
-  final UnmodifiableSetView<SightType> categories;
-  final Range<double> distance;
+  UnmodifiableSetView<SightType> categories;
+  Range<double> distance;
 
   Filter({
     Set<SightType>? categories,

@@ -23,7 +23,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
-        // верстка не корректная, перенесу в виджеты
         child: ListView(
           children: [
             ListTile(

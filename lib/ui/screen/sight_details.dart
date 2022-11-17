@@ -68,7 +68,7 @@ class SightDetails extends StatelessWidget {
                   ColoredButton(
                     text: UIKit.strings.sightDetailsScreenRoute,
                     onPressed: () {},
-                    icon: UIKit.assets.svg.route(),
+                    icon: UIKit.svg.route(),
                   ),
                   const SizedBox(height: 24),
                   const Divider(
@@ -83,7 +83,7 @@ class SightDetails extends StatelessWidget {
                           text: UIKit.strings.sightDetailsScreenSchedule,
                           onPressed: () {},
                           isActive: false,
-                          icon: UIKit.assets.svg.calendar(
+                          icon: UIKit.svg.calendar(
                             color: UIKit.colors.primaryLightInactive,
                           ),
                         ),
@@ -93,7 +93,7 @@ class SightDetails extends StatelessWidget {
                           text: UIKit.strings.sightDetailsScreenFavorite,
                           onPressed: () {},
                           isActive: true,
-                          icon: UIKit.assets.svg.heart(
+                          icon: UIKit.svg.heart(
                             color: themeColors.icons,
                           ),
                         ),

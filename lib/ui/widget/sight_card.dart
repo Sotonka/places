@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/ui_kit/colors.dart';
@@ -57,13 +58,11 @@ class SightCard extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SightDetails(
-                          sight: sight,
-                        ),
-                      ),
+                    Navigator.of(context).pushNamed(
+                      AppRouter.sightDetails,
+                      arguments: {
+                        'sight': sight,
+                      },
                     );
                   },
                 ),
@@ -72,26 +71,26 @@ class SightCard extends StatelessWidget {
                 right: 16,
                 top: 16,
                 child: type == CardType.list
-                    ? UIKit.assets.svg.heart(
+                    ? UIKit.svg.heart(
                         color: UIKit.colors.primaryLightFFF,
                       )
                     : Row(
                         children: type == CardType.wishlist
                             ? [
-                                UIKit.assets.svg.calendar(
+                                UIKit.svg.calendar(
                                   color: UIKit.colors.primaryLightFFF,
                                 ),
                                 const SizedBox(width: 16),
-                                UIKit.assets.svg.close(
+                                UIKit.svg.close(
                                   color: UIKit.colors.primaryLightFFF,
                                 ),
                               ]
                             : [
-                                UIKit.assets.svg.share(
+                                UIKit.svg.share(
                                   color: Colors.white,
                                 ),
                                 const SizedBox(width: 16),
-                                UIKit.assets.svg.close(
+                                UIKit.svg.close(
                                   color: UIKit.colors.primaryLightFFF,
                                 ),
                               ],

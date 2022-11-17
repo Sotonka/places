@@ -1,4 +1,5 @@
 class Constants {
-  final maxDistance = 10.0;
+  static const maxDistance = 10.0;
+
   Constants();
 }

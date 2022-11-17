@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/app_router.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
@@ -30,11 +30,8 @@ class _SightListScreenState extends State<SightListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement<void, void>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const FiltersScreen(),
-            ),
+          Navigator.of(context).pushNamed(
+            AppRouter.filterScreen,
           );
         },
         child: const Text('filters'),
