@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,6 +19,8 @@ class FilterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+
     return Column(
       children: [
         Stack(
@@ -32,7 +35,7 @@ class FilterTile extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   height: 64,
                   width: 64,
-                  color: UIKit.colors.greenF50.withOpacity(0.16),
+                  color: themeColors.greenAccent!.withOpacity(0.16),
                   child: icon,
                 ),
               ),

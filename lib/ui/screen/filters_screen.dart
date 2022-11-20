@@ -4,7 +4,7 @@ import 'package:places/app_router.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/ui_kit/icons.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/utils/utils.dart';
 import 'package:places/ui/widget/colored_button.dart';
@@ -30,6 +30,54 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+
+    final categoryRow1 = <_Category>[
+      _Category(
+        type: SightType.hotel,
+        name: 'Отель',
+        icon: UIKit.svg.hotel(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.restaurant,
+        name: 'Ресторан',
+        icon: UIKit.svg.restaurant(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.particular,
+        name: 'Особое место',
+        icon: UIKit.svg.particular(
+          color: themeColors.greenAccent,
+        ),
+      ),
+    ];
+    final categoryRow2 = <_Category>[
+      _Category(
+        type: SightType.park,
+        name: 'Парк',
+        icon: UIKit.svg.park(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.museum,
+        name: 'Музей',
+        icon: UIKit.svg.museum(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.cafe,
+        name: 'Кафе',
+        icon: UIKit.svg.cafe(
+          color: themeColors.greenAccent,
+        ),
+      ),
+    ];
     final filteredPlaces = <Sight>[];
 
     for (final sight in mocks) {
@@ -70,7 +118,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 child: Text(
                   UIKit.strings.filtersScreenClear,
                   style: theme.primaryTextTheme.headline6!.copyWith(
-                    color: UIKit.colors.greenF50,
+                    color: themeColors.greenAccent,
                   ),
                 ),
               ),
@@ -101,7 +149,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      for (var element in _categoryRow1)
+                      for (var element in categoryRow1)
                         FilterTile(
                           placeType: element.name,
                           icon: element.icon,
@@ -118,7 +166,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      for (var element in _categoryRow2)
+                      for (var element in categoryRow2)
                         FilterTile(
                           placeType: element.name,
                           icon: element.icon,
@@ -157,7 +205,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                   ),
                   SliderTheme(
-                    data: UIKit.themes.sliderTheme,
+                    data: UIKit.themes.sliderTheme.copyWith(
+                      activeTrackColor: themeColors.greenAccent,
+                    ),
                     child: RangeSlider(
                       values: RangeValues(
                         filter.distance.start,
@@ -221,50 +271,3 @@ class _Category {
     required this.icon,
   });
 }
-
-List<_Category> _categoryRow1 = [
-  _Category(
-    type: SightType.hotel,
-    name: 'Отель',
-    icon: UIKit.svg.hotel(
-      color: UIKit.colors.greenF50,
-    ),
-  ),
-  _Category(
-    type: SightType.restaurant,
-    name: 'Ресторан',
-    icon: UIKit.svg.restaurant(
-      color: UIKit.colors.greenF50,
-    ),
-  ),
-  _Category(
-    type: SightType.particular,
-    name: 'Особое место',
-    icon: UIKit.svg.particular(
-      color: UIKit.colors.greenF50,
-    ),
-  ),
-];
-List<_Category> _categoryRow2 = [
-  _Category(
-    type: SightType.park,
-    name: 'Парк',
-    icon: UIKit.svg.park(
-      color: UIKit.colors.greenF50,
-    ),
-  ),
-  _Category(
-    type: SightType.museum,
-    name: 'Музей',
-    icon: UIKit.svg.museum(
-      color: UIKit.colors.greenF50,
-    ),
-  ),
-  _Category(
-    type: SightType.cafe,
-    name: 'Кафе',
-    icon: UIKit.svg.cafe(
-      color: UIKit.colors.greenF50,
-    ),
-  ),
-];

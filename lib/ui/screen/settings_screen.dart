@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:places/domain/settings.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
@@ -16,19 +17,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final themeColors = Theme.of(context).extension<ThemeColors>()!;
 
     return Scaffold(
-      appBar: const SmallAppBar(
-        title: 'Настройки',
+      appBar: SmallAppBar(
+        title: UIKit.strings.settingsScreenSettings,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: ListView(
           children: [
             ListTile(
-              title: const Text('Тёмная тема'),
+              title: Text(UIKit.strings.settingsScreenDark),
               trailing: CupertinoSwitch(
                 trackColor: UIKit.colors.primaryLightE92.withOpacity(0.56),
+                activeColor: themeColors.greenAccent,
                 value: theme.brightness == Brightness.dark,
                 onChanged: (value) {
                   Settings.themeIsLight.value = !value;
@@ -37,10 +40,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const Divider(),
             ListTile(
-              title: const Text('Смотреть туториал'),
+              title: Text(
+                UIKit.strings.settingsScreenTutorial,
+              ),
               trailing: Icon(
                 Icons.info_outline,
-                color: UIKit.colors.greenF50,
+                color: themeColors.greenAccent,
               ),
             ),
             const Divider(),

@@ -12,11 +12,9 @@ class Filter {
     this.distance = const Range<double>(0, 10000),
   }) : categories = UnmodifiableSetView<SightType>(categories ?? {});
 
-  bool hasCategory(SightType type) => categories.contains(type);
-
   Filter toggleCategory(SightType type) {
     final s = categories.toSet();
-    hasCategory(type) ? s.remove(type) : s.add(type);
+    categories.contains(type) ? s.remove(type) : s.add(type);
 
     return copyWith(categories: s);
   }
