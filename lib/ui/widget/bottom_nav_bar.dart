@@ -40,6 +40,12 @@ class BottomNavBar extends StatelessWidget {
               AppRouter.settings,
             );
             break;
+
+          case 4:
+            Navigator.of(context).pushNamed(
+              AppRouter.test,
+            );
+            break;
         }
       },
       items: [
@@ -82,6 +88,16 @@ class BottomNavBar extends StatelessWidget {
                   color: themeColors.icons,
                 ),
           label: 'Settings',
+        ),
+        BottomNavigationBarItem(
+          icon: index == 4
+              ? UIKit.svg.close(
+                  color: themeColors.icons,
+                )
+              : UIKit.svg.back(
+                  color: themeColors.icons,
+                ),
+          label: 'Test',
         ),
       ],
     );
