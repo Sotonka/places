@@ -119,9 +119,8 @@ class _TopPart extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        const LoadableImage(
-          url:
-              'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+        LoadableImage(
+          url: sight.url,
         ),
         Positioned(
           left: 16,

@@ -24,9 +24,8 @@ class SightDetails extends StatelessWidget {
             Container(
               color: themeColors.sightDetails,
               height: 360,
-              child: const LoadableImage(
-                url:
-                    'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+              child: LoadableImage(
+                url: sight.url,
               ),
             ),
             Padding(

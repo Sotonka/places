@@ -7,14 +7,16 @@ class Utils {
   bool arePointsNear({
     required Coord checkPoint,
     required Coord centerPoint,
-    required double km,
+    required double kmStart,
+    required double kmEnd,
   }) {
     const ky = 40000 / 360;
     final kx = cos(pi * centerPoint.lat / 180.0) * ky;
     final dx = (centerPoint.lon - checkPoint.lon).abs() * kx;
     final dy = (centerPoint.lat - checkPoint.lat).abs() * ky;
 
-    return sqrt(dx * dx + dy * dy) <= km;
+    return sqrt(dx * dx + dy * dy) <= kmEnd &&
+        sqrt(dx * dx + dy * dy) >= kmStart;
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/app_router.dart';
+import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
@@ -81,7 +82,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
     final filteredPlaces = <Sight>[];
 
     for (final sight in mocks) {
-      if (filter.categories.contains(sight.type)) filteredPlaces.add(sight);
+      if (filter.categories.contains(sight.type) &&
+          Utils().arePointsNear(
+            checkPoint: sight.coord,
+            centerPoint: Coord(lat: 48.483385, lon: 135.07593),
+            kmEnd: filter.distance.end / 1000,
+            kmStart: filter.distance.start / 1000,
+          )) {
+        filteredPlaces.add(sight);
+      }
     }
 
     return Scaffold(

@@ -7,8 +7,8 @@ class Strings {
   final String filtersScreenCategories = 'КАТЕГОРИИ';
   final String filtersScreenDistance = 'Расстояние';
   final String filtersScreenShow = 'ПОКАЗАТЬ';
-  final String settingsScreenSettings = '';
-  final String settingsScreenDark = '';
-  final String settingsScreenTutorial = '';
+  final String settingsScreenSettings = 'Настройки';
+  final String settingsScreenDark = 'Тёмная тема';
+  final String settingsScreenTutorial = 'Смотреть туториал';
   Strings();
 }
