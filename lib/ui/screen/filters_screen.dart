@@ -147,6 +147,52 @@ class _BuildCategories extends StatelessWidget {
     final theme = Theme.of(context);
     final themeColors = Theme.of(context).extension<ThemeColors>()!;
     final filter = context.watch<FilterProvider>().filter;
+    final categoryRow1 = <_Category>[
+      _Category(
+        type: SightType.hotel,
+        name: 'Отель',
+        icon: UIKit.svg.hotel(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.restaurant,
+        name: 'Ресторан',
+        icon: UIKit.svg.restaurant(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.particular,
+        name: 'Особое место',
+        icon: UIKit.svg.particular(
+          color: themeColors.greenAccent,
+        ),
+      ),
+    ];
+    final categoryRow2 = <_Category>[
+      _Category(
+        type: SightType.park,
+        name: 'Парк',
+        icon: UIKit.svg.park(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.museum,
+        name: 'Музей',
+        icon: UIKit.svg.museum(
+          color: themeColors.greenAccent,
+        ),
+      ),
+      _Category(
+        type: SightType.cafe,
+        name: 'Кафе',
+        icon: UIKit.svg.cafe(
+          color: themeColors.greenAccent,
+        ),
+      ),
+    ];
 
     return Column(
       children: [
@@ -265,53 +311,6 @@ class FilterProvider with ChangeNotifier {
     notifyListeners();
   }
 }
-
-final categoryRow1 = <_Category>[
-  _Category(
-    type: SightType.hotel,
-    name: 'Отель',
-    icon: UIKit.svg.hotel(
-        //color: themeColors.greenAccent,
-        ),
-  ),
-  _Category(
-    type: SightType.restaurant,
-    name: 'Ресторан',
-    icon: UIKit.svg.restaurant(
-        //color: themeColors.greenAccent,
-        ),
-  ),
-  _Category(
-    type: SightType.particular,
-    name: 'Особое место',
-    icon: UIKit.svg.particular(
-        //color: themeColors.greenAccent,
-        ),
-  ),
-];
-final categoryRow2 = <_Category>[
-  _Category(
-    type: SightType.park,
-    name: 'Парк',
-    icon: UIKit.svg.park(
-        //color: themeColors.greenAccent,
-        ),
-  ),
-  _Category(
-    type: SightType.museum,
-    name: 'Музей',
-    icon: UIKit.svg.museum(
-        //color: themeColors.greenAccent,
-        ),
-  ),
-  _Category(
-    type: SightType.cafe,
-    name: 'Кафе',
-    icon: UIKit.svg.cafe(
-        //color: themeColors.greenAccent,
-        ),
-  ),
-];
 
 class _Category {
   SightType type;
