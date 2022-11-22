@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/app_router.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
@@ -26,6 +27,14 @@ class _SightListScreenState extends State<SightListScreen> {
             type: CardType.list,
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+            AppRouter.filterScreen,
+          );
+        },
+        child: const Text('filters'),
       ),
       bottomNavigationBar: const BottomNavBar(index: 0),
     );

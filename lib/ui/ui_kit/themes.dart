@@ -9,7 +9,7 @@ class ThemeCollection {
     headline2: UIKit.fonts.bold24.copyWith(
       color: UIKit.colors.primaryBlueE5B,
     ),
-    headline3: UIKit.fonts.bold18.copyWith(
+    headline3: UIKit.fonts.middle18.copyWith(
       color: UIKit.colors.primaryBlueE5B,
     ),
     headline6: UIKit.fonts.middle16.copyWith(
@@ -17,6 +17,9 @@ class ThemeCollection {
     ),
     bodyText1: UIKit.fonts.normal14.copyWith(
       color: UIKit.colors.primaryBlueE5B,
+    ),
+    bodyText2: UIKit.fonts.normal12.copyWith(
+      color: UIKit.colors.primaryLightInactive,
     ),
   );
 
@@ -27,7 +30,7 @@ class ThemeCollection {
     headline2: UIKit.fonts.bold24.copyWith(
       color: UIKit.colors.primaryLightFFF,
     ),
-    headline3: UIKit.fonts.bold18.copyWith(
+    headline3: UIKit.fonts.middle18.copyWith(
       color: UIKit.colors.primaryLightFFF,
     ),
     headline6: UIKit.fonts.middle16.copyWith(
@@ -35,6 +38,9 @@ class ThemeCollection {
     ),
     bodyText1: UIKit.fonts.normal14.copyWith(
       color: UIKit.colors.primaryLightE92,
+    ),
+    bodyText2: UIKit.fonts.normal12.copyWith(
+      color: UIKit.colors.primaryLightInactive,
     ),
   );
 
@@ -46,6 +52,7 @@ class ThemeCollection {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
+        splashFactory: InkRipple.splashFactory,
         useMaterial3: true,
         primaryTextTheme: _lightTextTheme,
       );
@@ -60,6 +67,19 @@ class ThemeCollection {
         hoverColor: Colors.transparent,
         useMaterial3: true,
         primaryTextTheme: _darkTextTheme,
+      );
+
+  SliderThemeData get sliderTheme => SliderThemeData(
+        disabledThumbColor: Colors.white,
+        trackHeight: 2,
+        thumbColor: Colors.white,
+        inactiveTrackColor: UIKit.colors.primaryLightInactive,
+        activeTrackColor: UIKit.colors.greenF50,
+        rangeTrackShape: const RectangularRangeSliderTrackShape(),
+        rangeThumbShape: const RoundRangeSliderThumbShape(
+          enabledThumbRadius: 8,
+          elevation: 2,
+        ),
       );
 
   ThemeCollection();

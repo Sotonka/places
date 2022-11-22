@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class ColoredButton extends StatelessWidget {
@@ -16,13 +17,15 @@ class ColoredButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+
     return InkWell(
       onTap: onPressed,
       child: Container(
         height: 48,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: UIKit.colors.greenF50,
+          color: themeColors.greenAccent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(

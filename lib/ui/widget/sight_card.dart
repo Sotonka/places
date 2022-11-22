@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/ui_kit/colors.dart';
@@ -23,43 +24,79 @@ class SightCard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: InkWell(
-        onTap: () {
-          Navigator.push<void>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SightDetails(
-                sight: sight,
+      child: AspectRatio(
+        aspectRatio: 1.5,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(16),
+          ),
+          child: Stack(
+            children: [
+              Container(
+                color: themeColors.sightCard,
               ),
-            ),
-          );
-        },
-        child: AspectRatio(
-          aspectRatio: 1.5,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16),
-            ),
-            child: Stack(
-              children: [
-                Container(
-                  color: themeColors.sightCard,
+              Column(
+                children: [
+                  Expanded(
+                    child: _TopPart(
+                      sight: sight,
+                      type: type,
+                    ),
+                  ),
+                  Expanded(
+                    child: _BottomPart(sight: sight),
+                  ),
+                ],
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  splashColor: UIKit.colors.splash4C4,
+                  customBorder: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      AppRouter.sightDetails,
+                      arguments: {
+                        'sight': sight,
+                      },
+                    );
+                  },
                 ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: _TopPart(
-                        sight: sight,
-                        type: type,
+              ),
+              Positioned(
+                right: 16,
+                top: 16,
+                child: type == CardType.list
+                    ? UIKit.svg.heart(
+                        color: UIKit.colors.primaryLightFFF,
+                      )
+                    : Row(
+                        children: type == CardType.wishlist
+                            ? [
+                                UIKit.svg.calendar(
+                                  color: UIKit.colors.primaryLightFFF,
+                                ),
+                                const SizedBox(width: 16),
+                                UIKit.svg.close(
+                                  color: UIKit.colors.primaryLightFFF,
+                                ),
+                              ]
+                            : [
+                                UIKit.svg.share(
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 16),
+                                UIKit.svg.close(
+                                  color: UIKit.colors.primaryLightFFF,
+                                ),
+                              ],
                       ),
-                    ),
-                    Expanded(
-                      child: _BottomPart(sight: sight),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -82,9 +119,8 @@ class _TopPart extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        const LoadableImage(
-          url:
-              'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+        LoadableImage(
+          url: sight.url,
         ),
         Positioned(
           left: 16,
@@ -95,35 +131,6 @@ class _TopPart extends StatelessWidget {
               color: UIKit.colors.primaryLightFFF,
             ),
           ),
-        ),
-        Positioned(
-          right: 16,
-          top: 16,
-          child: type == CardType.list
-              ? UIKit.assets.svg.heart(
-                  color: UIKit.colors.primaryLightFFF,
-                )
-              : Row(
-                  children: type == CardType.wishlist
-                      ? [
-                          UIKit.assets.svg.calendar(
-                            color: UIKit.colors.primaryLightFFF,
-                          ),
-                          const SizedBox(width: 16),
-                          UIKit.assets.svg.close(
-                            color: UIKit.colors.primaryLightFFF,
-                          ),
-                        ]
-                      : [
-                          UIKit.assets.svg.share(
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 16),
-                          UIKit.assets.svg.close(
-                            color: UIKit.colors.primaryLightFFF,
-                          ),
-                        ],
-                ),
         ),
       ],
     );

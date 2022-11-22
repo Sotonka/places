@@ -1,5 +1,5 @@
 class Constants {
-  final double bottomBarHeight = 70;
-  final String emptyImage = '';
+  static const maxDistance = 10.0;
+
   Constants();
 }
