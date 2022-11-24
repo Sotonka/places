@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/utils/utils.dart';
 import 'package:places/ui/widget/colored_button.dart';
@@ -66,7 +64,7 @@ class _FiltersScreen extends StatelessWidget {
             ),
             child: ColoredButton(
               text:
-                  '${UIKit.strings.filtersScreenShow} (${filteredPlaces.length})',
+                  '${AppStrings.filtersScreenShow} (${filteredPlaces.length})',
               onPressed: () {
                 // ignore: avoid_print
                 print(filter.categories);
@@ -97,7 +95,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
     final filter = context.watch<FilterProvider>().filter;
 
     return SmallAppBar(
@@ -116,8 +114,8 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
                 height: 32,
                 width: 32,
                 color: Colors.transparent,
-                child: UIKit.svg.back(
-                  color: UIKit.colors.primaryBlueE5B,
+                child: AppIcons.back(
+                  color: AppColors.primaryBlueE5B,
                 ),
               ),
             ),
@@ -126,7 +124,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
                     filter.clear(),
                   ),
               child: Text(
-                UIKit.strings.filtersScreenClear,
+                AppStrings.filtersScreenClear,
                 style: theme.primaryTextTheme.headline6!.copyWith(
                   color: themeColors.greenAccent,
                 ),
@@ -145,27 +143,27 @@ class _BuildCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
     final filter = context.watch<FilterProvider>().filter;
     final categoryRow1 = <_Category>[
       _Category(
         type: SightType.hotel,
         name: 'Отель',
-        icon: UIKit.svg.hotel(
+        icon: AppIcons.hotel(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.restaurant,
         name: 'Ресторан',
-        icon: UIKit.svg.restaurant(
+        icon: AppIcons.restaurant(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.particular,
         name: 'Особое место',
-        icon: UIKit.svg.particular(
+        icon: AppIcons.particular(
           color: themeColors.greenAccent,
         ),
       ),
@@ -174,21 +172,21 @@ class _BuildCategories extends StatelessWidget {
       _Category(
         type: SightType.park,
         name: 'Парк',
-        icon: UIKit.svg.park(
+        icon: AppIcons.park(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.museum,
         name: 'Музей',
-        icon: UIKit.svg.museum(
+        icon: AppIcons.museum(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.cafe,
         name: 'Кафе',
-        icon: UIKit.svg.cafe(
+        icon: AppIcons.cafe(
           color: themeColors.greenAccent,
         ),
       ),
@@ -203,7 +201,7 @@ class _BuildCategories extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              UIKit.strings.filtersScreenCategories,
+              AppStrings.filtersScreenCategories,
               style: theme.primaryTextTheme.bodyText2,
             ),
           ),
@@ -249,7 +247,7 @@ class _BuildSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
     final filter = context.watch<FilterProvider>().filter;
 
     return Column(
@@ -263,20 +261,20 @@ class _BuildSlider extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                UIKit.strings.filtersScreenDistance,
+                AppStrings.filtersScreenDistance,
                 style: theme.primaryTextTheme.headline6,
               ),
               Text(
                 'от ${(filter.distance.start / 1000).round()} до ${(filter.distance.end / 1000).round()} км',
                 style: theme.primaryTextTheme.headline6!.copyWith(
-                  color: UIKit.colors.primaryLightInactive,
+                  color: AppColors.primaryLightInactive,
                 ),
               ),
             ],
           ),
         ),
         SliderTheme(
-          data: UIKit.themes.sliderTheme.copyWith(
+          data: AppTheme.sliderTheme.copyWith(
             activeTrackColor: themeColors.greenAccent,
           ),
           child: RangeSlider(
@@ -315,7 +313,7 @@ class FilterProvider with ChangeNotifier {
 class _Category {
   SightType type;
   String name;
-  SvgPicture icon;
+  Widget icon;
 
   _Category({
     required this.type,

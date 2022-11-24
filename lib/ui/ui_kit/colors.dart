@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  Color get primaryBlueE5B => const Color(0xFF3B3E5B);
+  static const Color primaryBlueE5B = Color(0xFF3B3E5B);
 
-  Color get primaryLightE92 => const Color(0xFF7C7E92);
-  Color get primaryLightInactive => const Color(0x8F7C7E92);
-  Color get primaryLight5F5 => const Color(0xFFF5F5F5);
-  Color get primaryLightFFF => const Color(0xFFFFFFFF);
+  static const Color primaryLightE92 = Color(0xFF7C7E92);
+  static const Color primaryLightInactive = Color(0x8F7C7E92);
+  static const Color primaryLight5F5 = Color(0xFFF5F5F5);
+  static const Color primaryLightFFF = Color(0xFFFFFFFF);
 
-  Color get primaryDarkA20 => const Color(0xFF191A20);
-  Color get primaryDark22C => const Color(0xFF21222C);
-  Color get primaryDark849 => const Color(0xFF252849);
+  static const Color primaryDarkA20 = Color(0xFF191A20);
+  static const Color primaryDark22C = Color(0xFF21222C);
+  static const Color primaryDark849 = Color(0xFF252849);
 
-  Color get greenF50 => const Color(0xFF4CAF50);
-  Color get greenA6F => const Color(0xFF6ADA6F);
-  Color get splash4C4 => const Color(0xFFC4C4C4).withOpacity(0.5);
+  static const Color greenF50 = Color(0xFF4CAF50);
+  static const Color greenA6F = Color(0xFF6ADA6F);
+  static Color splash4C4 = const Color(0xFFC4C4C4).withOpacity(0.5);
+
+  const AppColors._();
 }
 
 @immutable
-class ThemeColors extends ThemeExtension<ThemeColors> {
-  static const light = ThemeColors(
+class AppThemeColors extends ThemeExtension<AppThemeColors> {
+  static const light = AppThemeColors(
     icons: Color(0xFF3B3E5B),
     bottomNavBar: Color(0xFFFFFFFF),
     sightCard: Color(0xFFF5F5F5),
@@ -29,7 +31,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     greenAccent: Color(0xFF4CAF50),
   );
 
-  static const dark = ThemeColors(
+  static const dark = AppThemeColors(
     icons: Color(0xFFFFFFFF),
     bottomNavBar: Color(0xFF21222C),
     sightCard: Color(0xFF191A20),
@@ -47,7 +49,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
   final Color? sightDetails;
   final Color? greenAccent;
 
-  const ThemeColors({
+  const AppThemeColors({
     required this.icons,
     required this.bottomNavBar,
     required this.sightCard,
@@ -58,7 +60,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
   });
 
   @override
-  ThemeColors copyWith({
+  AppThemeColors copyWith({
     Color? icons,
     Color? bottomNavBar,
     Color? sightCard,
@@ -67,7 +69,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     Color? sightDetails,
     Color? greenAccent,
   }) {
-    return ThemeColors(
+    return AppThemeColors(
       icons: icons ?? this.icons,
       bottomNavBar: bottomNavBar ?? this.bottomNavBar,
       sightCard: sightCard ?? this.sightCard,
@@ -78,14 +80,13 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     );
   }
 
-  // Controls how the properties change on theme changes
   @override
-  ThemeColors lerp(ThemeExtension<ThemeColors>? other, double t) {
-    if (other is! ThemeColors) {
+  AppThemeColors lerp(ThemeExtension<AppThemeColors>? other, double t) {
+    if (other is! AppThemeColors) {
       return this;
     }
 
-    return ThemeColors(
+    return AppThemeColors(
       icons: Color.lerp(icons, other.icons, t),
       bottomNavBar: Color.lerp(bottomNavBar, other.bottomNavBar, t),
       sightCard: Color.lerp(sightCard, other.sightCard, t),

@@ -17,7 +17,7 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: UIKit.strings.sightListScreenTitle),
+      appBar: const CustomAppBar(title: AppStrings.sightListScreenTitle),
       body: ListView.separated(
         itemCount: mocks.length,
         separatorBuilder: (context, index) => const SizedBox(height: 16),

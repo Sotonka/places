@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/ui_kit/colors.dart';
+
 import 'package:places/ui/ui_kit/ui_kit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class FilterTile extends StatelessWidget {
-  final void Function() onPressed;
-  final SvgPicture icon;
+  final VoidCallback onPressed;
+  final Widget icon;
   final bool isActive;
   final String placeType;
 
@@ -19,7 +18,7 @@ class FilterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
 
     return Column(
       children: [
@@ -44,8 +43,8 @@ class FilterTile extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 right: 0,
-                child: UIKit.svg.choice(
-                  color: UIKit.colors.primaryBlueE5B,
+                child: AppIcons.choice(
+                  color: AppColors.primaryBlueE5B,
                 ),
               ),
           ],
@@ -53,7 +52,7 @@ class FilterTile extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           placeType,
-          style: UIKit.fonts.normal12,
+          style: AppTextStyle.normal12,
         ),
       ],
     );

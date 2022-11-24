@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class TabSwitch extends StatelessWidget {
@@ -14,7 +13,7 @@ class TabSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
 
     return Container(
       height: 40,
@@ -54,7 +53,7 @@ class _SwitchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
 
     return InkWell(
       onTap: onPressed,
@@ -67,10 +66,10 @@ class _SwitchButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: UIKit.fonts.bold14.copyWith(
+          style: AppTextStyle.bold14.copyWith(
             color: isActive
                 ? themeColors.tabSwitchText
-                : UIKit.colors.primaryLightE92,
+                : AppColors.primaryLightE92,
           ),
         ),
       ),

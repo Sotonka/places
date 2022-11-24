@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -13,7 +12,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
 
     return BottomNavigationBar(
       backgroundColor: themeColors.bottomNavBar,
@@ -51,50 +50,50 @@ class BottomNavBar extends StatelessWidget {
       items: [
         BottomNavigationBarItem(
           icon: index == 0
-              ? UIKit.svg.listFull(
+              ? AppIcons.listFull(
                   color: themeColors.icons,
                 )
-              : UIKit.svg.list(
+              : AppIcons.list(
                   color: themeColors.icons,
                 ),
           label: 'List',
         ),
         BottomNavigationBarItem(
           icon: index == 1
-              ? UIKit.svg.mapFull(
+              ? AppIcons.mapFull(
                   color: themeColors.icons,
                 )
-              : UIKit.svg.map(
+              : AppIcons.map(
                   color: themeColors.icons,
                 ),
           label: 'Map',
         ),
         BottomNavigationBarItem(
           icon: index == 2
-              ? UIKit.svg.heartFull(
+              ? AppIcons.heartFull(
                   color: themeColors.icons,
                 )
-              : UIKit.svg.heart(
+              : AppIcons.heart(
                   color: themeColors.icons,
                 ),
           label: 'Visiting',
         ),
         BottomNavigationBarItem(
           icon: index == 3
-              ? UIKit.svg.settingsFull(
+              ? AppIcons.settingsFull(
                   color: themeColors.icons,
                 )
-              : UIKit.svg.settings(
+              : AppIcons.settings(
                   color: themeColors.icons,
                 ),
           label: 'Settings',
         ),
         BottomNavigationBarItem(
           icon: index == 4
-              ? UIKit.svg.close(
+              ? AppIcons.close(
                   color: themeColors.icons,
                 )
-              : UIKit.svg.back(
+              : AppIcons.back(
                   color: themeColors.icons,
                 ),
           label: 'Test',

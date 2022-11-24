@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class ColoredButton extends StatelessWidget {
@@ -17,7 +16,7 @@ class ColoredButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
 
     return InkWell(
       onTap: onPressed,
@@ -35,8 +34,8 @@ class ColoredButton extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               text,
-              style: UIKit.fonts.bold14.copyWith(
-                color: UIKit.colors.primaryLightFFF,
+              style: AppTextStyle.bold14.copyWith(
+                color: AppColors.primaryLightFFF,
               ),
             ),
           ],

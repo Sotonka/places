@@ -1,14 +1,15 @@
-class Strings {
-  final String sightListScreenTitle = 'Список\nинтересных мест';
-  final String sightDetailsScreenRoute = 'ПОСТРОИТЬ МАРШРУТ';
-  final String sightDetailsScreenSchedule = 'Запланировать';
-  final String sightDetailsScreenFavorite = 'В Избранное';
-  final String filtersScreenClear = 'Очистить';
-  final String filtersScreenCategories = 'КАТЕГОРИИ';
-  final String filtersScreenDistance = 'Расстояние';
-  final String filtersScreenShow = 'ПОКАЗАТЬ';
-  final String settingsScreenSettings = 'Настройки';
-  final String settingsScreenDark = 'Тёмная тема';
-  final String settingsScreenTutorial = 'Смотреть туториал';
-  Strings();
+class AppStrings {
+  static const String sightListScreenTitle = 'Список\nинтересных мест';
+  static const String sightDetailsScreenRoute = 'ПОСТРОИТЬ МАРШРУТ';
+  static const String sightDetailsScreenSchedule = 'Запланировать';
+  static const String sightDetailsScreenFavorite = 'В Избранное';
+  static const String filtersScreenClear = 'Очистить';
+  static const String filtersScreenCategories = 'КАТЕГОРИИ';
+  static const String filtersScreenDistance = 'Расстояние';
+  static const String filtersScreenShow = 'ПОКАЗАТЬ';
+  static const String settingsScreenSettings = 'Настройки';
+  static const String settingsScreenDark = 'Тёмная тема';
+  static const String settingsScreenTutorial = 'Смотреть туториал';
+
+  AppStrings._();
 }
