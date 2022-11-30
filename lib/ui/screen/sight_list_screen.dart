@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
+import 'package:places/domain/coordinates.dart';
+import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/gradient_button.dart';
@@ -11,6 +14,7 @@ import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/sight_list_screen_app_bar.dart';
+import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class SightListScreen extends StatelessWidget {
@@ -47,11 +51,15 @@ class _SighListScreen extends StatelessWidget {
                       horizontal: 16,
                     ),
                     child: SearchBar(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          AppRouter.search,
+                        );
+                      },
                       filters: provider.filterIsActive,
                       onFilterPressed: () async {
                         provider
-                          ..filteredPlaces = await Navigator.push<List<Sight>?>(
+                          ..filter = await Navigator.push<Filter?>(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const FiltersScreen(),
@@ -122,17 +130,40 @@ class _SighListScreen extends StatelessWidget {
 class SightListProvider with ChangeNotifier {
   final List<Sight> _sightList = mocks;
 
+  Filter? get filter => _filter;
+
   List<Sight> get sightList {
-    if (_filteredPlaces != null) {
-      return _filteredPlaces!;
+    if (filteredPlaces != null) {
+      return filteredPlaces!;
     }
-    // ignore: newline-before-return
+
     return _sightList;
   }
 
   bool get filterIsActive => _filterIsActive;
 
-  List<Sight>? get filteredPlaces => _filteredPlaces;
+  List<Sight>? get filteredPlaces {
+    if (_filter == null) return null;
+    _filteredPlaces = [];
+    for (final sight in mocks) {
+      if (_filter!.categories.contains(sight.type) &&
+          Utils().arePointsNear(
+            checkPoint: sight.coord,
+            centerPoint: Coord(lat: 48.483385, lon: 135.07593),
+            kmEnd: _filter!.distance.end / 1000,
+            kmStart: _filter!.distance.start / 1000,
+          )) {
+        _filteredPlaces!.add(sight);
+      }
+    }
+
+    return _filteredPlaces;
+  }
+
+  set filter(Filter? value) {
+    _filter = value;
+    notifyListeners();
+  }
 
   set filteredPlaces(List<Sight>? value) {
     _filteredPlaces = value;
@@ -146,6 +177,7 @@ class SightListProvider with ChangeNotifier {
 
   List<Sight>? _filteredPlaces;
   bool _filterIsActive = false;
+  Filter? _filter;
 
   void appendSigtList(Sight? newSight) {
     if (newSight != null) {

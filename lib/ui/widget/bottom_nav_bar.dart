@@ -30,7 +30,7 @@ class BottomNavBar extends StatelessWidget {
 
           case 2:
             Navigator.of(context).pushNamed(
-              AppRouter.viisitingScreen,
+              AppRouter.visitingScreen,
             );
             break;
 

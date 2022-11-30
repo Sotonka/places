@@ -66,7 +66,10 @@ class _FiltersScreen extends StatelessWidget {
               text:
                   '${AppStrings.filtersScreenShow} (${filteredPlaces.length})',
               onPressed: () {
-                Navigator.pop(context, filteredPlaces);
+                Navigator.pop(
+                  context,
+                  context.read<FilterProvider>().filter,
+                );
               },
             ),
           ),

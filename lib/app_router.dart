@@ -5,6 +5,7 @@ import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
+import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/screen/test_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 
@@ -12,11 +13,12 @@ abstract class AppRouter {
   static const String root = '/';
   static const String sights = '/sights';
   static const String sightDetails = '/sightDetails';
-  static const String viisitingScreen = '/visitingScreen';
+  static const String visitingScreen = '/visitingScreen';
   static const String settings = '/settings';
   static const String filterScreen = '/filterScreen';
   static const String addSightScreen = '/addSightScreen';
   static const String test = '/test';
+  static const String search = '/search';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -39,7 +41,11 @@ abstract class AppRouter {
         return MaterialPageRoute<Object?>(
           builder: (_) => const FiltersScreen(),
         );
-      case AppRouter.viisitingScreen:
+      case AppRouter.search:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const SightSearchScreen(),
+        );
+      case AppRouter.visitingScreen:
         return MaterialPageRoute<Object?>(
           builder: (_) => const VisitingScreen(),
         );
