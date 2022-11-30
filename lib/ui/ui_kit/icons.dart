@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppIcons extends StatelessWidget {
+  static const _add = '${_defaultPath}add.svg';
   static const _back = '${_defaultPath}back.svg';
   static const _cafe = '${_defaultPath}cafe.svg';
   static const _calendar = '${_defaultPath}calendar.svg';
   static const _choice = '${_defaultPath}choice.svg';
   static const _close = '${_defaultPath}close.svg';
+  static const _confirm = '${_defaultPath}confirm.svg';
   static const _forward = '${_defaultPath}forward.svg';
   static const _heart = '${_defaultPath}heart.svg';
   static const _heartFull = '${_defaultPath}heart_full.svg';
@@ -40,6 +42,18 @@ class AppIcons extends StatelessWidget {
     this.color,
     Key? key,
   }) : super(key: key);
+
+  factory AppIcons.add({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _add,
+        color: color,
+        height: height,
+        width: width,
+      );
 
   factory AppIcons.back({
     final Color? color,
@@ -96,6 +110,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _close,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.confirm({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _confirm,
         color: color,
         height: height,
         width: width,

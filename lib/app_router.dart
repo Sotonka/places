@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_details.dart';
@@ -14,6 +15,7 @@ abstract class AppRouter {
   static const String viisitingScreen = '/visitingScreen';
   static const String settings = '/settings';
   static const String filterScreen = '/filterScreen';
+  static const String addSightScreen = '/addSightScreen';
   static const String test = '/test';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,6 +42,10 @@ abstract class AppRouter {
       case AppRouter.viisitingScreen:
         return MaterialPageRoute<Object?>(
           builder: (_) => const VisitingScreen(),
+        );
+      case AppRouter.addSightScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const AddSightScreen(),
         );
       case AppRouter.test:
         return MaterialPageRoute<Object?>(

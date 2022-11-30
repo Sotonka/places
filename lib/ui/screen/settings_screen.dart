@@ -23,7 +23,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: AppStrings.settingsScreenSettings,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.only(
+          top: 30,
+          left: 16,
+          right: 16,
+        ),
         child: ListView(
           children: [
             ListTile(

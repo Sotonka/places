@@ -67,7 +67,9 @@ class SightDetails extends StatelessWidget {
                   ColoredButton(
                     text: AppStrings.sightDetailsScreenRoute,
                     onPressed: () {},
-                    icon: AppIcons.route() as SvgPicture,
+                    icon: AppIcons.route(
+                      color: AppColors.primaryLightFFF,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   const Divider(

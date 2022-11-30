@@ -40,4 +40,6 @@ final Map<String, String> _typeTranslations = {
   'SightType.restaurant': 'ресторан',
   'SightType.park': 'парк',
   'SightType.museum': 'музей',
+  'SightType.hotel': 'отель',
+  'SightType.particular': 'особое место',
 };

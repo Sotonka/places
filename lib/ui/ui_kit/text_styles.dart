@@ -35,7 +35,7 @@ class AppTextStyle {
     height: 1.25,
   );
 
-  static TextStyle middle16 = _textW500.copyWith(
+  static TextStyle middle16 = _textNormal.copyWith(
     fontSize: 16,
     height: 20 / 16,
   );

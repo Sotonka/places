@@ -5,13 +5,15 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 class ColoredButton extends StatelessWidget {
   final String text;
   final void Function() onPressed;
-  final SvgPicture? icon;
+  final Widget? icon;
+  final bool isActive;
 
   const ColoredButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.icon,
+    this.isActive = true,
   });
 
   @override
@@ -24,7 +26,7 @@ class ColoredButton extends StatelessWidget {
         height: 48,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: themeColors.greenAccent,
+          color: isActive ? themeColors.greenAccent : themeColors.sightCard,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -35,7 +37,9 @@ class ColoredButton extends StatelessWidget {
             Text(
               text,
               style: AppTextStyle.bold14.copyWith(
-                color: AppColors.primaryLightFFF,
+                color: isActive
+                    ? AppColors.primaryLightFFF
+                    : AppColors.primaryLightInactive,
               ),
             ),
           ],

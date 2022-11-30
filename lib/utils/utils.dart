@@ -1,4 +1,6 @@
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:places/domain/coordinates.dart';
 
 class Utils {
@@ -17,6 +19,15 @@ class Utils {
 
     return sqrt(dx * dx + dy * dy) <= kmEnd &&
         sqrt(dx * dx + dy * dy) >= kmStart;
+  }
+
+  void fieldFocusChange(
+    BuildContext context,
+    FocusNode currentFocus,
+    FocusNode nextFocus,
+  ) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 }
 
