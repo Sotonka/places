@@ -3,9 +3,12 @@ import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
+import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/gradient_button.dart';
+import 'package:places/ui/widget/nothing_found.dart';
+import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/sight_list_screen_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -37,16 +40,44 @@ class _SighListScreen extends StatelessWidget {
         children: [
           Consumer<SightListProvider>(
             builder: (context, provider, child) {
-              return ListView.separated(
-                itemCount: provider.sightList.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  return SightCard(
-                    sight: provider.sightList[index],
-                    type: CardType.list,
-                  );
-                },
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    child: SearchBar(
+                      onPressed: () {},
+                      filters: provider.filterIsActive,
+                      onFilterPressed: () async {
+                        provider
+                          ..filteredPlaces = await Navigator.push<List<Sight>?>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const FiltersScreen(),
+                            ),
+                          )
+                          ..filterIsActive = true;
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 38),
+                  Expanded(
+                    child: provider.sightList.isEmpty
+                        ? const NotFound()
+                        : ListView.separated(
+                            itemCount: provider.sightList.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 16),
+                            itemBuilder: (context, index) {
+                              return SightCard(
+                                sight: provider.sightList[index],
+                                type: CardType.list,
+                              );
+                            },
+                          ),
+                  ),
+                ],
               );
             },
           ),
@@ -83,14 +114,6 @@ class _SighListScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            AppRouter.filterScreen,
-          );
-        },
-        child: const Text('filters'),
-      ),
       bottomNavigationBar: const BottomNavBar(index: 0),
     );
   }
@@ -99,7 +122,30 @@ class _SighListScreen extends StatelessWidget {
 class SightListProvider with ChangeNotifier {
   final List<Sight> _sightList = mocks;
 
-  List<Sight> get sightList => _sightList;
+  List<Sight> get sightList {
+    if (_filteredPlaces != null) {
+      return _filteredPlaces!;
+    }
+    // ignore: newline-before-return
+    return _sightList;
+  }
+
+  bool get filterIsActive => _filterIsActive;
+
+  List<Sight>? get filteredPlaces => _filteredPlaces;
+
+  set filteredPlaces(List<Sight>? value) {
+    _filteredPlaces = value;
+    notifyListeners();
+  }
+
+  set filterIsActive(bool value) {
+    _filterIsActive = value;
+    notifyListeners();
+  }
+
+  List<Sight>? _filteredPlaces;
+  bool _filterIsActive = false;
 
   void appendSigtList(Sight? newSight) {
     if (newSight != null) {

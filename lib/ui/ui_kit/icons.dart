@@ -9,6 +9,7 @@ class AppIcons extends StatelessWidget {
   static const _choice = '${_defaultPath}choice.svg';
   static const _close = '${_defaultPath}close.svg';
   static const _confirm = '${_defaultPath}confirm.svg';
+  static const _filter = '${_defaultPath}filter.svg';
   static const _forward = '${_defaultPath}forward.svg';
   static const _heart = '${_defaultPath}heart.svg';
   static const _heartFull = '${_defaultPath}heart_full.svg';
@@ -22,6 +23,7 @@ class AppIcons extends StatelessWidget {
   static const _particular = '${_defaultPath}particular.svg';
   static const _restaurant = '${_defaultPath}restaurant.svg';
   static const _route = '${_defaultPath}route.svg';
+  static const _search = '${_defaultPath}search.svg';
   static const _settings = '${_defaultPath}settings.svg';
   static const _settingsFull = '${_defaultPath}settings_full.svg';
   static const _share = '${_defaultPath}share.svg';
@@ -122,6 +124,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _confirm,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.filter({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _filter,
         color: color,
         height: height,
         width: width,
@@ -278,6 +292,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _route,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.search({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _search,
         color: color,
         height: height,
         width: width,

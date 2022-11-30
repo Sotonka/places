@@ -30,7 +30,7 @@ class _FiltersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<FilterProvider>().filter;
 
-    final filteredPlaces = <Sight>[];
+    var filteredPlaces = <Sight>[];
 
     for (final sight in mocks) {
       if (filter.categories.contains(sight.type) &&
@@ -66,17 +66,7 @@ class _FiltersScreen extends StatelessWidget {
               text:
                   '${AppStrings.filtersScreenShow} (${filteredPlaces.length})',
               onPressed: () {
-                // ignore: avoid_print
-                print(filter.categories);
-                // ignore: avoid_print
-                print((filter.distance.start / 1000).round());
-                // ignore: avoid_print
-                print((filter.distance.end / 1000).round());
-
-                for (final element in filteredPlaces) {
-                  // ignore: avoid_print
-                  print(element.name);
-                }
+                Navigator.pop(context, filteredPlaces);
               },
             ),
           ),

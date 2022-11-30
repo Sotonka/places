@@ -4,7 +4,7 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class ColoredButton extends StatelessWidget {
   final String text;
-  final void Function() onPressed;
+  final VoidCallback onPressed;
   final Widget? icon;
   final bool isActive;
 

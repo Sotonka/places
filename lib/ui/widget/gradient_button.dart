@@ -3,7 +3,7 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class GradientButton extends StatelessWidget {
   final String text;
-  final void Function() onPressed;
+  final VoidCallback onPressed;
   final Widget? icon;
 
   const GradientButton({

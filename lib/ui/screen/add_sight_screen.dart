@@ -65,7 +65,6 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
 
     return SmallAppBar(
       titleWidget: Padding(
@@ -230,10 +229,6 @@ class _BuildForm extends StatelessWidget {
                               child: provider.latIcon ?? const SizedBox(),
                             ),
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(10),
-                          ],
                         ),
                       ],
                     ),
@@ -269,9 +264,6 @@ class _BuildForm extends StatelessWidget {
                               child: provider.lonIcon ?? const SizedBox(),
                             ),
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
                         ),
                       ],
                     ),
