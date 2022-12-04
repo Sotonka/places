@@ -9,6 +9,7 @@ import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/gradient_button.dart';
 import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/search_bar.dart';
@@ -57,7 +58,7 @@ class _SighListScreen extends StatelessWidget {
                         );
                       },
                       filters: provider.filterIsActive,
-                      onFilterPressed: () async {
+                      onSuffixPressed: () async {
                         provider
                           ..filter = await Navigator.push<Filter?>(
                             context,
@@ -73,16 +74,9 @@ class _SighListScreen extends StatelessWidget {
                   Expanded(
                     child: provider.sightList.isEmpty
                         ? const NotFound()
-                        : ListView.separated(
-                            itemCount: provider.sightList.length,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 16),
-                            itemBuilder: (context, index) {
-                              return SightCard(
-                                sight: provider.sightList[index],
-                                type: CardType.list,
-                              );
-                            },
+                        : CardList(
+                            iterable: provider.sightList,
+                            type: CardType.list,
                           ),
                   ),
                 ],
@@ -181,7 +175,6 @@ class SightListProvider with ChangeNotifier {
 
   void appendSigtList(Sight? newSight) {
     if (newSight != null) {
-      _sightList.add(newSight);
       notifyListeners();
     }
   }

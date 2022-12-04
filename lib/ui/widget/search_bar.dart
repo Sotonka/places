@@ -3,16 +3,26 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SearchBar extends StatelessWidget {
   final VoidCallback onPressed;
-  final VoidCallback onFilterPressed;
+  final VoidCallback onSuffixPressed;
   final bool filters;
   final bool suffixClose;
+  final bool readOnly;
+  final TextEditingController? controller;
+  final FocusNode? focus;
+  final VoidCallback? onComplete;
+  final void Function(String)? onChange;
 
   const SearchBar({
     super.key,
     required this.onPressed,
-    required this.onFilterPressed,
+    required this.onSuffixPressed,
     this.filters = false,
     this.suffixClose = false,
+    this.readOnly = true,
+    this.controller,
+    this.focus,
+    this.onComplete,
+    this.onChange,
   });
 
   @override
@@ -26,8 +36,12 @@ class SearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
-        readOnly: true,
+        onChanged: onChange,
+        controller: controller,
+        readOnly: readOnly,
+        focusNode: focus,
         onTap: onPressed,
+        onEditingComplete: onComplete,
         decoration: InputDecoration(
           hintText: 'Поиск',
           prefixIcon: UnconstrainedBox(
@@ -37,9 +51,10 @@ class SearchBar extends StatelessWidget {
           ),
           suffixIcon: UnconstrainedBox(
             child: InkWell(
-              onTap: onFilterPressed,
+              onTap: onSuffixPressed,
               child: suffixClose
-                  ? AppIcons.close(
+                  ? Icon(
+                      Icons.cancel,
                       color: themeColors.icons,
                     )
                   : AppIcons.filter(

@@ -99,9 +99,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).pushNamed(
-                  AppRouter.sights,
-                );
+                Navigator.of(context).pop();
               },
               child: Container(
                 height: 32,

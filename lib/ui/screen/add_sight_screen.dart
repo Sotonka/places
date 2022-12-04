@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
@@ -26,6 +27,8 @@ class _AddSightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<AddSightProvider>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const _BuildAppBar(),
@@ -42,7 +45,7 @@ class _AddSightScreen extends StatelessWidget {
                 vertical: 8,
               ),
               child: ColoredButton(
-                isActive: false,
+                isActive: true,
                 text: 'СОЗДАТЬ',
                 onPressed: () {
                   context.read<AddSightProvider>().submitForm(context);
@@ -134,7 +137,10 @@ class _BuildForm extends StatelessWidget {
                   FocusScope.of(context).requestFocus(provider.nameFocus);
                 },
                 child: ListTile(
-                  title: provider.selectedCategory!.entries.toList()[0].value !=
+                  title: provider.selectedCategory != null &&
+                          provider.selectedCategory!.entries
+                                  .toList()[0]
+                                  .value !=
                               '' &&
                           provider.selectedCategory != null
                       ? Text(
@@ -181,6 +187,7 @@ class _BuildForm extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               TextFormField(
+                controller: provider.nameController,
                 focusNode: provider.nameFocus,
                 onFieldSubmitted: (_) {
                   Utils().fieldFocusChange(
@@ -211,7 +218,10 @@ class _BuildForm extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           focusNode: provider.latFocus,
                           onChanged: (value) {
-                            provider.updateLatSuffix(value);
+                            provider.updateLatSuffix(
+                              value,
+                              themeColors.icons!,
+                            );
                           },
                           onFieldSubmitted: (_) {
                             Utils().fieldFocusChange(
@@ -378,12 +388,15 @@ class AddSightProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLatSuffix(String value) {
+  void updateLatSuffix(
+    String value,
+    Color color,
+  ) {
     _latIcon = value == ''
         ? null
-        : const Icon(
+        : Icon(
             Icons.cancel,
-            color: Colors.black,
+            color: color,
           );
     notifyListeners();
   }
@@ -449,7 +462,7 @@ class AddSightProvider with ChangeNotifier {
         details: _descriptionController.text,
         type: _selectedCategory!.keys.toList()[0]!,
       );
-
+      mocks.add(sight!);
       Navigator.pop(
         context,
         context.read<AddSightProvider>().sight,
