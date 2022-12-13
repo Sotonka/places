@@ -7,6 +7,7 @@ import 'package:places/utils/utils.dart';
 class SightCardTab extends StatelessWidget {
   final Sight sight;
   final String? search;
+
   const SightCardTab({
     super.key,
     required this.sight,
@@ -16,7 +17,7 @@ class SightCardTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Container(
       padding: const EdgeInsets.only(

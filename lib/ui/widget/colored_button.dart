@@ -18,10 +18,11 @@ class ColoredButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return InkWell(
-      onTap: onPressed,
+      onTap: isActive ? onPressed : () {},
       child: Container(
         height: 48,
         width: double.infinity,

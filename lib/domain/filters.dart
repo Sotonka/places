@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/utils/utils.dart';
 
 class Filter {
@@ -9,7 +10,8 @@ class Filter {
 
   Filter({
     Set<SightType>? categories,
-    this.distance = const Range<double>(0, 10000),
+    this.distance =
+        const Range<double>(AppConstants.minDistance, AppConstants.maxDistance),
   }) : categories = UnmodifiableSetView<SightType>(categories ?? {});
 
   Filter toggleCategory(SightType type) {
@@ -29,6 +31,15 @@ class Filter {
 
   Filter clear() => Filter(
         categories: {},
-        distance: const Range<double>(0, 10000),
       );
+
+  bool isEmpty() {
+    if (categories.isEmpty &&
+        distance.start == AppConstants.minDistance &&
+        distance.end == AppConstants.maxDistance) {
+      return true;
+    }
+
+    return false;
+  }
 }

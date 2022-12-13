@@ -18,7 +18,8 @@ class FilterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Column(
       children: [
@@ -43,8 +44,9 @@ class FilterTile extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 right: 0,
-                child: AppIcons.choice(
-                  color: AppColors.primaryBlueE5B,
+                child: Icon(
+                  Icons.check_circle_rounded,
+                  color: themeColors.icons,
                 ),
               ),
           ],

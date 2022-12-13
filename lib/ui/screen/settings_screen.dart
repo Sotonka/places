@@ -16,7 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Scaffold(
       appBar: const SmallAppBar(

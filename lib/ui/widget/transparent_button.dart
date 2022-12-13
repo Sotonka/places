@@ -17,7 +17,8 @@ class TransparentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return InkWell(
       onTap: () {},

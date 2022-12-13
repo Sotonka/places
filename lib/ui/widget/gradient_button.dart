@@ -15,14 +15,13 @@ class GradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return InkWell(
       onTap: onPressed,
       child: Container(
-        //constraints: BoxConstraints(minHeight: 10, maxWidth: 10),
         height: 48,
-
         decoration: BoxDecoration(
           color: themeColors.greenAccent,
           gradient: LinearGradient(

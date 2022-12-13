@@ -3,6 +3,7 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SearchBar extends StatelessWidget {
   final VoidCallback onPressed;
+  final void Function(String) onSubmit;
   final VoidCallback onSuffixPressed;
   final bool filters;
   final bool suffixClose;
@@ -10,11 +11,12 @@ class SearchBar extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focus;
   final VoidCallback? onComplete;
-  final void Function(String)? onChange;
+  final ValueChanged<String>? onChange;
 
   const SearchBar({
     super.key,
     required this.onPressed,
+    required this.onSubmit,
     required this.onSuffixPressed,
     this.filters = false,
     this.suffixClose = false,
@@ -28,7 +30,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Ink(
       decoration: BoxDecoration(
@@ -36,6 +38,7 @@ class SearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
+        onSubmitted: onSubmit,
         onChanged: onChange,
         controller: controller,
         readOnly: readOnly,

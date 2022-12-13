@@ -1,24 +1,24 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
+import 'package:places/ui/providers/search_provider.dart';
+import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/screen/filters_screen.dart';
-import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/card_list.dart';
+import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/search_bar.dart';
+import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/sight_card_tab.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
-import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class SightSearchScreen extends StatelessWidget {
-  const SightSearchScreen({super.key});
+  final Filter? filter;
+  const SightSearchScreen({super.key, this.filter});
 
   @override
   Widget build(BuildContext context) {
@@ -28,41 +28,68 @@ class SightSearchScreen extends StatelessWidget {
           create: (_) => SearchProvider(),
         ),
       ],
-      child: const _SightSearchScreen(),
+      child: _SightSearchScreen(filter: filter),
     );
   }
 }
 
-class _SightSearchScreen extends StatelessWidget {
-  const _SightSearchScreen({super.key});
+class _SightSearchScreen extends StatefulWidget {
+  final Filter? filter;
+
+  const _SightSearchScreen({this.filter});
+
+  @override
+  State<_SightSearchScreen> createState() => _SightSearchScreenState();
+}
+
+class _SightSearchScreenState extends State<_SightSearchScreen> {
+  @override
+  void initState() {
+    context.read<SearchProvider>().filter = widget.filter;
+    context.read<SearchProvider>().updateList();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Scaffold(
-      appBar: const SmallAppBar(
-        title: 'Список интересных мест',
+      appBar: SmallAppBar(
+        titleWidget: InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            'Список интересных мест',
+            textAlign: TextAlign.center,
+            style: theme.primaryTextTheme.headline3,
+          ),
+        ),
       ),
       body: Consumer<SearchProvider>(
         builder: (context, provider, child) {
-          return Padding(
-            padding: const EdgeInsets.only(
-              top: 6,
-              left: 16,
-              right: 16,
-            ),
-            child: Column(
-              children: [
-                SearchBar(
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 6,
+                  left: 16,
+                  right: 16,
+                ),
+                child: SearchBar(
+                  onSubmit: (_) {
+                    provider
+                      ..submittedSearch = provider.searchController.text
+                      ..unfocus();
+                  },
                   onChange: (value) {
                     provider.findSights(value);
                   },
                   onComplete: () {
-                    //provider.clearSearch();
-                    // диссмисить клавиатуру по нажатию
-                    provider.searchFocus.unfocus();
+                    provider.unfocus();
                   },
                   controller: provider.searchController,
                   readOnly: false,
@@ -70,7 +97,7 @@ class _SightSearchScreen extends StatelessWidget {
                   focus: provider.searchFocus,
                   suffixClose: provider.searching,
                   onPressed: () {
-                    provider.searching = true;
+                    provider.notify();
                   },
                   onSuffixPressed: provider.searching
                       ? () {
@@ -78,36 +105,60 @@ class _SightSearchScreen extends StatelessWidget {
                         }
                       : () async {
                           provider
-                            ..filter = await Navigator.push<Filter?>(
+                            ..popResult =
+                                await Navigator.push<Map<String, dynamic>>(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const FiltersScreen(),
+                                builder: (context) => FiltersScreen(
+                                  filter: provider.filter,
+                                ),
                               ),
                             )
-                            ..filterIsActive = true;
+                            ..getPopResult();
                         },
                 ),
-                Expanded(
-                  child: provider.searching
-                      ? const _BuildSightList()
-                      : Column(
-                          children: [
-                            const SizedBox(height: 38),
-                            Expanded(
-                              child: provider.history.isEmpty
-                                  ? const SizedBox()
-                                  : const _BuildSearchHistory(),
-                            ),
-                          ],
-                        ),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 38),
+              const _BuildBody(),
+            ],
           );
         },
       ),
       bottomNavigationBar: const BottomNavBar(index: 0),
     );
+  }
+}
+
+class _BuildBody extends StatelessWidget {
+  const _BuildBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SearchProvider>(builder: (context, provider, child) {
+      return provider.searching
+          ? provider.searchInitState
+              ? Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 38),
+                      Expanded(
+                        child: provider.history.isEmpty
+                            ? const SizedBox()
+                            : const _BuildSearchHistory(),
+                      ),
+                    ],
+                  ),
+                )
+              : const Expanded(child: _BuildSightList())
+          : Expanded(
+              child: provider.sightList.isEmpty
+                  ? const NotFound()
+                  : CardList(
+                      iterable: provider.sightList,
+                      type: CardType.list,
+                    ),
+            );
+    });
   }
 }
 
@@ -148,7 +199,7 @@ class _BuildSearchHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<AppThemeColors>()!;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Consumer<SearchProvider>(builder: (context, provider, child) {
       return Padding(
@@ -224,133 +275,5 @@ class _BuildSearchHistory extends StatelessWidget {
         ),
       );
     });
-  }
-}
-
-class SearchProvider with ChangeNotifier {
-  final _searchController = TextEditingController();
-  final _searchFocus = FocusNode();
-
-  List<String> get history => _history;
-  FocusNode get searchFocus => _searchFocus;
-  TextEditingController get searchController => _searchController;
-  bool get searching => _searching && _searchController.text != '';
-  Filter? get filter => _filter;
-  List<Sight>? get searchResult => _searchResult;
-
-  List<Sight> get sightList {
-    if (filteredPlaces != null) {
-      return filteredPlaces!;
-    }
-
-    return _sightList;
-  }
-
-  bool get filterIsActive => _filterIsActive;
-
-  List<Sight>? get filteredPlaces {
-    if (_filter == null) return null;
-    _filteredPlaces = [];
-    for (final sight in mocks) {
-      if (_filter!.categories.contains(sight.type) &&
-          Utils().arePointsNear(
-            checkPoint: sight.coord,
-            centerPoint: Coord(lat: 48.483385, lon: 135.07593),
-            kmEnd: _filter!.distance.end / 1000,
-            kmStart: _filter!.distance.start / 1000,
-          )) {
-        _filteredPlaces!.add(sight);
-      }
-    }
-
-    return _filteredPlaces;
-  }
-
-  set filter(Filter? value) {
-    _filter = value;
-    notifyListeners();
-  }
-
-  set filteredPlaces(List<Sight>? value) {
-    _filteredPlaces = value;
-    notifyListeners();
-  }
-
-  set filterIsActive(bool value) {
-    _filterIsActive = value;
-    notifyListeners();
-  }
-
-  set searching(bool value) {
-    _searching = value;
-    notifyListeners();
-  }
-
-  bool _searching = false;
-  bool _filterIsActive = false;
-  Filter? _filter;
-  List<Sight>? _filteredPlaces;
-  List<Sight>? _searchResult;
-  List<Sight> _sightList = mocks;
-  List<String> _history = [];
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _searchFocus.dispose();
-    super.dispose();
-  }
-
-  void addHistory(String element) {
-    if (_history.contains(element)) {
-    } else {
-      _history.add(element);
-      notifyListeners();
-    }
-  }
-
-  void removeAtHistory(int index) {
-    _history.removeAt(index);
-    notifyListeners();
-  }
-
-  void clearHistory() {
-    _history = [];
-    notifyListeners();
-  }
-
-  void clearSearch() {
-    searchController.text = '';
-    notifyListeners();
-  }
-
-  void setSearchController(String value) {
-    _searchController
-      ..text = value
-      ..selection =
-          TextSelection.collapsed(offset: _searchController.text.length);
-    notifyListeners();
-  }
-
-  void findSights(String value) {
-    _searchResult = [];
-
-    _sightList = mocks;
-
-    for (final element in sightList) {
-      if (value.length > element.name.length) {
-      } else if (element.name.substring(0, value.length).toLowerCase() ==
-          searchController.text.toLowerCase()) {
-        if (_searchResult!.contains(element)) {
-        } else {
-          _searchResult!.add(element);
-        }
-      } else {
-        // ДЕЛАТЬ ЕГО NULL И ПРОВЕРЯТЬ ЕСЛИ NULL ТО ЭКРАН ОШИБКИ
-        //_searchResult = [];
-      }
-    }
-
-    notifyListeners();
   }
 }
