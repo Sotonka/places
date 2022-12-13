@@ -19,11 +19,23 @@ class SearchProvider extends ChangeNotifier {
   String get submittedSearch => _submittedSearch;
 
   List<Sight> get sightList {
-    if (_filteredPlaces != null && _filterIsActive) {
-      return _filteredPlaces!;
+    _resultList = null;
+
+    _sightList =
+        _filteredPlaces != null && _filterIsActive ? _filteredPlaces! : mocks;
+
+    if (_submittedSearch.isNotEmpty) {
+      _resultList = [];
+      for (final element in _sightList) {
+        if (element.name
+            .toLowerCase()
+            .contains(_submittedSearch.toLowerCase())) {
+          _resultList!.add(element);
+        }
+      }
     }
 
-    return _sightList;
+    return _resultList ?? _sightList;
   }
 
   bool get filterIsActive => _filterIsActive;
@@ -82,6 +94,7 @@ class SearchProvider extends ChangeNotifier {
   List<Sight>? _searchResult;
   List<String> _history = [];
   List<Sight> _sightList = mocks;
+  List<Sight>? _resultList;
   String _submittedSearch = '';
 
   @override
@@ -119,6 +132,7 @@ class SearchProvider extends ChangeNotifier {
       ..text = value
       ..selection =
           TextSelection.collapsed(offset: _searchController.text.length);
+
     notifyListeners();
   }
 
@@ -133,27 +147,21 @@ class SearchProvider extends ChangeNotifier {
   }
 
   void unfocus() {
-    _searchFocus.unfocus();
     _searchController.text = '';
+    _searchFocus.unfocus();
+
     notifyListeners();
   }
 
   void findSights(String value) {
+    _submittedSearch = '';
     _searchResult = [];
 
-    _sightList = mocks;
+    _sightList = sightList;
 
     for (final element in sightList) {
-      if (value.length > element.name.length) {
-      } else if (element.name.substring(0, value.length).toLowerCase() ==
-          searchController.text.toLowerCase()) {
-        if (_searchResult!.contains(element)) {
-        } else {
-          _searchResult!.add(element);
-        }
-      } else {
-        // ДЕЛАТЬ ЕГО NULL И ПРОВЕРЯТЬ ЕСЛИ NULL ТО ЭКРАН ОШИБКИ
-        //_searchResult = [];
+      if (element.name.toLowerCase().contains(value.toLowerCase())) {
+        _searchResult!.add(element);
       }
     }
 
@@ -166,5 +174,11 @@ class SearchProvider extends ChangeNotifier {
 
   void updateList() {
     _sightList = filteredPlaces ?? mocks;
+  }
+
+  void appendSigtList(Sight? newSight) {
+    if (newSight != null) {
+      notifyListeners();
+    }
   }
 }

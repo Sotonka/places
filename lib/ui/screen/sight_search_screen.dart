@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/providers/search_provider.dart';
-import 'package:places/ui/providers/sight_list_provider.dart';
+import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
+import 'package:places/ui/widget/gradient_button.dart';
 import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
@@ -80,16 +80,16 @@ class _SightSearchScreenState extends State<_SightSearchScreen> {
                   right: 16,
                 ),
                 child: SearchBar(
-                  onSubmit: (_) {
-                    provider
-                      ..submittedSearch = provider.searchController.text
-                      ..unfocus();
+                  onSubmit: (value) {
+                    provider.unfocus();
                   },
                   onChange: (value) {
                     provider.findSights(value);
                   },
                   onComplete: () {
-                    provider.unfocus();
+                    provider
+                      ..submittedSearch = provider.searchController.text
+                      ..unfocus();
                   },
                   controller: provider.searchController,
                   readOnly: false,
@@ -151,50 +151,89 @@ class _BuildBody extends StatelessWidget {
                 )
               : const Expanded(child: _BuildSightList())
           : Expanded(
-              child: provider.sightList.isEmpty
-                  ? const NotFound()
-                  : CardList(
+              child: Stack(
+                children: [
+                  if (provider.sightList.isEmpty)
+                    const Align(
+                      child: NotFound(),
+                    )
+                  else
+                    CardList(
                       iterable: provider.sightList,
                       type: CardType.list,
                     ),
-            );
-    });
-  }
-}
-
-class _BuildSightList extends StatelessWidget {
-  const _BuildSightList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<SearchProvider>(builder: (context, provider, child) {
-      return provider.searchResult == null
-          // ЗАМЕНИТЬ НА ЭКРАН НИЧЕГО НЕ НАЙДЕНО
-          ? const SizedBox()
-          : ListView.builder(
-              itemCount: provider.searchResult!.length,
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  provider.addHistory(provider.searchResult![index].name);
-                  Navigator.of(context).pushNamed(
-                    AppRouter.sightDetails,
-                    arguments: {
-                      'sight': provider.searchResult![index],
-                    },
-                  );
-                },
-                child: SightCardTab(
-                  sight: provider.searchResult![index],
-                  search: provider.searchController.text,
-                ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 16,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GradientButton(
+                            text: 'НОВОЕ МЕСТО',
+                            onPressed: () async {
+                              context
+                                  .read<SearchProvider>()
+                                  .appendSigtList(await Navigator.push<Sight>(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddSightScreen(),
+                                    ),
+                                  ));
+                            },
+                            icon: AppIcons.add(
+                              height: 18,
+                              width: 18,
+                              color: AppColors.primaryLightFFF,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
     });
   }
 }
 
+class _BuildSightList extends StatelessWidget {
+  const _BuildSightList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SearchProvider>(builder: (context, provider, child) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ListView.builder(
+          itemCount: provider.searchResult!.length,
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () {
+              provider.addHistory(provider.searchResult![index].name);
+              Navigator.of(context).pushNamed(
+                AppRouter.sightDetails,
+                arguments: {
+                  'sight': provider.searchResult![index],
+                },
+              );
+            },
+            child: SightCardTab(
+              sight: provider.searchResult![index],
+              search: [provider.searchController.text],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}
+
 class _BuildSearchHistory extends StatelessWidget {
-  const _BuildSearchHistory({super.key});
+  const _BuildSearchHistory();
 
   @override
   Widget build(BuildContext context) {

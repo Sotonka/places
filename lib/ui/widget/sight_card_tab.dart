@@ -3,15 +3,16 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 import 'package:places/utils/utils.dart';
+import 'package:text_chunk_styling/text_chunk_styling.dart';
 
 class SightCardTab extends StatelessWidget {
   final Sight sight;
-  final String? search;
+  final List<String> search;
 
   const SightCardTab({
     super.key,
     required this.sight,
-    this.search,
+    required this.search,
   });
 
   @override
@@ -45,10 +46,14 @@ class SightCardTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 4),
-              _BuildTitle(
-                string: sight.name,
-                lenght: search != null ? search!.length : 0,
-                style: theme.primaryTextTheme.headline6!,
+              TextChunkStyling(
+                caseSensitive: false,
+                text: sight.name,
+                highlightText: search,
+                highlightTextStyle: theme.primaryTextTheme.headline6!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                textStyle: theme.primaryTextTheme.headline6,
               ),
               const SizedBox(height: 8),
               Text(
@@ -64,40 +69,6 @@ class SightCardTab extends StatelessWidget {
                 color: AppColors.primaryLightInactive,
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BuildTitle extends StatelessWidget {
-  final String string;
-  final int lenght;
-  final TextStyle style;
-
-  const _BuildTitle({
-    super.key,
-    required this.string,
-    required this.lenght,
-    required this.style,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      textAlign: TextAlign.left,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      text: TextSpan(
-        text: string.substring(0, lenght),
-        style: style.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-        children: [
-          TextSpan(
-            text: string.substring(lenght, string.length),
-            style: style,
           ),
         ],
       ),
