@@ -12,6 +12,7 @@ class AddSightProvider extends ChangeNotifier {
   final _nameFocus = FocusNode();
   final _latFocus = FocusNode();
   final _lonFocus = FocusNode();
+  final _descriptionFocus = FocusNode();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -22,16 +23,21 @@ class AddSightProvider extends ChangeNotifier {
   FocusNode get nameFocus => _nameFocus;
   FocusNode get latFocus => _latFocus;
   FocusNode get lonFocus => _lonFocus;
+  FocusNode get descriptionFocus => _descriptionFocus;
   GlobalKey<FormState> get formKey => _formKey;
 
   Icon? get latIcon => _latIcon;
   Icon? get lonIcon => _lonIcon;
+  Icon? get descriptionIcon => _descriptionIcon;
+  Icon? get nameIcon => _nameIcon;
 
   Sight? get sight => _sight;
-
   bool get sightTypeError => _sightTypeError;
 
   Map<SightType?, String>? get selectedCategory => _selectedCategory;
+
+  Map<SightType?, String> get selectedCategoryToPush =>
+      _selectedCategory ?? {null: ''};
 
   set selectedCategory(Map<SightType?, String>? value) {
     _selectedCategory = value;
@@ -49,8 +55,10 @@ class AddSightProvider extends ChangeNotifier {
   Map<SightType?, String>? _selectedCategory = {null: ''};
 
   Sight? _sight;
+  Icon? _nameIcon;
   Icon? _latIcon;
   Icon? _lonIcon;
+  Icon? _descriptionIcon;
   bool _sightTypeError = false;
 
   @override
@@ -62,16 +70,32 @@ class AddSightProvider extends ChangeNotifier {
     _nameFocus.dispose();
     _latFocus.dispose();
     _lonFocus.dispose();
+    _descriptionFocus.dispose();
     super.dispose();
   }
 
   void latClear() {
     _latController.clear();
+    _latIcon = null;
     notifyListeners();
   }
 
   void lonClear() {
     _lonController.clear();
+    _lonIcon = null;
+    notifyListeners();
+  }
+
+  void nameClear() {
+    _nameController.clear();
+    _nameIcon = null;
+
+    notifyListeners();
+  }
+
+  void descriptionClear() {
+    _descriptionController.clear();
+    _descriptionIcon = null;
     notifyListeners();
   }
 
@@ -88,12 +112,41 @@ class AddSightProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLonSuffix(String value) {
+  void updateLonSuffix(
+    String value,
+    Color color,
+  ) {
     _lonIcon = value == ''
         ? null
-        : const Icon(
+        : Icon(
             Icons.cancel,
-            color: Colors.black,
+            color: color,
+          );
+    notifyListeners();
+  }
+
+  void updateNameSuffix(
+    String value,
+    Color color,
+  ) {
+    _nameIcon = value == ''
+        ? null
+        : Icon(
+            Icons.cancel,
+            color: color,
+          );
+    notifyListeners();
+  }
+
+  void updateDescriptionSuffix(
+    String value,
+    Color color,
+  ) {
+    _descriptionIcon = value == ''
+        ? null
+        : Icon(
+            Icons.cancel,
+            color: color,
           );
     notifyListeners();
   }
@@ -109,6 +162,14 @@ class AddSightProvider extends ChangeNotifier {
   String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Введите название';
+    }
+
+    return null;
+  }
+
+  String? validateDescription(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Введите описание';
     }
 
     return null;
@@ -158,5 +219,17 @@ class AddSightProvider extends ChangeNotifier {
       _sightTypeError = true;
       notifyListeners();
     }
+  }
+
+  bool isFormReady() {
+    if (validateName(nameController.text) == null &&
+        validateLat(latController.text) == null &&
+        validateLon(lonController.text) == null &&
+        validateDescription(descriptionController.text) == null &&
+        _selectedCategory!.keys.toList()[0] != null) {
+      return true;
+    }
+
+    return false;
   }
 }

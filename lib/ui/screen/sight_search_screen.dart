@@ -54,7 +54,6 @@ class _SightSearchScreenState extends State<_SightSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Scaffold(
       appBar: SmallAppBar(

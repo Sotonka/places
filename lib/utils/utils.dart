@@ -25,9 +25,12 @@ class Utils {
     BuildContext context,
     FocusNode currentFocus,
     FocusNode nextFocus,
+    String nextField,
   ) {
     currentFocus.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
+    if (nextField.isEmpty) {
+      FocusScope.of(context).requestFocus(nextFocus);
+    }
   }
 }
 
@@ -42,6 +45,6 @@ class Range<T> {
 
 extension StringExtension on String {
   String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
   }
 }

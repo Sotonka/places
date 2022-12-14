@@ -21,7 +21,7 @@ class AddSightScreen extends StatelessWidget {
 }
 
 class _AddSightScreen extends StatelessWidget {
-  const _AddSightScreen({super.key});
+  const _AddSightScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +40,15 @@ class _AddSightScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
               ),
-              child: ColoredButton(
-                isActive: true,
-                text: 'СОЗДАТЬ',
-                onPressed: () {
-                  context.read<AddSightProvider>().submitForm(context);
+              child: Consumer<AddSightProvider>(
+                builder: (context, provider, child) {
+                  return ColoredButton(
+                    isActive: provider.isFormReady(),
+                    text: 'СОЗДАТЬ',
+                    onPressed: () {
+                      provider.submitForm(context);
+                    },
+                  );
                 },
               ),
             ),
@@ -59,7 +63,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(400);
 
-  const _BuildAppBar({super.key});
+  const _BuildAppBar();
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _BuildForm extends StatelessWidget {
-  const _BuildForm({super.key});
+  const _BuildForm();
 
   @override
   Widget build(BuildContext context) {
@@ -121,16 +125,19 @@ class _BuildForm extends StatelessWidget {
               const SizedBox(height: 12),
               GestureDetector(
                 onTap: () async {
+                  provider.sightTypeError = false;
+                  if (provider.nameController.text.isEmpty) {
+                    FocusScope.of(context).requestFocus(provider.nameFocus);
+                  }
+
                   provider.selectedCategory =
                       await Navigator.push<Map<SightType?, String>>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const _CategoriesScreen(),
+                      builder: (context) =>
+                          _CategoriesScreen(provider.selectedCategoryToPush),
                     ),
                   );
-
-                  // ignore: use_build_context_synchronously
-                  FocusScope.of(context).requestFocus(provider.nameFocus);
                 },
                 child: ListTile(
                   title: provider.selectedCategory != null &&
@@ -183,6 +190,9 @@ class _BuildForm extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               TextFormField(
+                autovalidateMode: provider.nameController.text != ''
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
                 controller: provider.nameController,
                 focusNode: provider.nameFocus,
                 onFieldSubmitted: (_) {
@@ -190,91 +200,122 @@ class _BuildForm extends StatelessWidget {
                     context,
                     provider.nameFocus,
                     provider.latFocus,
+                    provider.latController.text,
                   );
                 },
                 keyboardType: TextInputType.text,
+                onChanged: (value) {
+                  provider.updateNameSuffix(
+                    value,
+                    themeColors.icons!,
+                  );
+                },
+                decoration: InputDecoration(
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      provider.nameClear();
+                    },
+                    child: provider.nameIcon ?? const SizedBox(),
+                  ),
+                ),
                 validator: provider.validateName,
               ),
               const SizedBox(height: 24),
-              Row(
-                children: [
-                  Flexible(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'ШИРОТА',
-                            style: theme.primaryTextTheme.bodyText2,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        TextFormField(
-                          controller: provider.latController,
-                          keyboardType: TextInputType.number,
-                          focusNode: provider.latFocus,
-                          onChanged: (value) {
-                            provider.updateLatSuffix(
-                              value,
-                              themeColors.icons!,
-                            );
-                          },
-                          onFieldSubmitted: (_) {
-                            Utils().fieldFocusChange(
-                              context,
-                              provider.latFocus,
-                              provider.lonFocus,
-                            );
-                          },
-                          validator: provider.validateLat,
-                          decoration: InputDecoration(
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                provider.latClear();
-                              },
-                              child: provider.latIcon ?? const SizedBox(),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 100,
+                  minHeight: 75,
+                ),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'ШИРОТА',
+                              style: theme.primaryTextTheme.bodyText2,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Flexible(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'ДОЛГОТА',
-                            style: theme.primaryTextTheme.bodyText2,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        TextFormField(
-                          controller: provider.lonController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            provider.updateLonSuffix(value);
-                          },
-                          focusNode: provider.lonFocus,
-                          onFieldSubmitted: (_) {
-                            provider.lonFocus.unfocus();
-                          },
-                          validator: provider.validateLon,
-                          decoration: InputDecoration(
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                provider.lonClear();
-                              },
-                              child: provider.lonIcon ?? const SizedBox(),
+                          const SizedBox(height: 12),
+                          TextFormField(
+                            autovalidateMode: provider.latController.text != ''
+                                ? AutovalidateMode.onUserInteraction
+                                : AutovalidateMode.disabled,
+                            controller: provider.latController,
+                            keyboardType: TextInputType.number,
+                            focusNode: provider.latFocus,
+                            onChanged: (value) {
+                              provider.updateLatSuffix(
+                                value,
+                                themeColors.icons!,
+                              );
+                            },
+                            onFieldSubmitted: (_) {
+                              Utils().fieldFocusChange(
+                                context,
+                                provider.latFocus,
+                                provider.lonFocus,
+                                provider.lonController.text,
+                              );
+                            },
+                            validator: provider.validateLat,
+                            decoration: InputDecoration(
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  provider.latClear();
+                                },
+                                child: provider.latIcon ?? const SizedBox(),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 16),
+                    Flexible(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'ДОЛГОТА',
+                              style: theme.primaryTextTheme.bodyText2,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          TextFormField(
+                            autovalidateMode: provider.lonController.text != ''
+                                ? AutovalidateMode.onUserInteraction
+                                : AutovalidateMode.disabled,
+                            controller: provider.lonController,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              provider.updateLonSuffix(
+                                value,
+                                themeColors.icons!,
+                              );
+                            },
+                            focusNode: provider.lonFocus,
+                            onFieldSubmitted: (_) {
+                              provider.lonFocus.unfocus();
+                            },
+                            validator: provider.validateLon,
+                            decoration: InputDecoration(
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  provider.lonClear();
+                                },
+                                child: provider.lonIcon ?? const SizedBox(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 15),
               Align(
@@ -296,13 +337,38 @@ class _BuildForm extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               TextFormField(
+                autovalidateMode: provider.descriptionController.text != ''
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
                 controller: provider.descriptionController,
                 minLines: 3,
                 maxLines: 10,
                 keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
+                focusNode: provider.descriptionFocus,
+                onChanged: (value) {
+                  provider.updateDescriptionSuffix(
+                    value,
+                    themeColors.icons!,
+                  );
+                },
+                onFieldSubmitted: (_) {
+                  Utils().fieldFocusChange(
+                    context,
+                    provider.lonFocus,
+                    provider.descriptionFocus,
+                    provider.descriptionController.text,
+                  );
+                },
+                decoration: InputDecoration(
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      provider.descriptionClear();
+                    },
+                    child: provider.descriptionIcon ?? const SizedBox(),
+                  ),
                   hintText: 'введите текст',
                 ),
+                validator: provider.validateDescription,
               ),
               const SizedBox(height: 10),
             ],
@@ -314,14 +380,17 @@ class _BuildForm extends StatelessWidget {
 }
 
 class _CategoriesScreen extends StatefulWidget {
-  const _CategoriesScreen({super.key});
+  final Map<SightType?, String> selecedSight;
+
+  const _CategoriesScreen(this.selecedSight);
 
   @override
   State<_CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
 class _CategoriesScreenState extends State<_CategoriesScreen> {
-  Map<SightType?, String> _selecedSight = {null: ''};
+  late Map<SightType?, String> _selecedSight;
+  bool _init = true;
 
   @override
   Widget build(BuildContext context) {
@@ -334,6 +403,12 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
       SightType.hotel: 'Отель',
       SightType.particular: 'Особое место',
     };
+
+    if (_init) {
+      _selecedSight = widget.selecedSight;
+
+      _init = false;
+    }
 
     return Scaffold(
       appBar: SmallAppBar(
@@ -351,7 +426,12 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pop(context, {null: ''});
+                  Navigator.pop(
+                    context,
+                    _selecedSight.entries.elementAt(0).key == null
+                        ? {null: ''}
+                        : _selecedSight,
+                  );
                 },
               ),
               Center(

@@ -17,7 +17,7 @@ class TestScreen extends StatelessWidget {
 }
 
 class _TestScreen extends StatelessWidget {
-  const _TestScreen({super.key});
+  const _TestScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _TestScreen extends StatelessWidget {
 }
 
 class _Purple extends StatelessWidget {
-  const _Purple({super.key});
+  const _Purple();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _Purple extends StatelessWidget {
 }
 
 class _Yellow extends StatelessWidget {
-  const _Yellow({super.key});
+  const _Yellow();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _Yellow extends StatelessWidget {
 }
 
 class _Randomizer extends StatefulWidget {
-  const _Randomizer({super.key});
+  const _Randomizer();
 
   @override
   State<_Randomizer> createState() => __RandomizerState();
@@ -98,7 +98,7 @@ class __RandomizerState extends State<_Randomizer> {
   }
 }
 
-class ColorsSwapper with ChangeNotifier {
+class ColorsSwapper extends ChangeNotifier {
   Color get color => _color;
 
   Color _color = Colors.grey;

@@ -18,7 +18,6 @@ class SightCardTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Container(
       padding: const EdgeInsets.only(

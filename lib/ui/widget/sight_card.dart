@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/screen/sight_details.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 
@@ -110,7 +108,6 @@ class _TopPart extends StatelessWidget {
   final CardType type;
 
   const _TopPart({
-    super.key,
     required this.sight,
     required this.type,
   });
@@ -141,7 +138,6 @@ class _TopPart extends StatelessWidget {
 class _BottomPart extends StatelessWidget {
   final Sight sight;
   const _BottomPart({
-    super.key,
     required this.sight,
   });
 
