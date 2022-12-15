@@ -44,7 +44,7 @@ class _AddSightScreen extends StatelessWidget {
                 builder: (context, provider, child) {
                   return ColoredButton(
                     isActive: provider.isFormReady(),
-                    text: 'СОЗДАТЬ',
+                    text: AppStrings.addSightScreenCreate,
                     onPressed: () {
                       provider.submitForm(context);
                     },
@@ -76,7 +76,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Center(
               child: Text(
-                'Новое место',
+                AppStrings.addSightScreenNew,
                 style: theme.primaryTextTheme.headline3,
               ),
             ),
@@ -87,7 +87,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
                   AppRouter.sights,
                 ),
                 child: Text(
-                  'Отмена',
+                  AppStrings.addSightScreenCancel,
                   style: theme.primaryTextTheme.headline6!.copyWith(
                     color: AppColors.primaryLightE92,
                   ),
@@ -118,7 +118,7 @@ class _BuildForm extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'КАТЕГОРИЯ',
+                  AppStrings.addSightScreenCategory,
                   style: theme.primaryTextTheme.bodyText2,
                 ),
               ),
@@ -151,7 +151,7 @@ class _BuildForm extends StatelessWidget {
                           style: theme.primaryTextTheme.headline6,
                         )
                       : Text(
-                          'Не выбрано',
+                          AppStrings.addSightScreenNotSelected,
                           style: theme.primaryTextTheme.headline6!.copyWith(
                             color: AppColors.primaryLightE92,
                           ),
@@ -173,7 +173,7 @@ class _BuildForm extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Выберите категорию',
+                      AppStrings.addSightScreenSelect,
                       style: AppTextStyle.normal12.copyWith(
                         color: themeColors.error,
                       ),
@@ -184,7 +184,7 @@ class _BuildForm extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'НАЗВАНИЕ',
+                  AppStrings.addSightScreenName,
                   style: theme.primaryTextTheme.bodyText2,
                 ),
               ),
@@ -234,7 +234,7 @@ class _BuildForm extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'ШИРОТА',
+                              AppStrings.addSightScreenLat,
                               style: theme.primaryTextTheme.bodyText2,
                             ),
                           ),
@@ -280,7 +280,7 @@ class _BuildForm extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'ДОЛГОТА',
+                              AppStrings.addSightScreenLon,
                               style: theme.primaryTextTheme.bodyText2,
                             ),
                           ),
@@ -321,7 +321,7 @@ class _BuildForm extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Указать на карте',
+                  AppStrings.addSightScreenMark,
                   style: theme.primaryTextTheme.headline6!.copyWith(
                     color: themeColors.greenAccent,
                   ),
@@ -331,7 +331,7 @@ class _BuildForm extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'ОПИСАНИЕ',
+                  AppStrings.addSightScreenDescription,
                   style: theme.primaryTextTheme.bodyText2,
                 ),
               ),
@@ -366,7 +366,7 @@ class _BuildForm extends StatelessWidget {
                     },
                     child: provider.descriptionIcon ?? const SizedBox(),
                   ),
-                  hintText: 'введите текст',
+                  hintText: AppStrings.addSightScreenEnter,
                 ),
                 validator: provider.validateDescription,
               ),
@@ -436,7 +436,7 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
               ),
               Center(
                 child: Text(
-                  'Категория',
+                  AppStrings.addSightScreenCatTitle,
                   style: theme.primaryTextTheme.headline3,
                 ),
               ),
@@ -482,7 +482,7 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
             ),
             ColoredButton(
               isActive: _selecedSight.keys.toList().first != null,
-              text: 'СОХРАНИТЬ',
+              text: AppStrings.addSightScreenSave,
               onPressed: () {
                 Navigator.pop(context, _selecedSight);
               },

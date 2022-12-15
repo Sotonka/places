@@ -7,6 +7,9 @@ import 'package:places/ui/widget/loadable_image.dart';
 enum CardType { list, wishlist, visited }
 
 class SightCard extends StatelessWidget {
+  /// [sight] - модель места,
+  /// [type] - тип карточки (list, wishlist, visited) - влияет на отображение
+  /// интерфейса - возможных действий с карточкой
   final Sight sight;
   final CardType type;
 

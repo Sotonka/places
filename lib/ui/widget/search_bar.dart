@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class SearchBar extends StatelessWidget {
+  /// [suffixClose] - состояние search bar`a: фильтр или очистка поля ввода
+  /// [filters] - состояние фильтра, отвечает за цвет иконки в зависимости
+  /// от активен/ неактивен
+
   final VoidCallback onPressed;
   final void Function(String) onSubmit;
   final VoidCallback onSuffixPressed;

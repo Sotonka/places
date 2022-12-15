@@ -4,6 +4,12 @@ import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 
 class SightListProvider extends ChangeNotifier {
+  /// [_sightList] - список мест для отображения
+  /// [sightList] - в зависимости, активен ли фильтр, возвращает список мест
+  /// [_sightList], либо список отфильтрованных мест [_filteredPlaces]
+  /// [_popResult] map с параметрами, приходящими с Navigator.pop страницы
+  /// фильтров, содержит {'filteredPlaces' : список отфильтрованных мест,
+  /// 'isFilterActive': активен ли фильтр, 'filter': фильтр}
   final List<Sight> _sightList = mocks;
 
   List<Sight> get sightList {

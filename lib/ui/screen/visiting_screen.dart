@@ -34,7 +34,7 @@ class _VisitingScreen extends StatelessWidget {
           length: 2,
           child: Scaffold(
             appBar: SmallAppBar(
-              title: 'Избранное',
+              title: AppStrings.visitingScreenFav,
               bottom: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -59,7 +59,7 @@ class _VisitingScreen extends StatelessWidget {
                       Tab(
                         child: Align(
                           child: Text(
-                            'Хочу посетить',
+                            AppStrings.visitingScreenWant,
                             style: AppTextStyle.bold14,
                           ),
                         ),
@@ -67,7 +67,7 @@ class _VisitingScreen extends StatelessWidget {
                       Tab(
                         child: Align(
                           child: Text(
-                            'Посетил',
+                            AppStrings.visitingScreenDone,
                             style: AppTextStyle.bold14,
                           ),
                         ),

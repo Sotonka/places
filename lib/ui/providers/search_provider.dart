@@ -6,6 +6,19 @@ import 'package:places/mocks.dart';
 import 'package:places/utils/utils.dart';
 
 class SearchProvider extends ChangeNotifier {
+  /// [_history] - список найденных мест
+  /// [searchInitState] - состояние начала ввода в поле поиска
+  /// [_searchResult] - список мест, обновляющийся в процессе ввода в
+  /// поле поиска места
+  /// [_submittedSearch] - строка для поиска по названию места
+  /// [sightList] - возвращает список мест с учетом фильтра и _submittedSearch
+  /// [_popResult] map с параметрами, приходящими с Navigator.pop страницы
+  /// фильтров, содержит {'filteredPlaces' : список отфильтрованных мест,
+  /// 'isFilterActive': активен ли фильтр, 'filter': фильтр}
+  /// [filteredPlaces] - возвращает список мест с учетом фильтра
+  /// [findSights] - вызывается при изменении поля ввода поиска, изменяет
+  /// _searchResult в зависимости от вхождения вводимых данных в название места
+  /// в _sightList
   final _searchController = TextEditingController();
   final _searchFocus = FocusNode();
 

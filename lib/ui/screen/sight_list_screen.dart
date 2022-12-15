@@ -94,7 +94,7 @@ class _SighListScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GradientButton(
-                      text: 'НОВОЕ МЕСТО',
+                      text: AppStrings.sightListScreenNew,
                       onPressed: () async {
                         context
                             .read<SightListProvider>()

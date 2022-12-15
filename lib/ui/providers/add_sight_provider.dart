@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/ui_kit/strings.dart';
 import 'package:provider/provider.dart';
 
 class AddSightProvider extends ChangeNotifier {
+  /// [_sightTypeError] - служит для валидации типа места, принимает
+  /// true, когда _selectedCategory пустая при валидации
+  /// [_selectedCategory] -  по умолчанию {null: ''}, map вида
+  /// {тип места: название места}
+  /// [selectedCategoryToPush] - что придет на экран выбора категории - пустая
+  /// категория ({null: ''}) или _selectedCategory
+  /// [isFormReady] - проверяет, заполнена ли форма, не вызывая при этом
+  /// _formKey.currentState!.validate() - требуется для отображения кнопки
+  /// добавления места (активна/ неактивна)
+
   final _nameController = TextEditingController();
   final _latController = TextEditingController();
   final _lonController = TextEditingController();
@@ -153,7 +164,7 @@ class AddSightProvider extends ChangeNotifier {
 
   String? validateCategory(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Выберите категорию';
+      return AppStrings.addSightProviderCategory;
     }
 
     return null;
@@ -161,7 +172,7 @@ class AddSightProvider extends ChangeNotifier {
 
   String? validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Введите название';
+      return AppStrings.addSightProviderName;
     }
 
     return null;
@@ -169,7 +180,7 @@ class AddSightProvider extends ChangeNotifier {
 
   String? validateDescription(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Введите описание';
+      return AppStrings.addSightProviderDescription;
     }
 
     return null;
@@ -177,20 +188,24 @@ class AddSightProvider extends ChangeNotifier {
 
   String? validateLat(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Введите широту';
+      return AppStrings.addSightProviderLat;
     }
 
-    if (double.tryParse(value) == null) return 'Введите корректное значение';
+    if (double.tryParse(value) == null) {
+      return AppStrings.addSightProviderCorrect;
+    }
 
     return null;
   }
 
   String? validateLon(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Введите долготу';
+      return AppStrings.addSightProviderLon;
     }
 
-    if (double.tryParse(value) == null) return 'Введите корректное значение';
+    if (double.tryParse(value) == null) {
+      return AppStrings.addSightProviderCorrect;
+    }
 
     return null;
   }

@@ -7,6 +7,14 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/utils/utils.dart';
 
 class FilterProvider extends ChangeNotifier {
+  /// [_filteredPlaces] - результирующий массив списка мест, отсортированных
+  /// с учетом фильтра [_filter]
+  /// [isEmptySearch] - проверка _filteredPlaces.isEmpty - для отображения
+  /// активности кнопки
+  /// [updateRange] - вызывается при изменении слайдера, изменяет значения
+  /// distance в фильтре
+  /// [filterContains] - содержит ли фильтр категорию
+  /// [updateFilteredPlaces] - изменяет _filteredPlaces с учетом фильтра
   Filter get filter => _filter;
 
   int get filteredPlacesLenght => _filteredPlaces.length;
@@ -38,7 +46,7 @@ class FilterProvider extends ChangeNotifier {
 
   void clearFilter() {
     _filter = Filter();
-    _filteredPlaces = mocks;
+    _filteredPlaces = [];
     notifyListeners();
   }
 

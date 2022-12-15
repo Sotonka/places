@@ -1,5 +1,12 @@
 class AppStrings {
+  static const String cafe = 'кафе';
+  static const String park = 'парк';
+  static const String particular = 'особое место';
+  static const String restaurant = 'ресторан';
+  static const String museum = 'музей';
+  static const String hotel = 'отель';
   static const String sightListScreenTitle = 'Список\nинтересных мест';
+  static const String sightListScreenNew = 'НОВОЕ МЕСТО';
   static const String sightDetailsScreenRoute = 'ПОСТРОИТЬ МАРШРУТ';
   static const String sightDetailsScreenSchedule = 'Запланировать';
   static const String sightDetailsScreenFavorite = 'В Избранное';
@@ -10,6 +17,32 @@ class AppStrings {
   static const String settingsScreenSettings = 'Настройки';
   static const String settingsScreenDark = 'Тёмная тема';
   static const String settingsScreenTutorial = 'Смотреть туториал';
+  static const String addSightProviderCategory = 'Выберите категорию';
+  static const String addSightProviderName = 'Введите название';
+  static const String addSightProviderDescription = 'Введите описание';
+  static const String addSightProviderLat = 'Введите широту';
+  static const String addSightProviderLon = 'Введите долготу';
+  static const String addSightProviderCorrect = 'Введите корректное значение';
+  static const String addSightScreenCategory = 'КАТЕГОРИЯ';
+  static const String addSightScreenName = 'НАЗВАНИЕ';
+  static const String addSightScreenDescription = 'ОПИСАНИЕ';
+  static const String addSightScreenLat = 'ШИРОТА';
+  static const String addSightScreenLon = 'ДОЛГОТА';
+  static const String addSightScreenCreate = 'СОЗДАТЬ';
+  static const String addSightScreenNew = 'Новое место';
+  static const String addSightScreenCancel = 'Отмена';
+  static const String addSightScreenNotSelected = 'Не выбрано';
+  static const String addSightScreenSelect = 'Выберите категорию';
+  static const String addSightScreenMark = 'Указать на карте';
+  static const String addSightScreenEnter = 'введите текст';
+  static const String addSightScreenCatTitle = 'Категория';
+  static const String addSightScreenSave = 'СОХРАНИТЬ';
+  static const String visitingScreenFav = 'Избранное';
+  static const String visitingScreenWant = 'Хочу посетить';
+  static const String visitingScreenDone = 'Посетил';
+  static const String searchScreenName = 'НАЗВАНИЕ';
+  static const String searchScreenClear = 'Очистить историю';
+  static const String searchScreenList = 'Список интересных мест';
 
   AppStrings._();
 }

@@ -62,7 +62,7 @@ class _SightSearchScreenState extends State<_SightSearchScreen> {
             Navigator.of(context).pop();
           },
           child: Text(
-            'Список интересных мест',
+            AppStrings.searchScreenList,
             textAlign: TextAlign.center,
             style: theme.primaryTextTheme.headline3,
           ),
@@ -171,7 +171,7 @@ class _BuildBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GradientButton(
-                            text: 'НОВОЕ МЕСТО',
+                            text: AppStrings.sightListScreenNew,
                             onPressed: () async {
                               context
                                   .read<SearchProvider>()
@@ -251,7 +251,7 @@ class _BuildSearchHistory extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'НАЗВАНИЕ',
+                AppStrings.searchScreenName,
                 style: theme.primaryTextTheme.bodyText2,
               ),
             ),
@@ -302,7 +302,7 @@ class _BuildSearchHistory extends StatelessWidget {
               child: InkWell(
                 onTap: provider.clearHistory,
                 child: Text(
-                  'Очистить историю',
+                  AppStrings.searchScreenClear,
                   style: theme.primaryTextTheme.headline6!.copyWith(
                     color: themeColors.greenAccent,
                   ),

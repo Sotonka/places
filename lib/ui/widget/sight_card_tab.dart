@@ -6,6 +6,10 @@ import 'package:places/utils/utils.dart';
 import 'package:text_chunk_styling/text_chunk_styling.dart';
 
 class SightCardTab extends StatelessWidget {
+  /// [sight] - модель места
+  /// [search] - список строк, вхождения которых в название места в тайтле
+  /// карточки нужно выделять; аргумент для выделения совпадения по названию
+  /// при поиске места
   final Sight sight;
   final List<String> search;
 
