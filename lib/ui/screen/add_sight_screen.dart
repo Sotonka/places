@@ -395,13 +395,13 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    const placeTypes = {
-      SightType.cafe: 'Кафе',
-      SightType.restaurant: 'Ресторан',
-      SightType.park: 'Парк',
-      SightType.museum: 'Музей',
-      SightType.hotel: 'Отель',
-      SightType.particular: 'Особое место',
+    final placeTypes = {
+      SightType.cafe: AppStrings.cafe.capitalize(),
+      SightType.restaurant: AppStrings.restaurant.capitalize(),
+      SightType.park: AppStrings.park.capitalize(),
+      SightType.museum: AppStrings.museum.capitalize(),
+      SightType.hotel: AppStrings.hotel.capitalize(),
+      SightType.particular: AppStrings.particular.capitalize(),
     };
 
     if (_init) {

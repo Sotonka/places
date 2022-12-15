@@ -14,6 +14,9 @@ class AppStrings {
   static const String filtersScreenCategories = 'КАТЕГОРИИ';
   static const String filtersScreenDistance = 'Расстояние';
   static const String filtersScreenShow = 'ПОКАЗАТЬ';
+  static const String filtersScreenFrom = 'от';
+  static const String filtersScreenTo = 'до';
+  static const String filtersScreenKm = 'км';
   static const String settingsScreenSettings = 'Настройки';
   static const String settingsScreenDark = 'Тёмная тема';
   static const String settingsScreenTutorial = 'Смотреть туториал';
@@ -43,6 +46,7 @@ class AppStrings {
   static const String searchScreenName = 'НАЗВАНИЕ';
   static const String searchScreenClear = 'Очистить историю';
   static const String searchScreenList = 'Список интересных мест';
+  static const String searchBarSearch = 'Поиск';
 
   AppStrings._();
 }

@@ -7,6 +7,7 @@ import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/filter_tile.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:places/utils/utils.dart';
 
 class FiltersScreen extends StatelessWidget {
   final Filter? filter;
@@ -141,42 +142,42 @@ class _BuildCategories extends StatelessWidget {
     final categories = <_Category>[
       _Category(
         type: SightType.hotel,
-        name: 'Отель',
+        name: AppStrings.hotel.capitalize(),
         icon: AppIcons.hotel(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.restaurant,
-        name: 'Ресторан',
+        name: AppStrings.restaurant.capitalize(),
         icon: AppIcons.restaurant(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.particular,
-        name: 'Особое место',
+        name: AppStrings.particular.capitalize(),
         icon: AppIcons.particular(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.park,
-        name: 'Парк',
+        name: AppStrings.park.capitalize(),
         icon: AppIcons.park(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.museum,
-        name: 'Музей',
+        name: AppStrings.museum.capitalize(),
         icon: AppIcons.museum(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.cafe,
-        name: 'Кафе',
+        name: AppStrings.cafe.capitalize(),
         icon: AppIcons.cafe(
           color: themeColors.greenAccent,
         ),
@@ -245,7 +246,7 @@ class _BuildSlider extends StatelessWidget {
                   style: theme.primaryTextTheme.headline6,
                 ),
                 Text(
-                  'от ${provider.distanceStart} до ${provider.distanceEnd} км',
+                  '${AppStrings.filtersScreenFrom} ${provider.distanceStart} ${AppStrings.filtersScreenTo} ${provider.distanceEnd} ${AppStrings.filtersScreenKm}',
                   style: theme.primaryTextTheme.headline6!.copyWith(
                     color: AppColors.primaryLightInactive,
                   ),

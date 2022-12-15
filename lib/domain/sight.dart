@@ -1,4 +1,5 @@
 import 'package:places/domain/coordinates.dart';
+import 'package:places/ui/ui_kit/strings.dart';
 
 enum SightType {
   cafe,
@@ -36,10 +37,10 @@ class Sight {
 }
 
 final Map<String, String> _typeTranslations = {
-  'SightType.cafe': 'кафе',
-  'SightType.restaurant': 'ресторан',
-  'SightType.park': 'парк',
-  'SightType.museum': 'музей',
-  'SightType.hotel': 'отель',
-  'SightType.particular': 'особое место',
+  'SightType.cafe': AppStrings.cafe,
+  'SightType.restaurant': AppStrings.restaurant,
+  'SightType.park': AppStrings.park,
+  'SightType.museum': AppStrings.museum,
+  'SightType.hotel': AppStrings.hotel,
+  'SightType.particular': AppStrings.particular,
 };
