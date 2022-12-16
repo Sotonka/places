@@ -1,66 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/providers/visiting_screen_provider.dart';
+import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
-import 'package:places/ui/widget/tab_switch.dart';
+import 'package:provider/provider.dart';
 
-class VisitingScreen extends StatefulWidget {
+class VisitingScreen extends StatelessWidget {
   const VisitingScreen({super.key});
 
   @override
-  State<VisitingScreen> createState() => _VisitingScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => VisitingProvider(),
+      child: const _VisitingScreen(),
+    );
+  }
 }
 
-class _VisitingScreenState extends State<VisitingScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
+class _VisitingScreen extends StatelessWidget {
+  const _VisitingScreen();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SmallAppBar(
-        title: 'Избранное',
-        bottom: TabSwitch(
-          tabs: const ['Хочу посетить', 'Посетил'],
-          tabController: tabController,
-        ),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          Tab(
-            child: CardList(
-              iterable: mocks.where(
-                (element) => element.visitTime != null,
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
+
+    return Consumer<VisitingProvider>(
+      builder: (context, provider, child) {
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: SmallAppBar(
+              title: AppStrings.visitingScreenFav,
+              bottom: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: themeColors.sightCard,
+                    ),
+                  ),
+                  TabBar(
+                    unselectedLabelColor: AppColors.primaryLightE92,
+                    labelColor: themeColors.tabSwitchText,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    splashFactory: NoSplash.splashFactory,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: themeColors.tabSwitch,
+                    ),
+                    tabs: [
+                      Tab(
+                        child: Align(
+                          child: Text(
+                            AppStrings.visitingScreenWant,
+                            style: AppTextStyle.bold14,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Align(
+                          child: Text(
+                            AppStrings.visitingScreenDone,
+                            style: AppTextStyle.bold14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              type: CardType.wishlist,
             ),
-          ),
-          Tab(
-            child: CardList(
-              iterable: mocks.where(
-                (element) => element.visited != null,
-              ),
-              type: CardType.visited,
+            body: TabBarView(
+              children: [
+                Tab(
+                  child: CardList(
+                    iterable: mocks.where(
+                      (element) => element.visitTime != null,
+                    ),
+                    type: CardType.wishlist,
+                  ),
+                ),
+                Tab(
+                  child: CardList(
+                    iterable: mocks.where(
+                      (element) => element.visited != null,
+                    ),
+                    type: CardType.visited,
+                  ),
+                ),
+              ],
             ),
+            bottomNavigationBar: const BottomNavBar(index: 2),
           ),
-        ],
-      ),
-      bottomNavigationBar: const BottomNavBar(index: 2),
+        );
+      },
     );
   }
 }

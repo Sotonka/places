@@ -1,51 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:places/app_router.dart';
-import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
-import 'package:places/ui/ui_kit/colors.dart';
+import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
-import 'package:places/utils/utils.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/filter_tile.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:places/utils/utils.dart';
 
 class FiltersScreen extends StatelessWidget {
-  const FiltersScreen({super.key});
+  final Filter? filter;
+  const FiltersScreen({super.key, this.filter});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => FilterProvider(),
-      child: const _FiltersScreen(),
+      child: _FiltersScreen(
+        filter: filter,
+      ),
     );
   }
 }
 
-class _FiltersScreen extends StatelessWidget {
-  const _FiltersScreen({super.key});
+class _FiltersScreen extends StatefulWidget {
+  final Filter? filter;
+  const _FiltersScreen({this.filter});
+
+  @override
+  State<_FiltersScreen> createState() => _FiltersScreenState();
+}
+
+class _FiltersScreenState extends State<_FiltersScreen> {
+  @override
+  void initState() {
+    context.read<FilterProvider>().filter = widget.filter;
+    context.read<FilterProvider>().updateFilteredPlaces();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final filter = context.watch<FilterProvider>().filter;
-
-    final filteredPlaces = <Sight>[];
-
-    for (final sight in mocks) {
-      if (filter.categories.contains(sight.type) &&
-          Utils().arePointsNear(
-            checkPoint: sight.coord,
-            centerPoint: Coord(lat: 48.483385, lon: 135.07593),
-            kmEnd: filter.distance.end / 1000,
-            kmStart: filter.distance.start / 1000,
-          )) {
-        filteredPlaces.add(sight);
-      }
-    }
-
     return Scaffold(
       appBar: const _BuildAppBar(),
       body: Column(
@@ -64,23 +60,24 @@ class _FiltersScreen extends StatelessWidget {
               left: 16,
               right: 16,
             ),
-            child: ColoredButton(
-              text:
-                  '${UIKit.strings.filtersScreenShow} (${filteredPlaces.length})',
-              onPressed: () {
-                // ignore: avoid_print
-                print(filter.categories);
-                // ignore: avoid_print
-                print((filter.distance.start / 1000).round());
-                // ignore: avoid_print
-                print((filter.distance.end / 1000).round());
-
-                for (final element in filteredPlaces) {
-                  // ignore: avoid_print
-                  print(element.name);
-                }
-              },
-            ),
+            child:
+                Consumer<FilterProvider>(builder: (context, provider, child) {
+              return ColoredButton(
+                isActive: !provider.isEmptySearch,
+                text:
+                    '${AppStrings.filtersScreenShow} (${provider.filteredPlacesLenght})',
+                onPressed: () {
+                  Navigator.pop(
+                    context,
+                    {
+                      'filteredPlaces': provider.filteredPlaces,
+                      'isFilterActive': provider.isFilterActive(),
+                      'filter': provider.filter,
+                    },
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
@@ -92,13 +89,13 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(400);
 
-  const _BuildAppBar({super.key});
+  const _BuildAppBar();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
-    final filter = context.watch<FilterProvider>().filter;
+    final themeColors = theme.extension<AppThemeColors>()!;
+    final provider = context.read<FilterProvider>();
 
     return SmallAppBar(
       titleWidget: Padding(
@@ -108,25 +105,21 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).pushNamed(
-                  AppRouter.sights,
-                );
+                Navigator.of(context).pop();
               },
               child: Container(
                 height: 32,
                 width: 32,
                 color: Colors.transparent,
-                child: UIKit.svg.back(
-                  color: UIKit.colors.primaryBlueE5B,
+                child: AppIcons.back(
+                  color: AppColors.primaryBlueE5B,
                 ),
               ),
             ),
             InkWell(
-              onTap: () => context.read<FilterProvider>().update(
-                    filter.clear(),
-                  ),
+              onTap: provider.clearFilter,
               child: Text(
-                UIKit.strings.filtersScreenClear,
+                AppStrings.filtersScreenClear,
                 style: theme.primaryTextTheme.headline6!.copyWith(
                   color: themeColors.greenAccent,
                 ),
@@ -140,55 +133,52 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _BuildCategories extends StatelessWidget {
-  const _BuildCategories({super.key});
+  const _BuildCategories();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
-    final filter = context.watch<FilterProvider>().filter;
-    final categoryRow1 = <_Category>[
+    final themeColors = theme.extension<AppThemeColors>()!;
+    final categories = <_Category>[
       _Category(
         type: SightType.hotel,
-        name: 'Отель',
-        icon: UIKit.svg.hotel(
+        name: AppStrings.hotel.capitalize(),
+        icon: AppIcons.hotel(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.restaurant,
-        name: 'Ресторан',
-        icon: UIKit.svg.restaurant(
+        name: AppStrings.restaurant.capitalize(),
+        icon: AppIcons.restaurant(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.particular,
-        name: 'Особое место',
-        icon: UIKit.svg.particular(
+        name: AppStrings.particular.capitalize(),
+        icon: AppIcons.particular(
           color: themeColors.greenAccent,
         ),
       ),
-    ];
-    final categoryRow2 = <_Category>[
       _Category(
         type: SightType.park,
-        name: 'Парк',
-        icon: UIKit.svg.park(
+        name: AppStrings.park.capitalize(),
+        icon: AppIcons.park(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.museum,
-        name: 'Музей',
-        icon: UIKit.svg.museum(
+        name: AppStrings.museum.capitalize(),
+        icon: AppIcons.museum(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
         type: SightType.cafe,
-        name: 'Кафе',
-        icon: UIKit.svg.cafe(
+        name: AppStrings.cafe.capitalize(),
+        icon: AppIcons.cafe(
           color: themeColors.greenAccent,
         ),
       ),
@@ -203,119 +193,94 @@ class _BuildCategories extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              UIKit.strings.filtersScreenCategories,
+              AppStrings.filtersScreenCategories,
               style: theme.primaryTextTheme.bodyText2,
             ),
           ),
         ),
         const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (var element in categoryRow1)
-              FilterTile(
-                placeType: element.name,
-                icon: element.icon,
-                isActive: filter.categories.contains(element.type),
-                onPressed: () => context.read<FilterProvider>().update(
-                      filter.toggleCategory(element.type),
-                    ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (var element in categoryRow2)
-              FilterTile(
-                placeType: element.name,
-                icon: element.icon,
-                isActive: filter.categories.contains(element.type),
-                onPressed: () => context.read<FilterProvider>().update(
-                      filter.toggleCategory(element.type),
-                    ),
-              ),
-          ],
-        ),
+        Consumer<FilterProvider>(builder: (context, provider, child) {
+          return Wrap(
+            spacing: (MediaQuery.of(context).size.width - 192) / 4,
+            alignment: WrapAlignment.spaceAround,
+            runSpacing: 40,
+            children: [
+              for (var element in categories)
+                FilterTile(
+                  placeType: element.name,
+                  icon: element.icon,
+                  isActive: provider.filterContains(element.type),
+                  onPressed: () {
+                    provider.filterToggle(element.type);
+                  },
+                ),
+            ],
+          );
+        }),
       ],
     );
   }
 }
 
 class _BuildSlider extends StatelessWidget {
-  const _BuildSlider({super.key});
+  const _BuildSlider();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
-    final filter = context.watch<FilterProvider>().filter;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
-    return Column(
-      children: [
-        const SizedBox(height: 60),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                UIKit.strings.filtersScreenDistance,
-                style: theme.primaryTextTheme.headline6,
-              ),
-              Text(
-                'от ${(filter.distance.start / 1000).round()} до ${(filter.distance.end / 1000).round()} км',
-                style: theme.primaryTextTheme.headline6!.copyWith(
-                  color: UIKit.colors.primaryLightInactive,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SliderTheme(
-          data: UIKit.themes.sliderTheme.copyWith(
-            activeTrackColor: themeColors.greenAccent,
-          ),
-          child: RangeSlider(
-            values: RangeValues(
-              filter.distance.start,
-              filter.distance.end,
+    return Consumer<FilterProvider>(builder: (context, provider, child) {
+      return Column(
+        children: [
+          const SizedBox(height: 60),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
             ),
-            max: 30000,
-            divisions: 30,
-            onChanged: (values) {
-              if (values.start.round() >= values.end.round()) return;
-              context.read<FilterProvider>().update(
-                    filter.copyWith(
-                      distance: Range(values.start, values.end),
-                    ),
-                  );
-            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppStrings.filtersScreenDistance,
+                  style: theme.primaryTextTheme.headline6,
+                ),
+                Text(
+                  '${AppStrings.filtersScreenFrom} ${provider.distanceStart} ${AppStrings.filtersScreenTo} ${provider.distanceEnd} ${AppStrings.filtersScreenKm}',
+                  style: theme.primaryTextTheme.headline6!.copyWith(
+                    color: AppColors.primaryLightInactive,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class FilterProvider with ChangeNotifier {
-  Filter get filter => _filter;
-
-  Filter _filter = Filter();
-
-  void update(Filter newFilter) {
-    _filter = newFilter;
-    notifyListeners();
+          SliderTheme(
+            data: AppTheme.sliderTheme.copyWith(
+              activeTrackColor: themeColors.greenAccent,
+            ),
+            child: RangeSlider(
+              values: RangeValues(
+                provider.filter.distance.start,
+                provider.filter.distance.end,
+              ),
+              max: 30000,
+              divisions: 30,
+              onChanged: (values) {
+                if (values.start.round() >= values.end.round()) return;
+                provider.updateRange(values.start, values.end);
+              },
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
 
 class _Category {
   SightType type;
   String name;
-  SvgPicture icon;
+  Widget icon;
 
   _Category({
     required this.type,

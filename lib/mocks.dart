@@ -3,7 +3,20 @@ import 'package:places/domain/sight.dart';
 
 final List<Sight> mocks = [
   Sight(
-    name: 'Coffee Republic',
+    name: 'Coffee Republic1',
+    coord: Coord(
+      lat: 48.478995,
+      lon: 135.070003,
+    ),
+    url:
+        'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+    details: 'Кофе Репаблик, Хабаровск',
+    type: SightType.cafe,
+    visitTime: '111',
+    visited: '111',
+  ),
+  Sight(
+    name: 'Coffee Republic2',
     coord: Coord(
       lat: 48.478995,
       lon: 135.070003,

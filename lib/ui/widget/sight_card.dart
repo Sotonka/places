@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/screen/sight_details.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 
 enum CardType { list, wishlist, visited }
 
 class SightCard extends StatelessWidget {
+  /// [sight] - модель места,
+  /// [type] - тип карточки (list, wishlist, visited) - влияет на отображение
+  /// интерфейса - возможных действий с карточкой
   final Sight sight;
   final CardType type;
 
@@ -20,7 +21,8 @@ class SightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -51,7 +53,7 @@ class SightCard extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  splashColor: UIKit.colors.splash4C4,
+                  splashColor: AppColors.splash4C4,
                   customBorder: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(16),
@@ -71,27 +73,27 @@ class SightCard extends StatelessWidget {
                 right: 16,
                 top: 16,
                 child: type == CardType.list
-                    ? UIKit.svg.heart(
-                        color: UIKit.colors.primaryLightFFF,
+                    ? AppIcons.heart(
+                        color: AppColors.primaryLightFFF,
                       )
                     : Row(
                         children: type == CardType.wishlist
                             ? [
-                                UIKit.svg.calendar(
-                                  color: UIKit.colors.primaryLightFFF,
+                                AppIcons.calendar(
+                                  color: AppColors.primaryLightFFF,
                                 ),
                                 const SizedBox(width: 16),
-                                UIKit.svg.close(
-                                  color: UIKit.colors.primaryLightFFF,
+                                AppIcons.close(
+                                  color: AppColors.primaryLightFFF,
                                 ),
                               ]
                             : [
-                                UIKit.svg.share(
+                                AppIcons.share(
                                   color: Colors.white,
                                 ),
                                 const SizedBox(width: 16),
-                                UIKit.svg.close(
-                                  color: UIKit.colors.primaryLightFFF,
+                                AppIcons.close(
+                                  color: AppColors.primaryLightFFF,
                                 ),
                               ],
                       ),
@@ -109,7 +111,6 @@ class _TopPart extends StatelessWidget {
   final CardType type;
 
   const _TopPart({
-    super.key,
     required this.sight,
     required this.type,
   });
@@ -127,8 +128,8 @@ class _TopPart extends StatelessWidget {
           top: 16,
           child: Text(
             sight.typeAsText,
-            style: UIKit.fonts.bold14.copyWith(
-              color: UIKit.colors.primaryLightFFF,
+            style: AppTextStyle.bold14.copyWith(
+              color: AppColors.primaryLightFFF,
             ),
           ),
         ),
@@ -140,7 +141,6 @@ class _TopPart extends StatelessWidget {
 class _BottomPart extends StatelessWidget {
   final Sight sight;
   const _BottomPart({
-    super.key,
     required this.sight,
   });
 
@@ -170,8 +170,8 @@ class _BottomPart extends StatelessWidget {
             Flexible(
               child: Text(
                 sight.details,
-                style: UIKit.fonts.normal14.copyWith(
-                  color: UIKit.colors.primaryLightE92,
+                style: AppTextStyle.normal14.copyWith(
+                  color: AppColors.primaryLightE92,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,

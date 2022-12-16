@@ -1,4 +1,6 @@
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:places/domain/coordinates.dart';
 
 class Utils {
@@ -18,6 +20,18 @@ class Utils {
     return sqrt(dx * dx + dy * dy) <= kmEnd &&
         sqrt(dx * dx + dy * dy) >= kmStart;
   }
+
+  void fieldFocusChange(
+    BuildContext context,
+    FocusNode currentFocus,
+    FocusNode nextFocus,
+    String nextField,
+  ) {
+    currentFocus.unfocus();
+    if (nextField.isEmpty) {
+      FocusScope.of(context).requestFocus(nextFocus);
+    }
+  }
 }
 
 class Range<T> {
@@ -27,4 +41,10 @@ class Range<T> {
 
   @override
   String toString() => '[$start .. $end]';
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+  }
 }

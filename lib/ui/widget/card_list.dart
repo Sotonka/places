@@ -3,6 +3,9 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/widget/sight_card.dart';
 
 class CardList extends StatelessWidget {
+  /// принимает список мест [iterable] и [type] - тип карточки
+  /// (list, wishlist, visited) - влияет на отображение интерфейса -
+  /// возможных действий с карточкой
   final Iterable<Sight> iterable;
   final CardType type;
 

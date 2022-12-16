@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 
 class ColoredButton extends StatelessWidget {
   final String text;
-  final void Function() onPressed;
-  final SvgPicture? icon;
+  final VoidCallback onPressed;
+  final Widget? icon;
+  final bool isActive;
 
   const ColoredButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.icon,
+    this.isActive = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    final themeColors = Theme.of(context).extension<ThemeColors>()!;
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return InkWell(
-      onTap: onPressed,
+      onTap: isActive ? onPressed : () {},
       child: Container(
         height: 48,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: themeColors.greenAccent,
+          color: isActive ? themeColors.greenAccent : themeColors.sightCard,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -35,8 +36,10 @@ class ColoredButton extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               text,
-              style: UIKit.fonts.bold14.copyWith(
-                color: UIKit.colors.primaryLightFFF,
+              style: AppTextStyle.bold14.copyWith(
+                color: isActive
+                    ? AppColors.primaryLightFFF
+                    : AppColors.primaryLightInactive,
               ),
             ),
           ],

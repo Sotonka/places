@@ -19,10 +19,10 @@ class LoadableImage extends StatelessWidget {
           return child;
         }
 
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(
-            color: UIKit.colors.primaryBlueE5B,
-            backgroundColor: UIKit.colors.primaryLight5F5,
+            color: AppColors.primaryBlueE5B,
+            backgroundColor: AppColors.primaryLight5F5,
           ),
         );
       },

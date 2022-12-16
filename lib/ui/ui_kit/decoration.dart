@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DecorationCollection {
-  BoxDecoration get containerDecoration => const BoxDecoration();
+class AppDecoration {
+  static const BoxDecoration containerDecoration = BoxDecoration();
+
+  const AppDecoration._();
 }

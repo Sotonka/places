@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/loadable_image.dart';
@@ -14,7 +13,7 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColors = theme.extension<ThemeColors>()!;
+    final themeColors = theme.extension<AppThemeColors>()!;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -40,7 +39,7 @@ class SightDetails extends StatelessWidget {
                 children: [
                   Text(
                     sight.name,
-                    style: UIKit.fonts.bold24,
+                    style: AppTextStyle.bold24,
                   ),
                   const SizedBox(height: 2),
                   Row(
@@ -52,8 +51,8 @@ class SightDetails extends StatelessWidget {
                       const SizedBox(width: 16),
                       Text(
                         'закрыто до 09:00',
-                        style: UIKit.fonts.normal14.copyWith(
-                          color: UIKit.colors.primaryLightE92,
+                        style: AppTextStyle.normal14.copyWith(
+                          color: AppColors.primaryLightE92,
                         ),
                       ),
                     ],
@@ -65,9 +64,11 @@ class SightDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   ColoredButton(
-                    text: UIKit.strings.sightDetailsScreenRoute,
+                    text: AppStrings.sightDetailsScreenRoute,
                     onPressed: () {},
-                    icon: UIKit.svg.route(),
+                    icon: AppIcons.route(
+                      color: AppColors.primaryLightFFF,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   const Divider(
@@ -79,20 +80,20 @@ class SightDetails extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TransparentButton(
-                          text: UIKit.strings.sightDetailsScreenSchedule,
+                          text: AppStrings.sightDetailsScreenSchedule,
                           onPressed: () {},
                           isActive: false,
-                          icon: UIKit.svg.calendar(
-                            color: UIKit.colors.primaryLightInactive,
+                          icon: AppIcons.calendar(
+                            color: AppColors.primaryLightInactive,
                           ),
                         ),
                       ),
                       Expanded(
                         child: TransparentButton(
-                          text: UIKit.strings.sightDetailsScreenFavorite,
+                          text: AppStrings.sightDetailsScreenFavorite,
                           onPressed: () {},
                           isActive: true,
-                          icon: UIKit.svg.heart(
+                          icon: AppIcons.heart(
                             color: themeColors.icons,
                           ),
                         ),

@@ -1,307 +1,356 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-/* class AppAssets {
-  static const back = '${_defaultPath}back.svg';
-  static const cafe = '${_defaultPath}cafe.svg';
-  static const calendar = '${_defaultPath}calendar.svg';
-  static const choice = '${_defaultPath}choice.svg';
-  static const fotward = '${_defaultPath}forward.svg';
-  static const heart = '${_defaultPath}heart.svg';
-  static const heartFull = '${_defaultPath}heart_full.svg';
-  static const hotel = '${_defaultPath}hotel.svg';
-  static const list = '${_defaultPath}list.svg';
-  static const listFull = '${_defaultPath}list_full.svg';
-  static const map = '${_defaultPath}map.svg';
-  static const mapFull = '${_defaultPath}map_full.svg';
-  static const museum = '${_defaultPath}museum.svg';
-  static const park = '${_defaultPath}park.svg';
-  static const particular = '${_defaultPath}particular.svg';
-  static const restaurant = '${_defaultPath}restaurant.svg';
-  static const route = '${_defaultPath}route.svg';
-  static const settings = '${_defaultPath}settings.svg';
-  static const settingsFull = '${_defaultPath}settings_full.svg';
-  static const share = '${_defaultPath}share.svg';
+class AppIcons extends StatelessWidget {
+  static const _add = '${_defaultPath}add.svg';
+  static const _back = '${_defaultPath}back.svg';
+  static const _cafe = '${_defaultPath}cafe.svg';
+  static const _calendar = '${_defaultPath}calendar.svg';
+  static const _choice = '${_defaultPath}choice.svg';
+  static const _close = '${_defaultPath}close.svg';
+  static const _confirm = '${_defaultPath}confirm.svg';
+  static const _filter = '${_defaultPath}filter.svg';
+  static const _forward = '${_defaultPath}forward.svg';
+  static const _heart = '${_defaultPath}heart.svg';
+  static const _heartFull = '${_defaultPath}heart_full.svg';
+  static const _hotel = '${_defaultPath}hotel.svg';
+  static const _list = '${_defaultPath}list.svg';
+  static const _listFull = '${_defaultPath}list_full.svg';
+  static const _map = '${_defaultPath}map.svg';
+  static const _mapFull = '${_defaultPath}map_full.svg';
+  static const _museum = '${_defaultPath}museum.svg';
+  static const _park = '${_defaultPath}park.svg';
+  static const _particular = '${_defaultPath}particular.svg';
+  static const _restaurant = '${_defaultPath}restaurant.svg';
+  static const _route = '${_defaultPath}route.svg';
+  static const _search = '${_defaultPath}search.svg';
+  static const _settings = '${_defaultPath}settings.svg';
+  static const _settingsFull = '${_defaultPath}settings_full.svg';
+  static const _share = '${_defaultPath}share.svg';
 
   static const String _defaultPath = 'res/icons/';
-}
 
-class AppIcons{
-   SvgPicture appIcon({
-    double? width,
-    double? height,
-    Color? color,
-    required String path,
+  final String assetPath;
+  final double? width;
+  final double? height;
+  final BoxFit? fit;
+  final Color? color;
+
+  const AppIcons({
+    required this.assetPath,
+    this.width,
+    this.height,
+    this.fit,
+    this.color,
+    Key? key,
+  }) : super(key: key);
+
+  factory AppIcons.add({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        path,
-        width: width,
+      AppIcons(
+        assetPath: _add,
+        color: color,
         height: height,
-        color: color ?? Colors.white,
+        width: width,
       );
 
-
-} */
-
-class Svg {
-  static const String _defaultPath = 'res/icons/';
-  static const _defaultColor = Colors.white;
-
-  SvgPicture back({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.back({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('back'),
-        width: width,
+      AppIcons(
+        assetPath: _back,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture calendar({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.cafe({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('calendar'),
-        width: width,
+      AppIcons(
+        assetPath: _cafe,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture cafe({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.calendar({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('cafe'),
-        width: width,
+      AppIcons(
+        assetPath: _calendar,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture choice({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.choice({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('choice'),
-        width: width,
+      AppIcons(
+        assetPath: _choice,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture forward({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.close({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('forward'),
-        width: width,
+      AppIcons(
+        assetPath: _close,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture heart({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.confirm({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('heart'),
-        width: width,
+      AppIcons(
+        assetPath: _confirm,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture heartFull({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.filter({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('heart_full'),
-        width: width,
+      AppIcons(
+        assetPath: _filter,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture hotel({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.forward({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('hotel'),
-        width: width,
+      AppIcons(
+        assetPath: _forward,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture list({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.heart({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('list'),
-        width: width,
+      AppIcons(
+        assetPath: _heart,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture listFull({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.heartFull({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('list_full'),
-        width: width,
+      AppIcons(
+        assetPath: _heartFull,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture museum({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.hotel({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('museum'),
-        width: width,
+      AppIcons(
+        assetPath: _hotel,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture park({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.list({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('park'),
-        width: width,
+      AppIcons(
+        assetPath: _list,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture particular({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.listFull({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('particular'),
-        width: width,
+      AppIcons(
+        assetPath: _listFull,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture restaurant({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.map({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('restaurant'),
-        width: width,
+      AppIcons(
+        assetPath: _map,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture settings({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.mapFull({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('settings'),
-        width: width,
+      AppIcons(
+        assetPath: _mapFull,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture settingsFull({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.museum({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('settings_full'),
-        width: width,
+      AppIcons(
+        assetPath: _museum,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture map({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.park({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('map'),
-        width: width,
+      AppIcons(
+        assetPath: _park,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture mapFull({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.particular({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('map_full'),
-        width: width,
+      AppIcons(
+        assetPath: _particular,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture route({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.restaurant({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('route'),
-        width: width,
+      AppIcons(
+        assetPath: _restaurant,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture close({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.route({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('close'),
-        width: width,
+      AppIcons(
+        assetPath: _route,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  SvgPicture share({
-    double? width,
-    double? height,
-    Color? color,
+  factory AppIcons.search({
+    final Color? color,
+    final double? height,
+    final double? width,
   }) =>
-      SvgPicture.asset(
-        _name('share'),
-        width: width,
+      AppIcons(
+        assetPath: _search,
+        color: color,
         height: height,
-        color: color ?? _defaultColor,
+        width: width,
       );
 
-  String _name(String name) {
-    return name.endsWith('.svg')
-        ? _defaultPath + name
-        : '$_defaultPath$name.svg';
-  }
+  factory AppIcons.settings({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _settings,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.settingsFull({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _settingsFull,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.share({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _share,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  @override
+  Widget build(BuildContext context) => SvgPicture.asset(
+        assetPath,
+        width: width,
+        height: height,
+        color: color,
+        key: key,
+      );
 }
