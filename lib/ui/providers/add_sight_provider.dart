@@ -3,6 +3,7 @@ import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/ui_kit/strings.dart';
+import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class AddSightProvider extends ChangeNotifier {
@@ -215,6 +216,7 @@ class AddSightProvider extends ChangeNotifier {
         !_sightTypeError &&
         _selectedCategory!.keys.toList()[0] != null) {
       sight = Sight(
+        id: generateId(),
         name: _nameController.text,
         coord: Coord(
           lat: double.tryParse(_latController.text)!,
