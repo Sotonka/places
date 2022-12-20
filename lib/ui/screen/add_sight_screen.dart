@@ -4,6 +4,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/add_sight_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
+import 'package:places/ui/widget/loadable_image.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,15 @@ class AddSightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AddSightProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AddSightProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AddPhotoProvider(),
+        ),
+      ],
       child: const _AddSightScreen(),
     );
   }
@@ -35,6 +43,7 @@ class _AddSightScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const _PhotoCards(),
             const _BuildForm(),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -71,7 +80,10 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return SmallAppBar(
       titleWidget: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 24),
+        padding: const EdgeInsets.only(
+          top: 8,
+          bottom: 24,
+        ),
         child: Stack(
           children: [
             Center(
@@ -488,6 +500,119 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+///
+///
+///
+/// КАРТОЧКИ ФОТО
+///
+///
+///
+
+class _PhotoCards extends StatelessWidget {
+  const _PhotoCards();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AddPhotoProvider>(builder: (context, provider, child) {
+      return SizedBox(
+        width: double.infinity,
+        height: 72,
+        child: ListView.builder(
+          itemCount: provider.photoList.length + 1,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const _AddItem();
+            }
+
+            return Stack(
+              children: [
+                provider.photoList[index - 1],
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: InkWell(
+                    onTap: () {
+                      provider.removePhoto(index - 1);
+                    },
+                    child: ConstrainedBox(
+                      constraints:
+                          const BoxConstraints.tightFor(width: 20, height: 20),
+                      child: const Icon(
+                        Icons.cancel,
+                        color: AppColors.primaryLightFFF,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      );
+    });
+  }
+}
+
+class _AddItem extends StatelessWidget {
+  const _AddItem();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
+
+    return InkWell(
+      onTap: () {
+        context.read<AddPhotoProvider>().addPhoto();
+      },
+      child: Container(
+        child: Center(
+          child: AppIcons.add(
+            height: 24,
+            color: themeColors.greenAccent,
+          ),
+        ),
+        height: 72,
+        width: 72,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: themeColors.greenAccent!.withOpacity(0.4),
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
+  }
+}
+
+class PhotoItem extends StatelessWidget {
+  const PhotoItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(
+        left: 16,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+        child: SizedBox(
+          height: 72,
+          width: 72,
+          child: LoadableImage(
+            url:
+                'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
+          ),
         ),
       ),
     );

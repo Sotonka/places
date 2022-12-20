@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
-import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';

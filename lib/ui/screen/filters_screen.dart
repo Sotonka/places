@@ -6,8 +6,8 @@ import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/filter_tile.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:places/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatelessWidget {
   final Filter? filter;
