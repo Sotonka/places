@@ -3,6 +3,7 @@ import 'package:places/domain/sight.dart';
 
 final List<Sight> mocks = [
   Sight(
+    id: '0',
     name: 'Coffee Republic1',
     coord: Coord(
       lat: 48.478995,
@@ -16,6 +17,7 @@ final List<Sight> mocks = [
     visited: '111',
   ),
   Sight(
+    id: '1',
     name: 'Coffee Republic2',
     coord: Coord(
       lat: 48.478995,
@@ -29,6 +31,7 @@ final List<Sight> mocks = [
     visited: '111',
   ),
   Sight(
+    id: '2',
     name: 'Plantacia Coffee',
     coord: Coord(
       lat: 48.476516,
@@ -42,6 +45,7 @@ final List<Sight> mocks = [
     visited: '111',
   ),
   Sight(
+    id: '3',
     name: 'Парк Динамо',
     coord: Coord(
       lat: 48.483385,
@@ -55,6 +59,7 @@ final List<Sight> mocks = [
     visited: '111',
   ),
   Sight(
+    id: '4',
     name: 'Парк Северный',
     coord: Coord(
       lat: 48.531776,

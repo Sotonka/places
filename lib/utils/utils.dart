@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:places/domain/coordinates.dart';
+import 'package:places/mocks.dart';
 
 class Utils {
   Utils();
@@ -47,4 +48,8 @@ extension StringExtension on String {
   String capitalize() {
     return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
   }
+}
+
+String generateId() {
+  return (mocks.map((e) => int.parse(e.id)).reduce(max) + 1).toString();
 }

@@ -12,11 +12,19 @@ class SightCard extends StatelessWidget {
   /// интерфейса - возможных действий с карточкой
   final Sight sight;
   final CardType type;
+  final VoidCallback? onClosePressed;
+  final VoidCallback? onFavPressed;
+  final VoidCallback? onCalendarPressed;
+  final VoidCallback? onSharePressed;
 
   const SightCard({
     super.key,
     required this.sight,
     required this.type,
+    this.onClosePressed,
+    this.onFavPressed,
+    this.onCalendarPressed,
+    this.onSharePressed,
   });
 
   @override
@@ -73,27 +81,42 @@ class SightCard extends StatelessWidget {
                 right: 16,
                 top: 16,
                 child: type == CardType.list
-                    ? AppIcons.heart(
-                        color: AppColors.primaryLightFFF,
+                    ? InkWell(
+                        onTap: onFavPressed,
+                        child: AppIcons.heart(
+                          color: AppColors.primaryLightFFF,
+                        ),
                       )
                     : Row(
                         children: type == CardType.wishlist
                             ? [
-                                AppIcons.calendar(
-                                  color: AppColors.primaryLightFFF,
+                                InkWell(
+                                  onTap: onCalendarPressed,
+                                  child: AppIcons.calendar(
+                                    color: AppColors.primaryLightFFF,
+                                  ),
                                 ),
                                 const SizedBox(width: 16),
-                                AppIcons.close(
-                                  color: AppColors.primaryLightFFF,
+                                InkWell(
+                                  onTap: onClosePressed,
+                                  child: AppIcons.close(
+                                    color: AppColors.primaryLightFFF,
+                                  ),
                                 ),
                               ]
                             : [
-                                AppIcons.share(
-                                  color: Colors.white,
+                                InkWell(
+                                  onTap: onSharePressed,
+                                  child: AppIcons.share(
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 const SizedBox(width: 16),
-                                AppIcons.close(
-                                  color: AppColors.primaryLightFFF,
+                                InkWell(
+                                  onTap: onClosePressed,
+                                  child: AppIcons.close(
+                                    color: AppColors.primaryLightFFF,
+                                  ),
                                 ),
                               ],
                       ),

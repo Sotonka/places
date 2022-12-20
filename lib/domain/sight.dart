@@ -11,6 +11,7 @@ enum SightType {
 }
 
 class Sight {
+  final String id;
   final String name;
   final Coord coord;
   final String url;
@@ -25,6 +26,7 @@ class Sight {
       type.toString().replaceAll(RegExp(r'.*\.'), '');
 
   Sight({
+    required this.id,
     required this.name,
     required this.coord,
     required this.url,

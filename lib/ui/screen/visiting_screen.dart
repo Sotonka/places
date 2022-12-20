@@ -80,19 +80,37 @@ class _VisitingScreen extends StatelessWidget {
             body: TabBarView(
               children: [
                 Tab(
-                  child: CardList(
-                    iterable: mocks.where(
-                      (element) => element.visitTime != null,
+                  child: ListView.separated(
+                    itemCount: provider.wishlistList.length,
+                    itemBuilder: (context, index) => SightCard(
+                      sight: provider.wishlistList.elementAt(index),
+                      type: CardType.wishlist,
+                      onClosePressed: () {
+                        provider.removeFromWishlist(
+                          provider.wishlistList.elementAt(index),
+                        );
+                      },
                     ),
-                    type: CardType.wishlist,
+                    separatorBuilder: (_, __) => const SizedBox(
+                      height: 16,
+                    ),
                   ),
                 ),
                 Tab(
-                  child: CardList(
-                    iterable: mocks.where(
-                      (element) => element.visited != null,
+                  child: ListView.separated(
+                    itemCount: provider.visitedList.length,
+                    itemBuilder: (context, index) => SightCard(
+                      sight: provider.visitedList.elementAt(index),
+                      type: CardType.visited,
+                      onClosePressed: () {
+                        provider.removeFromVisited(
+                          provider.visitedList.elementAt(index),
+                        );
+                      },
                     ),
-                    type: CardType.visited,
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 16,
+                    ),
                   ),
                 ),
               ],
