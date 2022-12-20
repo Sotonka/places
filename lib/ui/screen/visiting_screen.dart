@@ -91,7 +91,7 @@ class _VisitingScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    separatorBuilder: (context, index) => const SizedBox(
+                    separatorBuilder: (_, __) => const SizedBox(
                       height: 16,
                     ),
                   ),

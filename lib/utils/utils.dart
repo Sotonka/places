@@ -51,14 +51,5 @@ extension StringExtension on String {
 }
 
 String generateId() {
-  var maxId = 0;
-  for (final element in mocks) {
-    if (int.parse(element.id) > maxId) {
-      maxId = int.parse(element.id);
-    }
-  }
-
-  maxId++;
-
-  return maxId.toString();
+  return (mocks.map((e) => int.parse(e.id)).reduce(max) + 1).toString();
 }
