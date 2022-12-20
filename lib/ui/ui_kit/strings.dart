@@ -43,6 +43,7 @@ class AppStrings {
   static const String visitingScreenFav = 'Избранное';
   static const String visitingScreenWant = 'Хочу посетить';
   static const String visitingScreenDone = 'Посетил';
+  static const String visitingScreenDelete = 'Удалить';
   static const String searchScreenName = 'НАЗВАНИЕ';
   static const String searchScreenClear = 'Очистить историю';
   static const String searchScreenList = 'Список интересных мест';

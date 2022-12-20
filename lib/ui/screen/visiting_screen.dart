@@ -80,14 +80,9 @@ class _VisitingScreen extends StatelessWidget {
                 Tab(
                   child: ListView.separated(
                     itemCount: provider.wishlistList.length,
-                    itemBuilder: (context, index) => SightCard(
-                      sight: provider.wishlistList.elementAt(index),
-                      type: CardType.wishlist,
-                      onClosePressed: () {
-                        provider.removeFromWishlist(
-                          provider.wishlistList.elementAt(index),
-                        );
-                      },
+                    itemBuilder: (context, index) => _DismissibleItem(
+                      index: index,
+                      isVisited: false,
                     ),
                     separatorBuilder: (_, __) => const SizedBox(
                       height: 16,
@@ -97,14 +92,9 @@ class _VisitingScreen extends StatelessWidget {
                 Tab(
                   child: ListView.separated(
                     itemCount: provider.visitedList.length,
-                    itemBuilder: (context, index) => SightCard(
-                      sight: provider.visitedList.elementAt(index),
-                      type: CardType.visited,
-                      onClosePressed: () {
-                        provider.removeFromVisited(
-                          provider.visitedList.elementAt(index),
-                        );
-                      },
+                    itemBuilder: (context, index) => _DismissibleItem(
+                      index: index,
+                      isVisited: true,
                     ),
                     separatorBuilder: (context, index) => const SizedBox(
                       height: 16,
@@ -117,6 +107,87 @@ class _VisitingScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _DismissibleItem extends StatelessWidget {
+  final int index;
+  final bool isVisited;
+  const _DismissibleItem({
+    required this.index,
+    required this.isVisited,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
+    final provider = context.read<VisitingProvider>();
+
+    return Stack(
+      children: [
+        Container(
+          height: (MediaQuery.of(context).size.width - 32) / 3 * 2,
+          decoration: BoxDecoration(
+            color: themeColors.error,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(16),
+            ),
+          ),
+          alignment: Alignment.centerRight,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppIcons.bucket(
+                  color: AppColors.primaryLightFFF,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  AppStrings.visitingScreenDelete,
+                  style: theme.primaryTextTheme.bodyText2!.copyWith(
+                    color: AppColors.primaryLightFFF,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Dismissible(
+          direction: DismissDirection.endToStart,
+          dismissThresholds: const {
+            DismissDirection.endToStart: 0.2,
+          },
+          key: UniqueKey(),
+          onDismissed: (_) {
+            isVisited
+                ? provider.removeFromVisited(
+                    provider.visitedList.elementAt(index),
+                  )
+                : provider.removeFromWishlist(
+                    provider.wishlistList.elementAt(index),
+                  );
+          },
+          child: SightCard(
+            sight: isVisited
+                ? provider.visitedList.elementAt(index)
+                : provider.wishlistList.elementAt(index),
+            type: isVisited ? CardType.visited : CardType.wishlist,
+            onClosePressed: () {
+              isVisited
+                  ? provider.removeFromVisited(
+                      provider.visitedList.elementAt(index),
+                    )
+                  : provider.removeFromWishlist(
+                      provider.wishlistList.elementAt(index),
+                    );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

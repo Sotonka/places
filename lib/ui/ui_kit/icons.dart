@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class AppIcons extends StatelessWidget {
   static const _add = '${_defaultPath}add.svg';
   static const _back = '${_defaultPath}back.svg';
+  static const _bucket = '${_defaultPath}bucket.svg';
   static const _cafe = '${_defaultPath}cafe.svg';
   static const _calendar = '${_defaultPath}calendar.svg';
   static const _choice = '${_defaultPath}choice.svg';
@@ -64,6 +65,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _back,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.bucket({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _bucket,
         color: color,
         height: height,
         width: width,
