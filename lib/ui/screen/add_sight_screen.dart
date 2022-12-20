@@ -506,19 +506,14 @@ class _CategoriesScreenState extends State<_CategoriesScreen> {
   }
 }
 
-///
-///
-///
-/// КАРТОЧКИ ФОТО
-///
-///
-///
-
 class _PhotoCards extends StatelessWidget {
   const _PhotoCards();
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
+
     return Consumer<AddPhotoProvider>(builder: (context, provider, child) {
       return SizedBox(
         width: double.infinity,
@@ -531,27 +526,56 @@ class _PhotoCards extends StatelessWidget {
               return const _AddItem();
             }
 
-            return Stack(
-              children: [
-                provider.photoList[index - 1],
-                Positioned(
-                  top: 6,
-                  right: 6,
-                  child: InkWell(
-                    onTap: () {
-                      provider.removePhoto(index - 1);
-                    },
-                    child: ConstrainedBox(
-                      constraints:
-                          const BoxConstraints.tightFor(width: 20, height: 20),
-                      child: const Icon(
-                        Icons.cancel,
-                        color: AppColors.primaryLightFFF,
+            return Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Dismissible(
+                background: Container(
+                  height: 72,
+                  width: 72,
+                  color: Colors.transparent,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: AppIcons.forward(
+                          color: themeColors.icons,
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 14),
+                    ],
                   ),
                 ),
-              ],
+                direction: DismissDirection.up,
+                key: UniqueKey(),
+                onDismissed: (direction) {
+                  provider.removePhoto(index - 1);
+                },
+                child: Stack(
+                  children: [
+                    provider.photoList[index - 1],
+                    Positioned(
+                      top: 6,
+                      right: 6,
+                      child: InkWell(
+                        onTap: () {
+                          provider.removePhoto(index - 1);
+                        },
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints.tightFor(
+                            width: 20,
+                            height: 20,
+                          ),
+                          child: const Icon(
+                            Icons.cancel,
+                            color: AppColors.primaryLightFFF,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         ),
@@ -598,21 +622,16 @@ class PhotoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(
-        left: 16,
+    return const ClipRRect(
+      borderRadius: BorderRadius.all(
+        Radius.circular(12),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(
-          Radius.circular(12),
-        ),
-        child: SizedBox(
-          height: 72,
-          width: 72,
-          child: LoadableImage(
-            url:
-                'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
-          ),
+      child: SizedBox(
+        height: 72,
+        width: 72,
+        child: LoadableImage(
+          url:
+              'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
         ),
       ),
     );
