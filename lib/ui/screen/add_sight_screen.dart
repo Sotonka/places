@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/providers/add_photo_provider.dart';
 import 'package:places/ui/providers/add_sight_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
@@ -11,25 +12,6 @@ import 'package:provider/provider.dart';
 
 class AddSightScreen extends StatelessWidget {
   const AddSightScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => AddSightProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => AddPhotoProvider(),
-        ),
-      ],
-      child: const _AddSightScreen(),
-    );
-  }
-}
-
-class _AddSightScreen extends StatelessWidget {
-  const _AddSightScreen();
 
   @override
   Widget build(BuildContext context) {

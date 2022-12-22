@@ -19,22 +19,6 @@ class SightListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => SightListProvider(),
-        ),
-      ],
-      child: const _SighListScreen(),
-    );
-  }
-}
-
-class _SighListScreen extends StatelessWidget {
-  const _SighListScreen();
-
-  @override
-  Widget build(BuildContext context) {
     return Consumer<SightListProvider>(builder: (context, provider, child) {
       return Scaffold(
         appBar: const CustomAppBar(title: AppStrings.sightListScreenTitle),

@@ -251,22 +251,3 @@ class AddSightProvider extends ChangeNotifier {
     return false;
   }
 }
-
-/// TODO
-/// провайдер добавления фото, пока оставлю его здесь
-
-class AddPhotoProvider extends ChangeNotifier {
-  final List<PhotoItem> _photoList = [];
-
-  List<PhotoItem> get photoList => _photoList;
-
-  void addPhoto() {
-    _photoList.add(const PhotoItem());
-    notifyListeners();
-  }
-
-  void removePhoto(int index) {
-    _photoList.removeAt(index);
-    notifyListeners();
-  }
-}

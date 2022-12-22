@@ -11,18 +11,6 @@ class VisitingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => VisitingProvider(),
-      child: const _VisitingScreen(),
-    );
-  }
-}
-
-class _VisitingScreen extends StatelessWidget {
-  const _VisitingScreen();
-
-  @override
-  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
 

@@ -16,33 +16,16 @@ import 'package:places/ui/widget/sight_card_tab.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
 
-class SightSearchScreen extends StatelessWidget {
+class SightSearchScreen extends StatefulWidget {
   final Filter? filter;
+
   const SightSearchScreen({super.key, this.filter});
 
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => SearchProvider(),
-        ),
-      ],
-      child: _SightSearchScreen(filter: filter),
-    );
-  }
+  State<SightSearchScreen> createState() => _SightSearchScreenState();
 }
 
-class _SightSearchScreen extends StatefulWidget {
-  final Filter? filter;
-
-  const _SightSearchScreen({this.filter});
-
-  @override
-  State<_SightSearchScreen> createState() => _SightSearchScreenState();
-}
-
-class _SightSearchScreenState extends State<_SightSearchScreen> {
+class _SightSearchScreenState extends State<SightSearchScreen> {
   @override
   void initState() {
     context.read<SearchProvider>().filter = widget.filter;

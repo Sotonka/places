@@ -9,30 +9,15 @@ import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class FiltersScreen extends StatelessWidget {
+class FiltersScreen extends StatefulWidget {
   final Filter? filter;
   const FiltersScreen({super.key, this.filter});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => FilterProvider(),
-      child: _FiltersScreen(
-        filter: filter,
-      ),
-    );
-  }
+  State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
-class _FiltersScreen extends StatefulWidget {
-  final Filter? filter;
-  const _FiltersScreen({this.filter});
-
-  @override
-  State<_FiltersScreen> createState() => _FiltersScreenState();
-}
-
-class _FiltersScreenState extends State<_FiltersScreen> {
+class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
     context.read<FilterProvider>().filter = widget.filter;
