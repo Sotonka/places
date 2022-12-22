@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/strings.dart';
 import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
