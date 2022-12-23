@@ -65,8 +65,30 @@ class VisitingScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
+                // TODO
+                ///
+                ///
+                ///
+                /// не работает draggable
+                ///
+                ///
                 Tab(
-                  child: ListView.separated(
+                  child: ReorderableListView.builder(
+                    itemBuilder: (context, index) => Padding(
+                      key: ValueKey('$index'),
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: _DismissibleItem(
+                        index: index,
+                        isVisited: false,
+                      ),
+                    ),
+                    itemCount: provider.wishlistList.length,
+                    onReorder: (oldIndex, newIndex) {
+                      provider.reorder(oldIndex, newIndex);
+                    },
+                  ),
+
+                  /* ListView.separated(
                     itemCount: provider.wishlistList.length,
                     itemBuilder: (context, index) => _DismissibleItem(
                       index: index,
@@ -75,7 +97,7 @@ class VisitingScreen extends StatelessWidget {
                     separatorBuilder: (_, __) => const SizedBox(
                       height: 16,
                     ),
-                  ),
+                  ), */
                 ),
                 Tab(
                   child: ListView.separated(

@@ -16,31 +16,84 @@ class TestScreen extends StatelessWidget {
   }
 }
 
-class _TestScreen extends StatelessWidget {
+class _TestScreen extends StatefulWidget {
   const _TestScreen();
 
   @override
+  State<_TestScreen> createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<_TestScreen> {
+  @override
   Widget build(BuildContext context) {
+    final list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     return Scaffold(
       bottomNavigationBar: const BottomNavBar(index: 4),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            width: 200,
-            height: 200,
-            color: context.watch<ColorsSwapper>().color,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              _Purple(),
-              _Yellow(),
-            ],
-          ),
-          const _Randomizer(),
-        ],
+      body: ReorderableListView.builder(
+        itemBuilder: (context, index) {
+          return Container(
+            key: ValueKey(list[index]),
+            child: Dismissible(
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
+                setState(() {
+                  list.removeAt(index);
+                });
+              },
+              key: UniqueKey(),
+              child: Container(
+                color: Colors.white,
+                height: 50,
+                child: Center(
+                  child: Container(
+                    height: 30,
+                    width: double.infinity,
+                    color: Colors.pink.withOpacity(0.5),
+                    child: Text(list[index].toString()),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        itemCount: list.length,
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final item = list.removeAt(oldIndex);
+            list.insert(newIndex, item);
+          });
+        },
       ),
+    );
+  }
+}
+
+class WidgenOne extends StatelessWidget {
+  const WidgenOne({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          width: 200,
+          height: 200,
+          color: context.watch<ColorsSwapper>().color,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: const [
+            _Purple(),
+            _Yellow(),
+          ],
+        ),
+        const _Randomizer(),
+      ],
     );
   }
 }

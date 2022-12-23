@@ -31,4 +31,14 @@ class VisitingProvider extends ChangeNotifier {
     _visitedList.removeWhere((element) => element.id == sight.id);
     notifyListeners();
   }
+
+  void reorder(int oldIndex, int newIndex) {
+    var index = newIndex;
+    if (oldIndex < newIndex) {
+      index -= 1;
+    }
+    final item = _wishlistList.removeAt(oldIndex);
+    _wishlistList.insert(index, item);
+    notifyListeners();
+  }
 }
