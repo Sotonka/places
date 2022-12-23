@@ -39,12 +39,6 @@ class Filter {
     );
   }
 
-  Filter clear() {
-    return Filter(
-      categories: {},
-    );
-  }
-
   bool isEmpty() {
     if (categories.isEmpty &&
         distance.start == AppConstants.minDistance &&

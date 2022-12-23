@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
+import 'package:places/ui/providers/search_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
-import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
@@ -35,13 +35,16 @@ class SightListScreen extends StatelessWidget {
                     builder: (context, filterProvider, child) {
                       return SearchBar(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => SightSearchScreen(
-                                filter: filterProvider.filter,
-                              ),
-                            ),
+                          context.read<SearchProvider>().refreshSightList(
+                                filteredList: context
+                                    .read<FilterProvider>()
+                                    .filteredPlaces,
+                                isActive: context
+                                    .read<FilterProvider>()
+                                    .isFilterActive(),
+                              );
+                          Navigator.of(context).pushNamed(
+                            AppRouter.search,
                           );
                         },
                         filters: filterProvider.isFilterActive(),

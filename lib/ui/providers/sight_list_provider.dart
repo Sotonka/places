@@ -35,4 +35,9 @@ class SightListProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clearFilteredPlaces() {
+    _filteredPlaces = null;
+    notifyListeners();
+  }
 }

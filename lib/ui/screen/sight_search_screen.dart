@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
+import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
-import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
@@ -16,23 +16,8 @@ import 'package:places/ui/widget/sight_card_tab.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
 
-class SightSearchScreen extends StatefulWidget {
-  final Filter? filter;
-
-  const SightSearchScreen({super.key, this.filter});
-
-  @override
-  State<SightSearchScreen> createState() => _SightSearchScreenState();
-}
-
-class _SightSearchScreenState extends State<SightSearchScreen> {
-  @override
-  void initState() {
-    context.read<SearchProvider>().filter = widget.filter;
-    context.read<SearchProvider>().updateList();
-
-    super.initState();
-  }
+class SightSearchScreen extends StatelessWidget {
+  const SightSearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +27,8 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
       appBar: SmallAppBar(
         titleWidget: InkWell(
           onTap: () {
+            context.read<SightListProvider>().clearFilteredPlaces();
+            context.read<FilterProvider>().clearFilter();
             Navigator.of(context).pop();
           },
           child: Text(
@@ -61,43 +48,46 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                   left: 16,
                   right: 16,
                 ),
-                child: SearchBar(
-                  onSubmit: (value) {
-                    provider.unfocus();
+                child: Consumer<FilterProvider>(
+                  builder: (context, filterProvider, child) {
+                    return SearchBar(
+                      onSubmit: (value) {
+                        provider.unfocus();
+                      },
+                      onChange: (value) {
+                        provider.findSights(value);
+                      },
+                      onComplete: () {
+                        provider
+                          ..submittedSearch = provider.searchController.text
+                          ..unfocus();
+                      },
+                      controller: provider.searchController,
+                      readOnly: false,
+                      filters: filterProvider.isFilterActive(),
+                      focus: provider.searchFocus,
+                      suffixClose: provider.searching,
+                      onPressed: () {
+                        provider.notify();
+                      },
+                      onSuffixPressed: provider.searching
+                          ? () {
+                              provider.clearSearch();
+                            }
+                          : () async {
+                              await Navigator.of(context)
+                                  .pushNamed(
+                                    AppRouter.filterScreen,
+                                  )
+                                  .then((_) => provider.refreshSightList(
+                                        filteredList:
+                                            filterProvider.filteredPlaces,
+                                        isActive:
+                                            filterProvider.isFilterActive(),
+                                      ));
+                            },
+                    );
                   },
-                  onChange: (value) {
-                    provider.findSights(value);
-                  },
-                  onComplete: () {
-                    provider
-                      ..submittedSearch = provider.searchController.text
-                      ..unfocus();
-                  },
-                  controller: provider.searchController,
-                  readOnly: false,
-                  filters: provider.filterIsActive,
-                  focus: provider.searchFocus,
-                  suffixClose: provider.searching,
-                  onPressed: () {
-                    provider.notify();
-                  },
-                  onSuffixPressed: provider.searching
-                      ? () {
-                          provider.clearSearch();
-                        }
-                      : () async {
-                          provider
-                            ..popResult =
-                                await Navigator.push<Map<String, dynamic>>(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FiltersScreen(
-                                  filter: provider.filter,
-                                ),
-                              ),
-                            )
-                            ..getPopResult();
-                        },
                 ),
               ),
               const SizedBox(height: 38),

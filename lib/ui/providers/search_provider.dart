@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/coordinates.dart';
-import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/utils/utils.dart';
 
 class SearchProvider extends ChangeNotifier {
   /// [_history] - список найденных мест
@@ -12,10 +9,7 @@ class SearchProvider extends ChangeNotifier {
   /// поле поиска места
   /// [_submittedSearch] - строка для поиска по названию места
   /// [sightList] - возвращает список мест с учетом фильтра и _submittedSearch
-  /// [_popResult] map с параметрами, приходящими с Navigator.pop страницы
-  /// фильтров, содержит {'filteredPlaces' : список отфильтрованных мест,
-  /// 'isFilterActive': активен ли фильтр, 'filter': фильтр}
-  /// [filteredPlaces] - возвращает список мест с учетом фильтра
+
   /// [findSights] - вызывается при изменении поля ввода поиска, изменяет
   /// _searchResult в зависимости от вхождения вводимых данных в название места
   /// в _sightList
@@ -34,12 +28,11 @@ class SearchProvider extends ChangeNotifier {
   List<Sight> get sightList {
     _resultList = null;
 
-    _sightList =
-        _filteredPlaces != null && _filterIsActive ? _filteredPlaces! : mocks;
+    _sightList = _filteredPlaces != null ? _filteredPlaces! : mocks;
 
     if (_submittedSearch.isNotEmpty) {
       _resultList = [];
-      for (final element in _sightList) {
+      for (final element in _sightList!) {
         if (element.name
             .toLowerCase()
             .contains(_submittedSearch.toLowerCase())) {
@@ -48,34 +41,7 @@ class SearchProvider extends ChangeNotifier {
       }
     }
 
-    return _resultList ?? _sightList;
-  }
-
-  bool get filterIsActive => _filterIsActive;
-  Filter? get filter => _filter;
-  Map<String, dynamic>? get popResult => _popResult;
-
-  List<Sight>? get filteredPlaces {
-    if (_filter == null) return null;
-    _filteredPlaces = [];
-    for (final sight in mocks) {
-      if (_filter!.categories.contains(sight.type) &&
-          Utils().arePointsNear(
-            checkPoint: sight.coord,
-            centerPoint: Coord(lat: 48.483385, lon: 135.07593),
-            kmEnd: _filter!.distance.end / 1000,
-            kmStart: _filter!.distance.start / 1000,
-          )) {
-        _filteredPlaces!.add(sight);
-      }
-    }
-
-    return _filteredPlaces;
-  }
-
-  set filteredPlaces(List<Sight>? value) {
-    _filteredPlaces = value;
-    notifyListeners();
+    return _resultList ?? _sightList!;
   }
 
   set submittedSearch(String value) {
@@ -83,30 +49,10 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set filter(Filter? value) {
-    if (value != null) {
-      _filter = value;
-      _filterIsActive = true;
-    }
-  }
-
-  set filterIsActive(bool value) {
-    _filterIsActive = value;
-    notifyListeners();
-  }
-
-  set popResult(Map<String, dynamic>? value) {
-    _popResult = value;
-    notifyListeners();
-  }
-
-  bool _filterIsActive = false;
-  Filter? _filter;
-  late Map<String, dynamic>? _popResult;
   List<Sight>? _filteredPlaces;
   List<Sight>? _searchResult;
   List<String> _history = [];
-  List<Sight> _sightList = mocks;
+  late List<Sight>? _sightList;
   List<Sight>? _resultList;
   String _submittedSearch = '';
 
@@ -149,16 +95,6 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getPopResult() {
-    if (popResult != null) {
-      _filteredPlaces = _popResult!['filteredPlaces'] as List<Sight>;
-      _filterIsActive = _popResult!['isFilterActive'] as bool;
-      _filter = _popResult!['filter'] as Filter;
-    }
-
-    notifyListeners();
-  }
-
   void unfocus() {
     _searchController.text = '';
     _searchFocus.unfocus();
@@ -185,12 +121,21 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateList() {
-    _sightList = filteredPlaces ?? mocks;
-  }
-
   void appendSigtList(Sight? newSight) {
     if (newSight != null) {
+      notifyListeners();
+    }
+  }
+
+  void refreshSightList({
+    required List<Sight>? filteredList,
+    required bool isActive,
+  }) {
+    if (filteredList != null && isActive) {
+      _filteredPlaces = filteredList;
+
+      _sightList = _filteredPlaces ?? mocks;
+
       notifyListeners();
     }
   }
