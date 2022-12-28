@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/add_photo_provider.dart';
@@ -16,34 +17,37 @@ class AddSightScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: const _BuildAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const _PhotoCards(),
-            const _BuildForm(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const _PhotoCards(),
+              const SizedBox(height: 24),
+              const _BuildForm(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
+                child: Consumer<AddSightProvider>(
+                  builder: (context, provider, child) {
+                    return ColoredButton(
+                      isActive: provider.isFormReady(),
+                      text: AppStrings.addSightScreenCreate,
+                      onPressed: () {
+                        provider.submitForm(context);
+                      },
+                    );
+                  },
+                ),
               ),
-              child: Consumer<AddSightProvider>(
-                builder: (context, provider, child) {
-                  return ColoredButton(
-                    isActive: provider.isFormReady(),
-                    text: AppStrings.addSightScreenCreate,
-                    onPressed: () {
-                      provider.submitForm(context);
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -234,6 +238,23 @@ class _BuildForm extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp('[0-9.]'),
+                              ),
+                              TextInputFormatter.withFunction(
+                                (oldValue, newValue) {
+                                  final text = newValue.text;
+                                  if (text.isNotEmpty) {
+                                    if (double.tryParse(text) != null) {
+                                      return newValue;
+                                    }
+                                  }
+
+                                  return oldValue;
+                                },
+                              ),
+                            ],
                             autovalidateMode: provider.latController.text != ''
                                 ? AutovalidateMode.onUserInteraction
                                 : AutovalidateMode.disabled,
@@ -280,6 +301,23 @@ class _BuildForm extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp('[0-9.]'),
+                              ),
+                              TextInputFormatter.withFunction(
+                                (oldValue, newValue) {
+                                  final text = newValue.text;
+                                  if (text.isNotEmpty) {
+                                    if (double.tryParse(text) != null) {
+                                      return newValue;
+                                    }
+                                  }
+
+                                  return oldValue;
+                                },
+                              ),
+                            ],
                             autovalidateMode: provider.lonController.text != ''
                                 ? AutovalidateMode.onUserInteraction
                                 : AutovalidateMode.disabled,

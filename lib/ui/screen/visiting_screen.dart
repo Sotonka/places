@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -65,52 +66,48 @@ class VisitingScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                // TODO
-                ///
-                ///
-                ///
-                /// не работает draggable
-                ///
-                ///
-                Tab(
-                  child: ReorderableListView.builder(
-                    itemBuilder: (context, index) => Padding(
-                      key: ValueKey('$index'),
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: _DismissibleItem(
-                        index: index,
-                        isVisited: false,
+                if (provider.wishlistList.isEmpty)
+                  const Tab(
+                    child: Center(child: NotFound()),
+                  )
+                else
+                  Tab(
+                    child: ReorderableListView.builder(
+                      itemBuilder: (context, index) => Padding(
+                        key: ValueKey('value$index'),
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _DismissibleItem(
+                          index: index,
+                          isVisited: false,
+                        ),
                       ),
-                    ),
-                    itemCount: provider.wishlistList.length,
-                    onReorder: (oldIndex, newIndex) {
-                      provider.reorder(oldIndex, newIndex);
-                    },
-                  ),
-
-                  /* ListView.separated(
-                    itemCount: provider.wishlistList.length,
-                    itemBuilder: (context, index) => _DismissibleItem(
-                      index: index,
-                      isVisited: false,
-                    ),
-                    separatorBuilder: (_, __) => const SizedBox(
-                      height: 16,
-                    ),
-                  ), */
-                ),
-                Tab(
-                  child: ListView.separated(
-                    itemCount: provider.visitedList.length,
-                    itemBuilder: (context, index) => _DismissibleItem(
-                      index: index,
-                      isVisited: true,
-                    ),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 16,
+                      itemCount: provider.wishlistList.length,
+                      onReorder: (oldIndex, newIndex) {
+                        provider.reorderWishlist(oldIndex, newIndex);
+                      },
                     ),
                   ),
-                ),
+                if (provider.visitedList.isEmpty)
+                  const Tab(
+                    child: Center(child: NotFound()),
+                  )
+                else
+                  Tab(
+                    child: ReorderableListView.builder(
+                      itemBuilder: (context, index) => Padding(
+                        key: ValueKey('value$index'),
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _DismissibleItem(
+                          index: index,
+                          isVisited: true,
+                        ),
+                      ),
+                      itemCount: provider.visitedList.length,
+                      onReorder: (oldIndex, newIndex) {
+                        provider.reorderVisited(oldIndex, newIndex);
+                      },
+                    ),
+                  ),
               ],
             ),
             bottomNavigationBar: const BottomNavBar(index: 2),

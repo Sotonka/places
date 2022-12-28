@@ -32,13 +32,23 @@ class VisitingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void reorder(int oldIndex, int newIndex) {
+  void reorderWishlist(int oldIndex, int newIndex) {
     var index = newIndex;
     if (oldIndex < newIndex) {
       index -= 1;
     }
     final item = _wishlistList.removeAt(oldIndex);
     _wishlistList.insert(index, item);
+    notifyListeners();
+  }
+
+  void reorderVisited(int oldIndex, int newIndex) {
+    var index = newIndex;
+    if (oldIndex < newIndex) {
+      index -= 1;
+    }
+    final item = _visitedList.removeAt(oldIndex);
+    _visitedList.insert(index, item);
     notifyListeners();
   }
 }
