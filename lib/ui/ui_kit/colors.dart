@@ -38,7 +38,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     sightDetails: Color(0xFFFFFFFF),
     greenAccent: Color(0xFF4CAF50),
     yellowAccent: Color(0xFFFCDD3D),
-    error: Color(0xFFCF2A2A),
+    error: Color(0xFFEF4343),
   );
 
   static const dark = AppThemeColors(
@@ -50,7 +50,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     sightDetails: Color(0xFF191A20),
     greenAccent: Color(0xFF6ADA6F),
     yellowAccent: Color(0xFFFFE769),
-    error: Color(0xFFEF4343),
+    error: Color(0xFFCF2A2A),
   );
 
   final Color? icons;

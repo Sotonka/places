@@ -12,6 +12,7 @@ class SightCard extends StatelessWidget {
   /// интерфейса - возможных действий с карточкой
   final Sight sight;
   final CardType type;
+
   final VoidCallback? onClosePressed;
   final VoidCallback? onFavPressed;
   final VoidCallback? onCalendarPressed;
@@ -38,7 +39,7 @@ class SightCard extends StatelessWidget {
         aspectRatio: 1.5,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(
-            Radius.circular(16),
+            Radius.circular(12),
           ),
           child: Stack(
             children: [
@@ -64,7 +65,7 @@ class SightCard extends StatelessWidget {
                   splashColor: AppColors.splash4C4,
                   customBorder: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(16),
+                      Radius.circular(12),
                     ),
                   ),
                   onTap: () {

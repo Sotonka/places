@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
-import 'package:places/ui/widget/card_list.dart';
+import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class VisitingScreen extends StatelessWidget {
   const VisitingScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => VisitingProvider(),
-      child: const _VisitingScreen(),
-    );
-  }
-}
-
-class _VisitingScreen extends StatelessWidget {
-  const _VisitingScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -79,46 +66,135 @@ class _VisitingScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                Tab(
-                  child: ListView.separated(
-                    itemCount: provider.wishlistList.length,
-                    itemBuilder: (context, index) => SightCard(
-                      sight: provider.wishlistList.elementAt(index),
-                      type: CardType.wishlist,
-                      onClosePressed: () {
-                        provider.removeFromWishlist(
-                          provider.wishlistList.elementAt(index),
-                        );
+                if (provider.wishlistList.isEmpty)
+                  const Tab(
+                    child: Center(child: NotFound()),
+                  )
+                else
+                  Tab(
+                    child: ReorderableListView.builder(
+                      itemBuilder: (context, index) => Padding(
+                        key: ValueKey('value$index'),
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _DismissibleItem(
+                          index: index,
+                          isVisited: false,
+                        ),
+                      ),
+                      itemCount: provider.wishlistList.length,
+                      onReorder: (oldIndex, newIndex) {
+                        provider.reorderWishlist(oldIndex, newIndex);
                       },
                     ),
-                    separatorBuilder: (_, __) => const SizedBox(
-                      height: 16,
-                    ),
                   ),
-                ),
-                Tab(
-                  child: ListView.separated(
-                    itemCount: provider.visitedList.length,
-                    itemBuilder: (context, index) => SightCard(
-                      sight: provider.visitedList.elementAt(index),
-                      type: CardType.visited,
-                      onClosePressed: () {
-                        provider.removeFromVisited(
-                          provider.visitedList.elementAt(index),
-                        );
+                if (provider.visitedList.isEmpty)
+                  const Tab(
+                    child: Center(child: NotFound()),
+                  )
+                else
+                  Tab(
+                    child: ReorderableListView.builder(
+                      itemBuilder: (context, index) => Padding(
+                        key: ValueKey('value$index'),
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _DismissibleItem(
+                          index: index,
+                          isVisited: true,
+                        ),
+                      ),
+                      itemCount: provider.visitedList.length,
+                      onReorder: (oldIndex, newIndex) {
+                        provider.reorderVisited(oldIndex, newIndex);
                       },
                     ),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 16,
-                    ),
                   ),
-                ),
               ],
             ),
             bottomNavigationBar: const BottomNavBar(index: 2),
           ),
         );
       },
+    );
+  }
+}
+
+class _DismissibleItem extends StatelessWidget {
+  final int index;
+  final bool isVisited;
+  const _DismissibleItem({
+    required this.index,
+    required this.isVisited,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
+    final provider = context.read<VisitingProvider>();
+
+    return Stack(
+      children: [
+        Container(
+          height: (MediaQuery.of(context).size.width - 32) / 3 * 2,
+          decoration: BoxDecoration(
+            color: themeColors.error,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(16),
+            ),
+          ),
+          alignment: Alignment.centerRight,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppIcons.bucket(
+                  color: AppColors.primaryLightFFF,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  AppStrings.visitingScreenDelete,
+                  style: theme.primaryTextTheme.bodyText2!.copyWith(
+                    color: AppColors.primaryLightFFF,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Dismissible(
+          direction: DismissDirection.endToStart,
+          dismissThresholds: const {
+            DismissDirection.endToStart: 0.2,
+          },
+          key: UniqueKey(),
+          onDismissed: (_) {
+            isVisited
+                ? provider.removeFromVisited(
+                    provider.visitedList.elementAt(index),
+                  )
+                : provider.removeFromWishlist(
+                    provider.wishlistList.elementAt(index),
+                  );
+          },
+          child: SightCard(
+            sight: isVisited
+                ? provider.visitedList.elementAt(index)
+                : provider.wishlistList.elementAt(index),
+            type: isVisited ? CardType.visited : CardType.wishlist,
+            onClosePressed: () {
+              isVisited
+                  ? provider.removeFromVisited(
+                      provider.visitedList.elementAt(index),
+                    )
+                  : provider.removeFromWishlist(
+                      provider.wishlistList.elementAt(index),
+                    );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
