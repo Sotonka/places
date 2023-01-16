@@ -29,40 +29,44 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const _BuildAppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: const [
-              _BuildCategories(),
-              _BuildSlider(),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 8,
-              left: 16,
-              right: 16,
-            ),
-            child:
-                Consumer<FilterProvider>(builder: (context, provider, child) {
-              return ColoredButton(
-                isActive: !provider.isEmptySearch,
-                text:
-                    '${AppStrings.filtersScreenShow} (${provider.filteredPlacesLenght})',
-                onPressed: () {
-                  Navigator.pop(
-                    context,
-                    {
-                      'filteredPlaces': provider.filteredPlaces,
-                      'isFilterActive': provider.isFilterActive(),
-                      'filter': provider.filter,
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                const _BuildCategories(),
+                const _BuildSlider(),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    bottom: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Consumer<FilterProvider>(
+                    builder: (context, provider, child) {
+                      return ColoredButton(
+                        isActive: !provider.isEmptySearch,
+                        text:
+                            '${AppStrings.filtersScreenShow} (${provider.filteredPlacesLenght})',
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            {
+                              'filteredPlaces': provider.filteredPlaces,
+                              'isFilterActive': provider.isFilterActive(),
+                              'filter': provider.filter,
+                            },
+                          );
+                        },
+                      );
                     },
-                  );
-                },
-              );
-            }),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
