@@ -5,8 +5,19 @@ import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  @override
+  void initState() {
+    Provider.of<OnboardingProvider>(context, listen: false).init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

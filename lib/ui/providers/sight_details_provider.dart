@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OnboardingProvider extends ChangeNotifier {
+class SightDetailsProvider extends ChangeNotifier {
   final _controller = PageController();
 
   PageController get controller => _controller;
@@ -16,20 +16,6 @@ class OnboardingProvider extends ChangeNotifier {
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  void jump() {
-    if (page <= 1) {
-      _page++;
-      _controller.jumpToPage(_page);
-      notifyListeners();
-    }
-  }
-
-  void start() {
-    _page = 0;
-    _controller.jumpToPage(_page);
-    notifyListeners();
   }
 
   void init() {
