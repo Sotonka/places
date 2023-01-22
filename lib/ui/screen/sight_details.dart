@@ -176,21 +176,17 @@ class _Indicator extends StatelessWidget {
             width: tabSize,
             decoration: BoxDecoration(
               color: themeColors.icons,
-              borderRadius: () {
-                if (page == 0) {
-                  return const BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  );
-                } else if (page == itemCount - 1) {
-                  return const BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                  );
-                } else {
-                  return BorderRadius.circular(8);
-                }
-              }(),
+              borderRadius: page == 0
+                  ? const BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    )
+                  : page == itemCount - 1
+                      ? const BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                        )
+                      : BorderRadius.circular(8),
             ),
           ),
         ),

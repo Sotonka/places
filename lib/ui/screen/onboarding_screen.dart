@@ -34,7 +34,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 if (provider.page == 2)
                   Text(
                     ' ',
-                    style: theme.primaryTextTheme.headline6,
+                    style: theme.primaryTextTheme.headline6!.copyWith(
+                      color: themeColors.greenAccent,
+                    ),
                   )
                 else
                   InkWell(
@@ -70,6 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   _DotIndicator(
                     page: provider.page,
+                    lenght: 3,
                   ),
                 ],
               ),
@@ -102,19 +105,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class _DotIndicator extends StatelessWidget {
   final int page;
+  final int lenght;
 
-  const _DotIndicator({required this.page});
+  const _DotIndicator({required this.page, required this.lenght});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (page == 0) const _ActiveDot() else const _Dot(),
         const SizedBox(width: 8),
-        if (page == 1) const _ActiveDot() else const _Dot(),
-        const SizedBox(width: 8),
-        if (page == 2) const _ActiveDot() else const _Dot(),
+        for (int i = 0; i < lenght; i++) ...[
+          if (i == page) const _ActiveDot() else const _Dot(),
+        ],
       ],
     );
   }
@@ -126,6 +129,7 @@ class _Dot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(right: 8),
       height: 8,
       width: 8,
       decoration: BoxDecoration(
@@ -145,6 +149,7 @@ class _ActiveDot extends StatelessWidget {
     final themeColors = theme.extension<AppThemeColors>()!;
 
     return Container(
+      margin: const EdgeInsets.only(right: 8),
       height: 8,
       width: 24,
       decoration: BoxDecoration(
