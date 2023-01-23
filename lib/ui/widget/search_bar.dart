@@ -50,6 +50,8 @@ class SearchBar extends StatelessWidget {
         onTap: onPressed,
         onEditingComplete: onComplete,
         decoration: InputDecoration(
+          filled: true,
+          fillColor: themeColors.sightCard,
           hintText: AppStrings.searchBarSearch,
           prefixIcon: UnconstrainedBox(
             child: AppIcons.search(
