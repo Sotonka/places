@@ -48,6 +48,19 @@ class AppStrings {
   static const String searchScreenClear = 'Очистить историю';
   static const String searchScreenList = 'Список интересных мест';
   static const String searchBarSearch = 'Поиск';
+  static const String onboardingSkip = 'Пропустить';
+  static const String onboardingFirstTitle = 'Добро пожаловать в Путеводитель';
+  static const String onboardingFirstDesc =
+      'Ищи новые локации и сохраняй самые любимые.';
+  static const String onboardingSecondTitle =
+      'Построй маршрут и отправляйся в путь';
+  static const String onboardingSecondDesc =
+      'Достигай цели максимально быстро и комфортно.';
+  static const String onboardingThirdTitle =
+      'Добавляй места, которые нашёл сам';
+  static const String onboardingThirdDesc =
+      'Делись самыми интересными и помоги нам стать лучше!';
+  static const String onboardingStart = 'НА СТАРТ';
 
   AppStrings._();
 }

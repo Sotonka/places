@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class AppIcons extends StatelessWidget {
   static const _add = '${_defaultPath}add.svg';
   static const _back = '${_defaultPath}back.svg';
+  static const _bag = '${_defaultPath}bag.svg';
   static const _bucket = '${_defaultPath}bucket.svg';
   static const _cafe = '${_defaultPath}cafe.svg';
   static const _calendar = '${_defaultPath}calendar.svg';
@@ -23,11 +24,13 @@ class AppIcons extends StatelessWidget {
   static const _park = '${_defaultPath}park.svg';
   static const _particular = '${_defaultPath}particular.svg';
   static const _restaurant = '${_defaultPath}restaurant.svg';
+  static const _roadGuide = '${_defaultPath}road_guide.svg';
   static const _route = '${_defaultPath}route.svg';
   static const _search = '${_defaultPath}search.svg';
   static const _settings = '${_defaultPath}settings.svg';
   static const _settingsFull = '${_defaultPath}settings_full.svg';
   static const _share = '${_defaultPath}share.svg';
+  static const _tap = '${_defaultPath}tap.svg';
 
   static const String _defaultPath = 'res/icons/';
 
@@ -65,6 +68,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _back,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.bag({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _bag,
         color: color,
         height: height,
         width: width,
@@ -298,6 +313,18 @@ class AppIcons extends StatelessWidget {
         width: width,
       );
 
+  factory AppIcons.roadGuide({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _roadGuide,
+        color: color,
+        height: height,
+        width: width,
+      );
+
   factory AppIcons.route({
     final Color? color,
     final double? height,
@@ -353,6 +380,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _share,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.tap({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _tap,
         color: color,
         height: height,
         width: width,

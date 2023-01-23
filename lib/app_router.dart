@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/onboarding_screen.dart';
 import 'package:places/ui/screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
@@ -19,6 +20,7 @@ abstract class AppRouter {
   static const String addSightScreen = '/addSightScreen';
   static const String test = '/test';
   static const String search = '/search';
+  static const String onboarding = '/onboarding';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -52,6 +54,10 @@ abstract class AppRouter {
       case AppRouter.addSightScreen:
         return MaterialPageRoute<Object?>(
           builder: (_) => const AddSightScreen(),
+        );
+      case AppRouter.onboarding:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const OnboardingScreen(),
         );
       case AppRouter.test:
         return MaterialPageRoute<Object?>(
