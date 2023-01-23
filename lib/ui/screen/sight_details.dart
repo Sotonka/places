@@ -31,15 +31,15 @@ class _SightDetailsState extends State<SightDetails> {
     return Consumer<SightDetailsProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Stack(
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                expandedHeight: 360,
+                flexibleSpace: Stack(
                   children: [
                     Container(
                       color: themeColors.sightDetails,
-                      height: 360,
                       child: PageView(
                         onPageChanged: (page) {
                           provider.page = page;
@@ -69,84 +69,100 @@ class _SightDetailsState extends State<SightDetails> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24,
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        widget.sight.name,
-                        style: AppTextStyle.bold24,
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 24,
+                        left: 16,
+                        right: 16,
+                        bottom: 16,
                       ),
-                      const SizedBox(height: 2),
-                      Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            widget.sight.typeAsText,
-                            style: theme.primaryTextTheme.bodyText1,
+                            widget.sight.name,
+                            style: AppTextStyle.bold24,
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(height: 2),
+                          Row(
+                            children: [
+                              Text(
+                                widget.sight.typeAsText,
+                                style: theme.primaryTextTheme.bodyText1,
+                              ),
+                              const SizedBox(width: 16),
+                              Text(
+                                'закрыто до 09:00',
+                                style: AppTextStyle.normal14.copyWith(
+                                  color: AppColors.primaryLightE92,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
                           Text(
-                            'закрыто до 09:00',
-                            style: AppTextStyle.normal14.copyWith(
-                              color: AppColors.primaryLightE92,
+                            widget.sight.details,
+                            style: Theme.of(context).primaryTextTheme.bodyText1,
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            height: 1000,
+                            color: Colors.yellow.withOpacity(0.2),
+                            child: Text(
+                              'LONG CONTENT',
+                              style: AppTextStyle.bold24,
                             ),
+                          ),
+                          const SizedBox(height: 24),
+                          ColoredButton(
+                            text: AppStrings.sightDetailsScreenRoute,
+                            onPressed: () {},
+                            icon: AppIcons.route(
+                              color: AppColors.primaryLightFFF,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          const Divider(
+                            height: 0,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: TransparentButton(
+                                  text: AppStrings.sightDetailsScreenSchedule,
+                                  onPressed: () {},
+                                  isActive: false,
+                                  icon: AppIcons.calendar(
+                                    color: AppColors.primaryLightInactive,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: TransparentButton(
+                                  text: AppStrings.sightDetailsScreenFavorite,
+                                  onPressed: () {},
+                                  isActive: true,
+                                  icon: AppIcons.heart(
+                                    color: themeColors.icons,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
-                      Text(
-                        widget.sight.details,
-                        style: Theme.of(context).primaryTextTheme.bodyText1,
-                      ),
-                      const SizedBox(height: 24),
-                      ColoredButton(
-                        text: AppStrings.sightDetailsScreenRoute,
-                        onPressed: () {},
-                        icon: AppIcons.route(
-                          color: AppColors.primaryLightFFF,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Divider(
-                        height: 0,
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: TransparentButton(
-                              text: AppStrings.sightDetailsScreenSchedule,
-                              onPressed: () {},
-                              isActive: false,
-                              icon: AppIcons.calendar(
-                                color: AppColors.primaryLightInactive,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: TransparentButton(
-                              text: AppStrings.sightDetailsScreenFavorite,
-                              onPressed: () {},
-                              isActive: true,
-                              icon: AppIcons.heart(
-                                color: themeColors.icons,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

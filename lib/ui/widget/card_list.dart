@@ -27,3 +27,37 @@ class CardList extends StatelessWidget {
         ),
       );
 }
+
+class SliverCardList extends StatelessWidget {
+  final Iterable<Sight> iterable;
+  final CardType type;
+
+  const SliverCardList({
+    Key? key,
+    required this.iterable,
+    required this.type,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => Column(
+            children: [
+              if (index == 0)
+                const SizedBox(height: 34)
+              else
+                const SizedBox.shrink(),
+              SightCard(
+                sight: iterable.elementAt(index),
+                type: type,
+              ),
+              if (index != iterable.length)
+                const SizedBox(height: 16)
+              else
+                const SizedBox.shrink(),
+            ],
+          ),
+          childCount: iterable.length,
+        ),
+      );
+}
