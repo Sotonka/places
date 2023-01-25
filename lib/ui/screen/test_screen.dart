@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:places/app_router.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/colored_button.dart';
 import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {
@@ -26,47 +28,17 @@ class _TestScreen extends StatefulWidget {
 class _TestScreenState extends State<_TestScreen> {
   @override
   Widget build(BuildContext context) {
-    final list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
     return Scaffold(
       bottomNavigationBar: const BottomNavBar(index: 4),
-      body: ReorderableListView.builder(
-        itemBuilder: (context, index) {
-          return Container(
-            key: ValueKey(list[index]),
-            child: Dismissible(
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) {
-                setState(() {
-                  list.removeAt(index);
-                });
-              },
-              key: UniqueKey(),
-              child: Container(
-                color: Colors.white,
-                height: 50,
-                child: Center(
-                  child: Container(
-                    height: 30,
-                    width: double.infinity,
-                    color: Colors.pink.withOpacity(0.5),
-                    child: Text(list[index].toString()),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-        itemCount: list.length,
-        onReorder: (int oldIndex, int newIndex) {
-          setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            final item = list.removeAt(oldIndex);
-            list.insert(newIndex, item);
-          });
-        },
+      body: Center(
+        child: ColoredButton(
+          text: 'TO MAIN',
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              AppRouter.splashScreen,
+            );
+          },
+        ),
       ),
     );
   }

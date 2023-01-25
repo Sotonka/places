@@ -30,6 +30,7 @@ class AppIcons extends StatelessWidget {
   static const _settings = '${_defaultPath}settings.svg';
   static const _settingsFull = '${_defaultPath}settings_full.svg';
   static const _share = '${_defaultPath}share.svg';
+  static const _splash = '${_defaultPath}splash.svg';
   static const _tap = '${_defaultPath}tap.svg';
 
   static const String _defaultPath = 'res/icons/';
@@ -380,6 +381,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _share,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.splash({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _splash,
         color: color,
         height: height,
         width: width,

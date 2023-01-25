@@ -7,6 +7,7 @@ import 'package:places/ui/screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
+import 'package:places/ui/screen/splash_screen.dart';
 import 'package:places/ui/screen/test_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 
@@ -21,6 +22,7 @@ abstract class AppRouter {
   static const String test = '/test';
   static const String search = '/search';
   static const String onboarding = '/onboarding';
+  static const String splashScreen = '/splashScreen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -58,6 +60,10 @@ abstract class AppRouter {
       case AppRouter.onboarding:
         return MaterialPageRoute<Object?>(
           builder: (_) => const OnboardingScreen(),
+        );
+      case AppRouter.splashScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const SplashScreen(),
         );
       case AppRouter.test:
         return MaterialPageRoute<Object?>(
