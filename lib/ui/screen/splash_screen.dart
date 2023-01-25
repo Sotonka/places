@@ -44,30 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-/*   void _navigateToNext() async {
-    final sw = Stopwatch();
-
- 
-    // ignore: avoid_print
-    print('Переход на следующий экран');
-    sw.start();
-    await Future.wait([
-      isInitialized,
-      Future<bool>.delayed(const Duration(seconds: 2), () => true),
-    ]);
-    sw.stop();
-    print('Затрачено: ${sw.elapsed}');
-    print('Переход на следующий экран');
-
-    await Navigator.pushReplacement<void, void>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => OnboardingScreen(),
-      ),
-    );
-  } */
-
-void _navigateToNext(BuildContext context) async {
+Future<void> _navigateToNext(BuildContext context) async {
   await Future<void>.delayed(const Duration(seconds: 2)).then((_) {
     // ignore: avoid_print
     print('Переход на следующий экран');
