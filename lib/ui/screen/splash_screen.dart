@@ -10,8 +10,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final isInitialized = false;
-
   @override
   void initState() {
     _navigateToNext(context);
@@ -45,7 +43,15 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 Future<void> _navigateToNext(BuildContext context) async {
+  final sw = Stopwatch();
+  // ignore: avoid_print
+  print('---START---');
+  sw.start();
+
   await Future<void>.delayed(const Duration(seconds: 2)).then((_) {
+    sw.stop();
+    // ignore: avoid_print
+    print('---Затрачено: ${sw.elapsed}---');
     // ignore: avoid_print
     print('Переход на следующий экран');
     Navigator.of(context).pushNamed(
