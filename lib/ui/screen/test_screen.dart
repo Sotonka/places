@@ -1,173 +1,135 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
-import 'package:provider/provider.dart';
+import 'package:places/ui/widget/colored_button.dart';
 
-class TestScreen extends StatelessWidget {
+class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ColorsSwapper(),
-      child: const _TestScreen(),
-    );
+  State<TestScreen> createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<TestScreen> {
+  late Timer _timer;
+  var _start = 0;
+
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
   }
-}
-
-class _TestScreen extends StatefulWidget {
-  const _TestScreen();
 
   @override
-  State<_TestScreen> createState() => _TestScreenState();
-}
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
-class _TestScreenState extends State<_TestScreen> {
   @override
   Widget build(BuildContext context) {
-    final list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
     return Scaffold(
       bottomNavigationBar: const BottomNavBar(index: 4),
-      body: ReorderableListView.builder(
-        itemBuilder: (context, index) {
-          return Container(
-            key: ValueKey(list[index]),
-            child: Dismissible(
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) {
-                setState(() {
-                  list.removeAt(index);
-                });
-              },
-              key: UniqueKey(),
-              child: Container(
-                color: Colors.white,
-                height: 50,
-                child: Center(
-                  child: Container(
-                    height: 30,
-                    width: double.infinity,
-                    color: Colors.pink.withOpacity(0.5),
-                    child: Text(list[index].toString()),
-                  ),
-                ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: Text(
+              _start.toString(),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 54,
               ),
             ),
-          );
-        },
-        itemCount: list.length,
-        onReorder: (int oldIndex, int newIndex) {
+          ),
+          const SizedBox(height: 50),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: ColoredButton(
+              text: 'sync',
+              onPressed: _functionOne,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: ColoredButton(
+              text: 'async',
+              onPressed: _functionTwo,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: ColoredButton(
+              text: 'isolate',
+              onPressed: _functionThree,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _startTimer() {
+    const interval = Duration(milliseconds: 30);
+    _timer = Timer.periodic(
+      interval,
+      (timer) {
+        if (_start == 999) {
           setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            final item = list.removeAt(oldIndex);
-            list.insert(newIndex, item);
+            _start = 0;
+            //timer.cancel();
           });
-        },
-      ),
+        } else {
+          setState(() {
+            _start++;
+          });
+        }
+      },
     );
   }
 }
 
-class WidgenOne extends StatelessWidget {
-  const WidgenOne({super.key});
+void _processString(int count) {
+  var string = '';
+  final sw = Stopwatch();
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          width: 200,
-          height: 200,
-          color: context.watch<ColorsSwapper>().color,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
-            _Purple(),
-            _Yellow(),
-          ],
-        ),
-        const _Randomizer(),
-      ],
-    );
+  Iterable<String> generator() sync* {
+    for (var i = 0; i < count; i++) {
+      yield 'qwerty';
+    }
   }
+
+  // ignore: avoid_print
+  print('---START---');
+  sw.start();
+
+  generator().forEach((element) {
+    string = element.split('').reversed.join();
+  });
+
+  sw.stop();
+  // ignore: avoid_print
+  print('---Затрачено: ${sw.elapsed}---');
+  // ignore: avoid_print
+  print('---STOP---');
 }
 
-class _Purple extends StatelessWidget {
-  const _Purple();
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: context.read<ColorsSwapper>().toPurple,
-      child: Container(
-        width: 100,
-        height: 100,
-        color: Colors.purple,
-      ),
-    );
-  }
+void _functionOne() {
+  _processString(10000000);
 }
 
-class _Yellow extends StatelessWidget {
-  const _Yellow();
+Future<void> _functionTwo() async {
+  await Future(() {
+    _processString(10000000);
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: context.read<ColorsSwapper>().toYellow,
-      child: Container(
-        width: 100,
-        height: 100,
-        color: Colors.yellow,
-      ),
-    );
-  }
+  //await Future<void>.delayed(const Duration(seconds: 4));
 }
 
-class _Randomizer extends StatefulWidget {
-  const _Randomizer();
-
-  @override
-  State<_Randomizer> createState() => __RandomizerState();
-}
-
-class __RandomizerState extends State<_Randomizer> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: context.read<ColorsSwapper>().toRandom,
-      child: Container(
-        width: 100,
-        height: 50,
-        color: Colors.blue,
-      ),
-    );
-  }
-}
-
-class ColorsSwapper extends ChangeNotifier {
-  Color get color => _color;
-
-  Color _color = Colors.grey;
-
-  void toPurple() {
-    _color = Colors.purple;
-    notifyListeners();
-  }
-
-  void toYellow() {
-    _color = Colors.yellow;
-    notifyListeners();
-  }
-
-  void toRandom() {
-    _color = Colors.primaries[Random().nextInt(Colors.primaries.length)];
-    notifyListeners();
-  }
+void _functionThree() {
+  Isolate.spawn(_processString, 10000000);
 }
