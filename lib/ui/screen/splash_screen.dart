@@ -10,8 +10,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final isInitialized =
-      Future<bool>.delayed(const Duration(seconds: 1), () => true);
 
   @override
   void initState() {
