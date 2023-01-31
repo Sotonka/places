@@ -46,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
-                  AppRouter.onboarding,
+                  AppRouter.onboardingScreen,
                 );
               },
               child: ListTile(

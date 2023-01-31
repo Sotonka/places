@@ -82,7 +82,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
               left: 0,
               child: InkWell(
                 onTap: () => Navigator.of(context).pushNamed(
-                  AppRouter.sights,
+                  AppRouter.sightListScreen,
                 ),
                 child: Text(
                   AppStrings.addSightScreenCancel,

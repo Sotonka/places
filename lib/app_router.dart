@@ -13,63 +13,74 @@ import 'package:places/ui/screen/visiting_screen.dart';
 
 abstract class AppRouter {
   static const String root = '/';
-  static const String sights = '/sights';
-  static const String sightDetails = '/sightDetails';
-  static const String visitingScreen = '/visitingScreen';
-  static const String settings = '/settings';
-  static const String filterScreen = '/filterScreen';
   static const String addSightScreen = '/addSightScreen';
-  static const String test = '/test';
-  static const String search = '/search';
-  static const String onboarding = '/onboarding';
+  static const String filterScreen = '/filterScreen';
+  static const String onboardingScreen = '/onboardingScreen';
+  static const String searchScreen = '/searchScreen';
+  static const String settingsScreen = '/settingsScreen';
+  static const String sightDetailsScreen = '/sightDetailsScreen';
+  static const String sightListScreen = '/sightListScreen';
   static const String splashScreen = '/splashScreen';
+  static const String testScreen = '/testScreen';
+  static const String visitingScreen = '/visitingScreen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AppRouter.sights:
+      case AppRouter.addSightScreen:
         return MaterialPageRoute<Object?>(
-          builder: (_) => const SightListScreen(),
+          builder: (_) => const AddSightScreen(),
         );
-      case AppRouter.sightDetails:
+
+      case AppRouter.filterScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const FiltersScreen(),
+        );
+
+      case AppRouter.onboardingScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const OnboardingScreen(),
+        );
+
+      case AppRouter.searchScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const SightSearchScreen(),
+        );
+
+      case AppRouter.settingsScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const SettingsScreen(),
+        );
+
+      case AppRouter.sightDetailsScreen:
         final arguments = settings.arguments as Map<String, dynamic>;
         final sight = arguments['sight'] as Sight;
 
         return MaterialPageRoute<Object?>(
           builder: (_) => SightDetails(sight: sight),
         );
-      case AppRouter.settings:
+
+      case AppRouter.sightListScreen:
         return MaterialPageRoute<Object?>(
-          builder: (_) => const SettingsScreen(),
+          builder: (_) => const SightListScreen(),
         );
-      case AppRouter.filterScreen:
-        return MaterialPageRoute<Object?>(
-          builder: (_) => const FiltersScreen(),
-        );
-      case AppRouter.search:
-        return MaterialPageRoute<Object?>(
-          builder: (_) => const SightSearchScreen(),
-        );
-      case AppRouter.visitingScreen:
-        return MaterialPageRoute<Object?>(
-          builder: (_) => const VisitingScreen(),
-        );
-      case AppRouter.addSightScreen:
-        return MaterialPageRoute<Object?>(
-          builder: (_) => const AddSightScreen(),
-        );
-      case AppRouter.onboarding:
-        return MaterialPageRoute<Object?>(
-          builder: (_) => const OnboardingScreen(),
-        );
+
       case AppRouter.splashScreen:
         return MaterialPageRoute<Object?>(
           builder: (_) => const SplashScreen(),
         );
-      case AppRouter.test:
+
+      case AppRouter.testScreen:
         return MaterialPageRoute<Object?>(
           builder: (_) => const TestScreen(),
         );
+
+      case AppRouter.visitingScreen:
+        return MaterialPageRoute<Object?>(
+          builder: (_) => const VisitingScreen(),
+        );
+
       case AppRouter.root:
+
       default:
         return MaterialPageRoute<Object?>(
           builder: (_) => const SightListScreen(),

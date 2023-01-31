@@ -151,7 +151,7 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
                                   .isFilterActive(),
                             );
                         Navigator.of(context).pushNamed(
-                          AppRouter.search,
+                          AppRouter.searchScreen,
                         );
                       },
                       filters: filterProvider.isFilterActive(),

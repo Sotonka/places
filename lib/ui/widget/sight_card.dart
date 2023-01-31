@@ -70,7 +70,7 @@ class SightCard extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(
-                      AppRouter.sightDetails,
+                      AppRouter.sightDetailsScreen,
                       arguments: {
                         'sight': sight,
                       },
