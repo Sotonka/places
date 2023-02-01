@@ -72,7 +72,7 @@ class SightCard extends StatelessWidget {
                     Navigator.of(context).pushNamed(
                       AppRouter.sightDetailsScreen,
                       arguments: {
-                        'sight': sight,
+                        'id': sight.id,
                       },
                     );
                   },

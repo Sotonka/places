@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:places/domain/coordinates.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 
 class Utils {
@@ -32,6 +33,18 @@ class Utils {
     if (nextField.isEmpty) {
       FocusScope.of(context).requestFocus(nextFocus);
     }
+  }
+
+  Sight getById(String id) {
+    final list = <Sight>[];
+
+    for (final element in mocks) {
+      if (element.id == id) {
+        list.add(element);
+      }
+    }
+
+    return list[0];
   }
 }
 

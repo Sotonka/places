@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/providers/sight_details_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 import 'package:places/ui/widget/transparent_button.dart';
+import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class SightDetails extends StatefulWidget {
-  final Sight sight;
+  final String id;
 
-  const SightDetails({super.key, required this.sight});
+  const SightDetails({super.key, required this.id});
 
   @override
   State<SightDetails> createState() => _SightDetailsState();
@@ -27,6 +29,8 @@ class _SightDetailsState extends State<SightDetails> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
+
+    final sight = Utils().getById(widget.id);
 
     return Consumer<SightDetailsProvider>(
       builder: (context, provider, child) {
@@ -46,16 +50,16 @@ class _SightDetailsState extends State<SightDetails> {
                         },
                         children: [
                           LoadableImage(
-                            url: widget.sight.url,
+                            url: sight.url,
                           ),
                           LoadableImage(
-                            url: widget.sight.url,
+                            url: sight.url,
                           ),
                           LoadableImage(
-                            url: widget.sight.url,
+                            url: sight.url,
                           ),
                           LoadableImage(
-                            url: widget.sight.url,
+                            url: sight.url,
                           ),
                         ],
                       ),
@@ -84,14 +88,14 @@ class _SightDetailsState extends State<SightDetails> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            widget.sight.name,
+                            sight.name,
                             style: AppTextStyle.bold24,
                           ),
                           const SizedBox(height: 2),
                           Row(
                             children: [
                               Text(
-                                widget.sight.typeAsText,
+                                sight.typeAsText,
                                 style: theme.primaryTextTheme.bodyText1,
                               ),
                               const SizedBox(width: 16),
@@ -105,7 +109,7 @@ class _SightDetailsState extends State<SightDetails> {
                           ),
                           const SizedBox(height: 24),
                           Text(
-                            widget.sight.details,
+                            sight.details,
                             style: Theme.of(context).primaryTextTheme.bodyText1,
                           ),
                           Container(
