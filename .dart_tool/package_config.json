@@ -122,6 +122,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///C:/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.1.5",
       "packageUri": "lib/",
@@ -154,6 +160,12 @@
     {
       "name": "http_parser",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -344,7 +356,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-12-18T23:11:35.676989Z",
+  "generated": "2023-02-01T07:54:26.057550Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

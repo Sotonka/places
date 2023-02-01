@@ -13,8 +13,6 @@ final List<Sight> mocks = [
         'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
     details: 'Кофе Репаблик, Хабаровск',
     type: SightType.cafe,
-    visitTime: '111',
-    visited: '111',
   ),
   Sight(
     id: '1',
@@ -27,8 +25,6 @@ final List<Sight> mocks = [
         'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
     details: 'Кофе Репаблик, Хабаровск',
     type: SightType.cafe,
-    visitTime: '111',
-    visited: '111',
   ),
   Sight(
     id: '2',
@@ -41,8 +37,6 @@ final List<Sight> mocks = [
         'https://media-cdn.tripadvisor.com/media/photo-s/13/1d/30/43/photo0jpg.jpg',
     details: 'Plantacia Coffee, Хабаровск',
     type: SightType.cafe,
-    visitTime: '111',
-    visited: '111',
   ),
   Sight(
     id: '3',
@@ -55,8 +49,6 @@ final List<Sight> mocks = [
         'https://regions.kidsreview.ru/sites/default/files/styles/oww/public/09/17/2012_-_2028/dinamo_1.jpg',
     details: 'Городской парк культуры Динамо',
     type: SightType.park,
-    visitTime: '111',
-    visited: '111',
   ),
   Sight(
     id: '4',
@@ -69,7 +61,15 @@ final List<Sight> mocks = [
         'https://avatars.mds.yandex.net/get-altay/5235198/2a0000017afec79e349484da9c8bea5a0537/XXL',
     details: 'Парк Северный',
     type: SightType.park,
-    visitTime: '111',
-    visited: '111',
   ),
 ];
+
+void replaceSight(String id, Sight sight) {
+  for (var i = 0; i <= mocks.length; i++) {
+    if (mocks[i].id == id) {
+      mocks[i] = sight;
+
+      return;
+    }
+  }
+}

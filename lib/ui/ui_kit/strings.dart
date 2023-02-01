@@ -44,6 +44,8 @@ class AppStrings {
   static const String addSightScreenCatTitle = 'Категория';
   static const String addSightScreenSave = 'СОХРАНИТЬ';
   static const String visitingScreenFav = 'Избранное';
+  static const String visitingScreenCancel = 'Отмена';
+  static const String visitingScreenOk = 'Ок';
   static const String visitingScreenWant = 'Хочу посетить';
   static const String visitingScreenDone = 'Посетил';
   static const String visitingScreenDelete = 'Удалить';

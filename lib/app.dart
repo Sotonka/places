@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/settings.dart';
@@ -27,6 +28,13 @@ class _AppState extends State<App> {
       child: ValueListenableBuilder(
         valueListenable: Settings.themeIsLight,
         builder: (_, isLight, __) => MaterialApp(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('ru'),
+          ],
           initialRoute: AppRouter.root,
           onGenerateRoute: AppRouter.generateRoute,
           title: 'places',
