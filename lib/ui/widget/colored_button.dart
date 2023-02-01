@@ -6,6 +6,7 @@ class ColoredButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget? icon;
   final bool isActive;
+  final bool isInverted;
 
   const ColoredButton({
     super.key,
@@ -13,6 +14,7 @@ class ColoredButton extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.isActive = true,
+    this.isInverted = false,
   });
 
   @override
@@ -20,13 +22,17 @@ class ColoredButton extends StatelessWidget {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
 
-    return InkWell(
+    return GestureDetector(
       onTap: isActive ? onPressed : () {},
       child: Container(
         height: 48,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isActive ? themeColors.greenAccent : themeColors.sightCard,
+          color: isActive
+              ? isInverted
+                  ? themeColors.bottomNavBar
+                  : themeColors.greenAccent
+              : themeColors.sightCard,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -38,7 +44,9 @@ class ColoredButton extends StatelessWidget {
               text,
               style: AppTextStyle.bold14.copyWith(
                 color: isActive
-                    ? AppColors.primaryLightFFF
+                    ? isInverted
+                        ? themeColors.greenAccent
+                        : AppColors.primaryLightFFF
                     : AppColors.primaryLightInactive,
               ),
             ),

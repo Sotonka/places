@@ -226,26 +226,6 @@ class _Indicator extends StatelessWidget {
   }
 }
 
-/* Widget _1buildClose(MyThemeData theme) => Center(
-        child: SizedBox(
-          width: smallButtonHeight,
-          height: smallButtonHeight,
-          child: MaterialButton(
-            elevation: 0,
-            padding: EdgeInsets.zero,
-            color: theme.backgroundFirst,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(smallButtonHeight),
-            ),
-            onPressed: () => Navigator.pop(context, _modified),
-            child: SvgPicture.asset(
-              Svg24.close,
-              color: theme.mainTextColor2,
-            ),
-          ),
-        ),
-      ); */
-
 class _BuildClose extends StatelessWidget {
   const _BuildClose();
 

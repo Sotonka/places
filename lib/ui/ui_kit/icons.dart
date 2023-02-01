@@ -8,9 +8,11 @@ class AppIcons extends StatelessWidget {
   static const _bucket = '${_defaultPath}bucket.svg';
   static const _cafe = '${_defaultPath}cafe.svg';
   static const _calendar = '${_defaultPath}calendar.svg';
+  static const _camera = '${_defaultPath}camera.svg';
   static const _choice = '${_defaultPath}choice.svg';
   static const _close = '${_defaultPath}close.svg';
   static const _confirm = '${_defaultPath}confirm.svg';
+  static const _file = '${_defaultPath}file.svg';
   static const _filter = '${_defaultPath}filter.svg';
   static const _forward = '${_defaultPath}forward.svg';
   static const _heart = '${_defaultPath}heart.svg';
@@ -23,6 +25,7 @@ class AppIcons extends StatelessWidget {
   static const _museum = '${_defaultPath}museum.svg';
   static const _park = '${_defaultPath}park.svg';
   static const _particular = '${_defaultPath}particular.svg';
+  static const _photo = '${_defaultPath}photo.svg';
   static const _restaurant = '${_defaultPath}restaurant.svg';
   static const _roadGuide = '${_defaultPath}road_guide.svg';
   static const _route = '${_defaultPath}route.svg';
@@ -122,6 +125,18 @@ class AppIcons extends StatelessWidget {
         width: width,
       );
 
+  factory AppIcons.camera({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _camera,
+        color: color,
+        height: height,
+        width: width,
+      );
+
   factory AppIcons.choice({
     final Color? color,
     final double? height,
@@ -153,6 +168,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _confirm,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.file({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _file,
         color: color,
         height: height,
         width: width,
@@ -297,6 +324,17 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _particular,
+        color: color,
+        height: height,
+        width: width,
+      );
+  factory AppIcons.photo({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _photo,
         color: color,
         height: height,
         width: width,
