@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/add_photo_provider.dart';
 import 'package:places/ui/providers/add_sight_provider.dart';
@@ -11,44 +10,62 @@ import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class AddSightScreen extends StatelessWidget {
+class AddSightScreen extends StatefulWidget {
   const AddSightScreen({super.key});
+
+  @override
+  State<AddSightScreen> createState() => _AddSightScreenState();
+}
+
+class _AddSightScreenState extends State<AddSightScreen> {
+  @override
+  void initState() {
+    context.read<AddPhotoProvider>().clearList();
+    context.read<AddSightProvider>().clear();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: const _BuildAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const _PhotoCards(),
-              const SizedBox(height: 24),
-              const _BuildForm(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                ),
-                child: Consumer<AddSightProvider>(
-                  builder: (context, provider, child) {
-                    return ColoredButton(
-                      isActive: provider.isFormReady(),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: const [
+                      _PhotoCards(),
+                      SizedBox(height: 24),
+                      _BuildForm(),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                    child: ColoredButton(
+                      isActive: context.watch<AddSightProvider>().isFormReady(),
                       text: AppStrings.addSightScreenCreate,
                       onPressed: () {
-                        provider.submitForm(context);
+                        context.read<AddSightProvider>().submitForm(context);
                       },
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -81,9 +98,9 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
             Positioned(
               left: 0,
               child: InkWell(
-                onTap: () => Navigator.of(context).pushNamed(
-                  AppRouter.sightListScreen,
-                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Text(
                   AppStrings.addSightScreenCancel,
                   style: theme.primaryTextTheme.headline6!.copyWith(
