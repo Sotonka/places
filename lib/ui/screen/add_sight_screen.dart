@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/add_photo_provider.dart';
 import 'package:places/ui/providers/add_sight_provider.dart';
@@ -11,44 +10,62 @@ import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class AddSightScreen extends StatelessWidget {
+class AddSightScreen extends StatefulWidget {
   const AddSightScreen({super.key});
+
+  @override
+  State<AddSightScreen> createState() => _AddSightScreenState();
+}
+
+class _AddSightScreenState extends State<AddSightScreen> {
+  @override
+  void initState() {
+    context.read<AddPhotoProvider>().clearList();
+    context.read<AddSightProvider>().clear();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: const _BuildAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const _PhotoCards(),
-              const SizedBox(height: 24),
-              const _BuildForm(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                ),
-                child: Consumer<AddSightProvider>(
-                  builder: (context, provider, child) {
-                    return ColoredButton(
-                      isActive: provider.isFormReady(),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: const [
+                      _PhotoCards(),
+                      SizedBox(height: 24),
+                      _BuildForm(),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                    child: ColoredButton(
+                      isActive: context.watch<AddSightProvider>().isFormReady(),
                       text: AppStrings.addSightScreenCreate,
                       onPressed: () {
-                        provider.submitForm(context);
+                        context.read<AddSightProvider>().submitForm(context);
                       },
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -81,9 +98,9 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
             Positioned(
               left: 0,
               child: InkWell(
-                onTap: () => Navigator.of(context).pushNamed(
-                  AppRouter.sightListScreen,
-                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Text(
                   AppStrings.addSightScreenCancel,
                   style: theme.primaryTextTheme.headline6!.copyWith(
@@ -642,17 +659,110 @@ class PhotoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ClipRRect(
-      borderRadius: BorderRadius.all(
-        Radius.circular(12),
-      ),
-      child: SizedBox(
-        height: 72,
-        width: 72,
-        child: LoadableImage(
-          url:
-              'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
+    return InkWell(
+      child: const ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
         ),
+        child: SizedBox(
+          height: 72,
+          width: 72,
+          child: LoadableImage(
+            url:
+                'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
+          ),
+        ),
+      ),
+      onTap: () {
+        showDialog<void>(
+          context: context,
+          builder: (context) {
+            return const _Dialog();
+          },
+        );
+      },
+    );
+  }
+}
+
+class _Dialog extends StatelessWidget {
+  const _Dialog();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColors = theme.extension<AppThemeColors>()!;
+    final source = [
+      AppStrings.addSightScreenCamera,
+      AppStrings.addSightScreenPhoto,
+      AppStrings.addSightScreenFile,
+    ];
+    final icons = [
+      AppIcons.camera(color: themeColors.dialogText),
+      AppIcons.photo(color: themeColors.dialogText),
+      AppIcons.file(color: themeColors.dialogText),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 8,
+        left: 16,
+        right: 16,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Material(
+                color: themeColors.bottomNavBar,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () => Navigator.pop(context),
+                      title: Row(
+                        children: [
+                          icons[index],
+                          const SizedBox(width: 13),
+                          Text(
+                            source[index],
+                            style: theme.primaryTextTheme.headline6!.copyWith(
+                              color: themeColors.dialogText,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+                      color: AppColors.primaryLightInactive,
+                      width: double.infinity,
+                      height: 0.8,
+                    ),
+                  ),
+                  itemCount: source.length,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ColoredButton(
+            isInverted: true,
+            text: AppStrings.addSightScreenCancel.toUpperCase(),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
     );
   }

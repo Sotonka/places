@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/sight_details_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 import 'package:places/ui/widget/transparent_button.dart';
+import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class SightDetails extends StatefulWidget {
-  final Sight sight;
+  final String id;
 
-  const SightDetails({super.key, required this.sight});
+  const SightDetails({super.key, required this.id});
 
   @override
   State<SightDetails> createState() => _SightDetailsState();
@@ -27,140 +27,155 @@ class _SightDetailsState extends State<SightDetails> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
+    final sight = Utils().getById(widget.id);
 
     return Consumer<SightDetailsProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                expandedHeight: 360,
-                flexibleSpace: Stack(
-                  children: [
-                    Container(
-                      color: themeColors.sightDetails,
-                      child: PageView(
-                        onPageChanged: (page) {
-                          provider.page = page;
-                        },
-                        children: [
-                          LoadableImage(
-                            url: widget.sight.url,
+          body: Stack(
+            children: [
+              CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    expandedHeight: 360,
+                    flexibleSpace: Stack(
+                      children: [
+                        Container(
+                          color: themeColors.sightDetails,
+                          child: PageView(
+                            onPageChanged: (page) {
+                              provider.page = page;
+                            },
+                            children: [
+                              LoadableImage(
+                                url: sight.url,
+                              ),
+                              LoadableImage(
+                                url: sight.url,
+                              ),
+                              LoadableImage(
+                                url: sight.url,
+                              ),
+                              LoadableImage(
+                                url: sight.url,
+                              ),
+                            ],
                           ),
-                          LoadableImage(
-                            url: widget.sight.url,
+                        ),
+                        Positioned(
+                          bottom: 8,
+                          child: _Indicator(
+                            itemCount: 4,
+                            page: provider.page,
                           ),
-                          LoadableImage(
-                            url: widget.sight.url,
-                          ),
-                          LoadableImage(
-                            url: widget.sight.url,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      bottom: 8,
-                      child: _Indicator(
-                        itemCount: 4,
-                        page: provider.page,
-                      ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 24,
+                            left: 16,
+                            right: 16,
+                            bottom: 16,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                sight.name,
+                                style: AppTextStyle.bold24,
+                              ),
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  Text(
+                                    sight.typeAsText,
+                                    style: theme.primaryTextTheme.bodyText1,
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Text(
+                                    'закрыто до 09:00',
+                                    style: AppTextStyle.normal14.copyWith(
+                                      color: AppColors.primaryLightE92,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                sight.details,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .bodyText1,
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                width: double.infinity,
+                                height: 1000,
+                                color: Colors.yellow.withOpacity(0.2),
+                                child: Text(
+                                  'LONG CONTENT',
+                                  style: AppTextStyle.bold24,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              ColoredButton(
+                                text: AppStrings.sightDetailsScreenRoute,
+                                onPressed: () {},
+                                icon: AppIcons.route(
+                                  color: AppColors.primaryLightFFF,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              const Divider(
+                                height: 0,
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    child: TransparentButton(
+                                      text:
+                                          AppStrings.sightDetailsScreenSchedule,
+                                      onPressed: () {},
+                                      isActive: false,
+                                      icon: AppIcons.calendar(
+                                        color: AppColors.primaryLightInactive,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: TransparentButton(
+                                      text:
+                                          AppStrings.sightDetailsScreenFavorite,
+                                      onPressed: () {},
+                                      isActive: true,
+                                      icon: AppIcons.heart(
+                                        color: themeColors.icons,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 24,
-                        left: 16,
-                        right: 16,
-                        bottom: 16,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            widget.sight.name,
-                            style: AppTextStyle.bold24,
-                          ),
-                          const SizedBox(height: 2),
-                          Row(
-                            children: [
-                              Text(
-                                widget.sight.typeAsText,
-                                style: theme.primaryTextTheme.bodyText1,
-                              ),
-                              const SizedBox(width: 16),
-                              Text(
-                                'закрыто до 09:00',
-                                style: AppTextStyle.normal14.copyWith(
-                                  color: AppColors.primaryLightE92,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            widget.sight.details,
-                            style: Theme.of(context).primaryTextTheme.bodyText1,
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            width: double.infinity,
-                            height: 1000,
-                            color: Colors.yellow.withOpacity(0.2),
-                            child: Text(
-                              'LONG CONTENT',
-                              style: AppTextStyle.bold24,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          ColoredButton(
-                            text: AppStrings.sightDetailsScreenRoute,
-                            onPressed: () {},
-                            icon: AppIcons.route(
-                              color: AppColors.primaryLightFFF,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          const Divider(
-                            height: 0,
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: TransparentButton(
-                                  text: AppStrings.sightDetailsScreenSchedule,
-                                  onPressed: () {},
-                                  isActive: false,
-                                  icon: AppIcons.calendar(
-                                    color: AppColors.primaryLightInactive,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: TransparentButton(
-                                  text: AppStrings.sightDetailsScreenFavorite,
-                                  onPressed: () {},
-                                  isActive: true,
-                                  icon: AppIcons.heart(
-                                    color: themeColors.icons,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              const Positioned(
+                top: 16,
+                right: 16,
+                child: _BuildClose(),
               ),
             ],
           ),
@@ -207,6 +222,30 @@ class _Indicator extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _BuildClose extends StatelessWidget {
+  const _BuildClose();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          color: AppColors.primaryLightFFF,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+          child: AppIcons.close(
+            color: AppColors.primaryBlueE5B,
+          ),
+        ),
+      ),
+      onTap: () => Navigator.pop(context),
     );
   }
 }

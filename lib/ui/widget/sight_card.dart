@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 
@@ -69,11 +70,32 @@ class SightCard extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed(
+                    /* Navigator.of(context).pushNamed(
                       AppRouter.sightDetailsScreen,
                       arguments: {
-                        'sight': sight,
+                        'id': sight.id,
                       },
+                    ); */
+
+                    final maxHeight = MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        40;
+
+                    showModalBottomSheet<void>(
+                      context: context,
+                      clipBehavior: Clip.antiAlias,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16),
+                        ),
+                      ),
+                      isScrollControlled: true,
+                      builder: (context) => ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: maxHeight,
+                        ),
+                        child: SightDetails(id: sight.id),
+                      ),
                     );
                   },
                 ),

@@ -39,6 +39,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     greenAccent: Color(0xFF4CAF50),
     yellowAccent: Color(0xFFFCDD3D),
     error: Color(0xFFEF4343),
+    dialogText: Color(0xFF7C7E92),
   );
 
   static const dark = AppThemeColors(
@@ -51,6 +52,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     greenAccent: Color(0xFF6ADA6F),
     yellowAccent: Color(0xFFFFE769),
     error: Color(0xFFCF2A2A),
+    dialogText: Color(0xFFFFFFFF),
   );
 
   final Color? icons;
@@ -62,6 +64,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   final Color? greenAccent;
   final Color? yellowAccent;
   final Color? error;
+  final Color? dialogText;
 
   const AppThemeColors({
     required this.icons,
@@ -73,6 +76,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     required this.greenAccent,
     required this.yellowAccent,
     required this.error,
+    required this.dialogText,
   });
 
   @override
@@ -86,6 +90,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     Color? greenAccent,
     Color? yellowAccent,
     Color? error,
+    Color? dialogText,
   }) {
     return AppThemeColors(
       icons: icons ?? this.icons,
@@ -97,6 +102,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       greenAccent: greenAccent ?? this.greenAccent,
       yellowAccent: yellowAccent ?? this.yellowAccent,
       error: error ?? this.error,
+      dialogText: dialogText ?? this.dialogText,
     );
   }
 
@@ -116,6 +122,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       greenAccent: Color.lerp(greenAccent, other.greenAccent, t),
       yellowAccent: Color.lerp(yellowAccent, other.yellowAccent, t),
       error: Color.lerp(error, other.error, t),
+      dialogText: Color.lerp(dialogText, other.dialogText, t),
     );
   }
 }

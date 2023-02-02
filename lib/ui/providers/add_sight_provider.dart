@@ -249,4 +249,16 @@ class AddSightProvider extends ChangeNotifier {
 
     return false;
   }
+
+  void clear() {
+    _selectedCategory = {null: ''};
+    _latController.clear();
+    _latIcon = null;
+    _lonController.clear();
+    _lonIcon = null;
+    _nameController.clear();
+    _nameIcon = null;
+    _descriptionController.clear();
+    _descriptionIcon = null;
+  }
 }

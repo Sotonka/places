@@ -34,6 +34,9 @@ class AppStrings {
   static const String addSightScreenCreate = 'СОЗДАТЬ';
   static const String addSightScreenNew = 'Новое место';
   static const String addSightScreenCancel = 'Отмена';
+  static const String addSightScreenPhoto = 'Фото';
+  static const String addSightScreenCamera = 'Камера';
+  static const String addSightScreenFile = 'Файл';
   static const String addSightScreenNotSelected = 'Не выбрано';
   static const String addSightScreenSelect = 'Выберите категорию';
   static const String addSightScreenMark = 'Указать на карте';
