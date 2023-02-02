@@ -31,7 +31,7 @@ class BottomNavBar extends StatelessWidget {
               context.read<SightListProvider>().clearFilteredPlaces();
               context.read<FilterProvider>().clearFilter();
               Navigator.of(context).pushNamed(
-                AppRouter.sights,
+                AppRouter.sightListScreen,
               );
             }
             break;
@@ -44,13 +44,13 @@ class BottomNavBar extends StatelessWidget {
 
           case 3:
             Navigator.of(context).pushNamed(
-              AppRouter.settings,
+              AppRouter.settingsScreen,
             );
             break;
 
           case 4:
             Navigator.of(context).pushNamed(
-              AppRouter.test,
+              AppRouter.testScreen,
             );
             break;
         }

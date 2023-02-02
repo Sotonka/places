@@ -187,7 +187,7 @@ class _BuildSightList extends StatelessWidget {
             onTap: () {
               provider.addHistory(provider.searchResult![index].name);
               Navigator.of(context).pushNamed(
-                AppRouter.sightDetails,
+                AppRouter.sightDetailsScreen,
                 arguments: {
                   'sight': provider.searchResult![index],
                 },
