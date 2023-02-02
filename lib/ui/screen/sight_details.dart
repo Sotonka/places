@@ -106,6 +106,14 @@ class _SightDetailsState extends State<SightDetails> {
                                   ),
                                 ],
                               ),
+                              //TODO
+                              //для контроля
+                              Text(
+                                sight.visitDate.toString(),
+                                style: AppTextStyle.normal14.copyWith(
+                                  color: Colors.red,
+                                ),
+                              ),
                               const SizedBox(height: 24),
                               Text(
                                 sight.details,

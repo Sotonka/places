@@ -17,8 +17,8 @@ class Sight {
   final String url;
   final String details;
   final SightType type;
-  final String? visitTime;
-  final String? visited;
+  final DateTime? visitDate;
+  final DateTime? visitedDate;
   final String? opensAt;
 
   String get typeAsText =>
@@ -32,10 +32,33 @@ class Sight {
     required this.url,
     required this.details,
     required this.type,
-    this.visitTime,
-    this.visited,
+    this.visitDate,
+    this.visitedDate,
     this.opensAt,
   });
+
+  Sight copyWith({
+    String? id,
+    String? name,
+    Coord? coord,
+    String? url,
+    String? details,
+    SightType? type,
+    DateTime? visitDate,
+    DateTime? visitedDate,
+    String? opensAt,
+  }) =>
+      Sight(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        coord: coord ?? this.coord,
+        url: url ?? this.url,
+        details: details ?? this.details,
+        type: type ?? this.type,
+        visitDate: visitDate ?? this.visitDate,
+        visitedDate: visitedDate ?? this.visitedDate,
+        opensAt: opensAt ?? this.opensAt,
+      );
 }
 
 final Map<String, String> _typeTranslations = {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/settings.dart';
+import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
@@ -72,7 +75,7 @@ class VisitingScreen extends StatelessWidget {
                   )
                 else
                   Tab(
-                    child: ReorderableListView.builder(
+                    child: ListView.builder(
                       itemBuilder: (context, index) => Padding(
                         key: ValueKey('value$index'),
                         padding: const EdgeInsets.only(bottom: 16),
@@ -82,9 +85,6 @@ class VisitingScreen extends StatelessWidget {
                         ),
                       ),
                       itemCount: provider.wishlistList.length,
-                      onReorder: (oldIndex, newIndex) {
-                        provider.reorderWishlist(oldIndex, newIndex);
-                      },
                     ),
                   ),
                 if (provider.visitedList.isEmpty)
@@ -131,6 +131,10 @@ class _DismissibleItem extends StatelessWidget {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
     final provider = context.read<VisitingProvider>();
+    var visitDate = provider.visitedList.elementAt(index).visitDate;
+    final visitedSight = provider.visitedList.elementAt(index);
+    final wishSight = provider.wishlistList.elementAt(index);
+    final today = DateTime.now();
 
     return Stack(
       children: [
@@ -172,16 +176,48 @@ class _DismissibleItem extends StatelessWidget {
           onDismissed: (_) {
             isVisited
                 ? provider.removeFromVisited(
-                    provider.visitedList.elementAt(index),
+                    visitedSight,
                   )
                 : provider.removeFromWishlist(
-                    provider.wishlistList.elementAt(index),
+                    wishSight,
                   );
           },
           child: SightCard(
-            sight: isVisited
-                ? provider.visitedList.elementAt(index)
-                : provider.wishlistList.elementAt(index),
+            onCalendarPressed: () async {
+              visitDate = await showDatePicker(
+                locale: const Locale('ru', 'RU'),
+                builder: (context, child) {
+                  return Theme(
+                    data: theme.copyWith(
+                      colorScheme: Settings.themeIsLight.value
+                          ? ColorScheme.light(
+                              primary: themeColors.greenAccent!,
+                              secondary: themeColors.icons!,
+                            )
+                          : ColorScheme.dark(
+                              primary: themeColors.greenAccent!,
+                              secondary: themeColors.icons!,
+                            ),
+                    ),
+                    child: child!,
+                  );
+                },
+                cancelText: AppStrings.visitingScreenCancel,
+                confirmText: AppStrings.visitingScreenOk,
+                context: context,
+                initialDate: visitDate ?? today,
+                firstDate: visitDate != null && visitDate!.isBefore(today)
+                    ? visitDate!
+                    : DateTime.now(),
+                lastDate: DateTime(today.year + 10, 12, 31),
+              );
+
+              if (visitDate != null) {
+                final newSight = visitedSight.copyWith(visitDate: visitDate);
+                replaceSight(visitedSight.id, newSight);
+              }
+            },
+            sight: isVisited ? visitedSight : wishSight,
             type: isVisited ? CardType.visited : CardType.wishlist,
             onClosePressed: () {
               isVisited
