@@ -14,44 +14,37 @@ class SliverCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context);
-    final width = mq.size.width;
     final orientation = MediaQuery.of(context).orientation;
 
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 3 / 2,
-        crossAxisCount: orientation == Orientation.portrait ? 1 : 2,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => Column(
-          children: [
-            if (index == 0)
-              orientation == Orientation.portrait
-                  ? const SizedBox(height: 34)
-                  : const SizedBox.shrink()
-            else
-              const SizedBox.shrink(),
-            if (orientation == Orientation.portrait)
-              SightCard(
-                sight: iterable.elementAt(index),
-                type: type,
-              )
-            else
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: SightCard(
+    return SliverPadding(
+      padding: orientation == Orientation.portrait
+          ? const EdgeInsets.only(top: 34, bottom: 16)
+          : const EdgeInsets.only(bottom: 16),
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 3 / 2,
+          crossAxisCount: orientation == Orientation.portrait ? 1 : 2,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => Column(
+            children: [
+              if (orientation == Orientation.portrait)
+                SightCard(
                   sight: iterable.elementAt(index),
                   type: type,
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SightCard(
+                    sight: iterable.elementAt(index),
+                    type: type,
+                  ),
                 ),
-              ),
-            if (index != iterable.length)
-              const SizedBox(height: 16)
-            else
-              const SizedBox.shrink(),
-          ],
+            ],
+          ),
+          childCount: iterable.length,
         ),
-        childCount: iterable.length,
       ),
     );
   }

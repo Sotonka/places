@@ -98,7 +98,7 @@ class SightSearchScreen extends StatelessWidget {
                 ),
               ),
               if (orientation == Orientation.portrait)
-                const SizedBox(height: 34)
+                const SizedBox(height: 14)
               else
                 const SizedBox(height: 14),
               const _BuildBody(),
@@ -122,7 +122,7 @@ class _BuildBody extends StatelessWidget {
               ? Expanded(
                   child: Column(
                     children: [
-                      const SizedBox(height: 38),
+                      //const SizedBox(height: 38),
                       Expanded(
                         child: provider.history.isEmpty
                             ? const SizedBox()

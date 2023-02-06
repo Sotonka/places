@@ -5,10 +5,7 @@ import 'package:places/app.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
-    //DeviceOrientation.portraitDown,
-    //DeviceOrientation.portraitUp,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    DeviceOrientation.portraitUp,
   ]);
   runApp(const App());
 }
