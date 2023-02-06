@@ -40,6 +40,8 @@ class SightSearchScreen extends StatelessWidget {
       ),
       body: Consumer<SearchProvider>(
         builder: (context, provider, child) {
+          final orientation = MediaQuery.of(context).orientation;
+
           return Column(
             children: [
               Padding(
@@ -50,47 +52,55 @@ class SightSearchScreen extends StatelessWidget {
                 ),
                 child: Consumer<FilterProvider>(
                   builder: (context, filterProvider, child) {
-                    return SearchBar(
-                      onSubmit: (value) {
-                        provider.unfocus();
-                      },
-                      onChange: (value) {
-                        provider.findSights(value);
-                      },
-                      onComplete: () {
-                        provider
-                          ..submittedSearch = provider.searchController.text
-                          ..unfocus();
-                      },
-                      controller: provider.searchController,
-                      readOnly: false,
-                      filters: filterProvider.isFilterActive(),
-                      focus: provider.searchFocus,
-                      suffixClose: provider.searching,
-                      onPressed: () {
-                        provider.notify();
-                      },
-                      onSuffixPressed: provider.searching
-                          ? () {
-                              provider.clearSearch();
-                            }
-                          : () async {
-                              await Navigator.of(context)
-                                  .pushNamed(
-                                    AppRouter.filterScreen,
-                                  )
-                                  .then((_) => provider.refreshSightList(
-                                        filteredList:
-                                            filterProvider.filteredPlaces,
-                                        isActive:
-                                            filterProvider.isFilterActive(),
-                                      ));
-                            },
+                    return Padding(
+                      padding: orientation == Orientation.landscape
+                          ? const EdgeInsets.symmetric(horizontal: 16)
+                          : EdgeInsets.zero,
+                      child: SearchBar(
+                        onSubmit: (value) {
+                          provider.unfocus();
+                        },
+                        onChange: (value) {
+                          provider.findSights(value);
+                        },
+                        onComplete: () {
+                          provider
+                            ..submittedSearch = provider.searchController.text
+                            ..unfocus();
+                        },
+                        controller: provider.searchController,
+                        readOnly: false,
+                        filters: filterProvider.isFilterActive(),
+                        focus: provider.searchFocus,
+                        suffixClose: provider.searching,
+                        onPressed: () {
+                          provider.notify();
+                        },
+                        onSuffixPressed: provider.searching
+                            ? () {
+                                provider.clearSearch();
+                              }
+                            : () async {
+                                await Navigator.of(context)
+                                    .pushNamed(
+                                      AppRouter.filterScreen,
+                                    )
+                                    .then((_) => provider.refreshSightList(
+                                          filteredList:
+                                              filterProvider.filteredPlaces,
+                                          isActive:
+                                              filterProvider.isFilterActive(),
+                                        ));
+                              },
+                      ),
                     );
                   },
                 ),
               ),
-              const SizedBox(height: 38),
+              if (orientation == Orientation.portrait)
+                const SizedBox(height: 34)
+              else
+                const SizedBox(height: 14),
               const _BuildBody(),
             ],
           );
@@ -130,9 +140,13 @@ class _BuildBody extends StatelessWidget {
                       child: NotFound(),
                     )
                   else
-                    CardList(
-                      iterable: provider.sightList,
-                      type: CardType.list,
+                    CustomScrollView(
+                      slivers: [
+                        SliverCardList(
+                          iterable: provider.sightList,
+                          type: CardType.list,
+                        ),
+                      ],
                     ),
                   Align(
                     alignment: Alignment.bottomCenter,
