@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
@@ -128,6 +129,9 @@ class _BuildCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
+    final mq = MediaQuery.of(context);
+    final orientation = mq.orientation;
+    final width = mq.size.width;
     final categories = <_Category>[
       _Category(
         type: SightType.hotel,
@@ -189,22 +193,60 @@ class _BuildCategories extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         Consumer<FilterProvider>(builder: (context, provider, child) {
-          return Wrap(
-            spacing: (MediaQuery.of(context).size.width - 192) / 4,
-            alignment: WrapAlignment.spaceAround,
-            runSpacing: 40,
-            children: [
-              for (var element in categories)
-                FilterTile(
-                  placeType: element.name,
-                  icon: element.icon,
-                  isActive: provider.filterContains(element.type),
-                  onPressed: () {
-                    provider.filterToggle(element.type);
-                  },
-                ),
-            ],
-          );
+          return width >= 480
+              ? Wrap(
+                  spacing: (width - 192) / 3,
+                  alignment: WrapAlignment.center,
+                  runSpacing: 40,
+                  children: [
+                    for (var element in categories)
+                      FilterTile(
+                        placeType: element.name,
+                        icon: element.icon,
+                        isActive: provider.filterContains(element.type),
+                        onPressed: () {
+                          provider.filterToggle(element.type);
+                        },
+                      ),
+                  ],
+                )
+              : SizedBox(
+                  height: 95,
+                  child: PageView(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          for (int i = 0; i < 3; i++)
+                            FilterTile(
+                              placeType: categories[i].name,
+                              icon: categories[i].icon,
+                              isActive:
+                                  provider.filterContains(categories[i].type),
+                              onPressed: () {
+                                provider.filterToggle(categories[i].type);
+                              },
+                            ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          for (int i = 3; i < categories.length; i++)
+                            FilterTile(
+                              placeType: categories[i].name,
+                              icon: categories[i].icon,
+                              isActive:
+                                  provider.filterContains(categories[i].type),
+                              onPressed: () {
+                                provider.filterToggle(categories[i].type);
+                              },
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
         }),
       ],
     );
