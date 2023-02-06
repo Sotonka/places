@@ -193,7 +193,7 @@ class _BuildCategories extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         Consumer<FilterProvider>(builder: (context, provider, child) {
-          return width >= 480
+          return width <= 480
               ? Wrap(
                   spacing: (width - 192) / 3,
                   alignment: WrapAlignment.center,
