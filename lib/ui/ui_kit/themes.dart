@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/ui_kit/colors.dart';
 import 'package:places/ui/ui_kit/text_styles.dart';
@@ -87,6 +88,14 @@ class AppTheme {
         focused: true,
       ),
     ),
+    cupertinoOverrideTheme: CupertinoThemeData(
+      brightness: Brightness.light,
+      textTheme: CupertinoTextThemeData(
+        dateTimePickerTextStyle: AppTextStyle.middle16.copyWith(
+          color: AppColors.primaryBlueE5B,
+        ),
+      ),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -128,6 +137,14 @@ class AppTheme {
       focusedErrorBorder: _border(
         const Color(0x29EF4343),
         focused: true,
+      ),
+    ),
+    cupertinoOverrideTheme: CupertinoThemeData(
+      brightness: Brightness.dark,
+      textTheme: CupertinoTextThemeData(
+        dateTimePickerTextStyle: AppTextStyle.middle16.copyWith(
+          color: AppColors.primaryLightFFF,
+        ),
       ),
     ),
   );

@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:places/domain/settings.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/date_pickers.dart';
 import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
@@ -184,33 +184,22 @@ class _DismissibleItem extends StatelessWidget {
           },
           child: SightCard(
             onCalendarPressed: () async {
-              visitDate = await showDatePicker(
-                locale: const Locale('ru', 'RU'),
-                builder: (context, child) {
-                  return Theme(
-                    data: theme.copyWith(
-                      colorScheme: Settings.themeIsLight.value
-                          ? ColorScheme.light(
-                              primary: themeColors.greenAccent!,
-                              secondary: themeColors.icons!,
-                            )
-                          : ColorScheme.dark(
-                              primary: themeColors.greenAccent!,
-                              secondary: themeColors.icons!,
-                            ),
-                    ),
-                    child: child!,
-                  );
-                },
-                cancelText: AppStrings.visitingScreenCancel,
-                confirmText: AppStrings.visitingScreenOk,
-                context: context,
-                initialDate: visitDate ?? today,
-                firstDate: visitDate != null && visitDate!.isBefore(today)
-                    ? visitDate!
-                    : DateTime.now(),
-                lastDate: DateTime(today.year + 10, 12, 31),
-              );
+              visitDate = Platform.isIOS
+                  ? await showCupertinoDatePicker(
+                      context: context,
+                      initialDate: visitDate ?? today,
+                      firstDate: visitDate != null && visitDate!.isBefore(today)
+                          ? visitDate!
+                          : today,
+                    )
+                  : await datePicker(
+                      context: context,
+                      initialDate: visitDate ?? today,
+                      firstDate: visitDate != null && visitDate!.isBefore(today)
+                          ? visitDate!
+                          : DateTime.now(),
+                      lastDate: DateTime(today.year + 10, 12, 31),
+                    );
 
               if (visitDate != null) {
                 final newSight = visitedSight.copyWith(visitDate: visitDate);
