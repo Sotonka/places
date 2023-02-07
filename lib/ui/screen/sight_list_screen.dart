@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/domain/sight.dart';
@@ -24,18 +23,31 @@ class SightListScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Consumer<SightListProvider>(builder: (context, provider, child) {
+      final orientation = MediaQuery.of(context).orientation;
+
       return Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverTitleDelegate(
-                systemBarHeight: MediaQuery.of(context).padding.top,
-                bigTitleStyle: theme.primaryTextTheme.headline1!,
-                smallTitleStyle: theme.primaryTextTheme.headline3!,
-                context: context,
+            if (orientation == Orientation.portrait)
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _SliverTitleDelegate(
+                  systemBarHeight: MediaQuery.of(context).padding.top,
+                  bigTitleStyle: theme.primaryTextTheme.headline1!,
+                  smallTitleStyle: theme.primaryTextTheme.headline3!,
+                  context: context,
+                ),
+              )
+            else
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _LandscapeSliverTitleDelegate(
+                  systemBarHeight: MediaQuery.of(context).padding.top,
+                  bigTitleStyle: theme.primaryTextTheme.headline1!,
+                  smallTitleStyle: theme.primaryTextTheme.headline3!,
+                  context: context,
+                ),
               ),
-            ),
             if (provider.sightList.isEmpty)
               const NotFound()
             else
@@ -173,6 +185,101 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ],
             ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      false;
+}
+
+class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
+  static const bigTitleOffset = 40;
+
+  final double systemBarHeight;
+  final TextStyle bigTitleStyle;
+  final TextStyle smallTitleStyle;
+  final double bigTitleHeight;
+  final double smallTitleHeight;
+  final BuildContext context;
+
+  @override
+  double get maxExtent =>
+      systemBarHeight + smallTitleHeight + 30 + 25 + 40 + 14;
+
+  @override
+  double get minExtent =>
+      systemBarHeight + smallTitleHeight + 30 + 25 + 40 + 14;
+
+  _LandscapeSliverTitleDelegate({
+    required this.systemBarHeight,
+    required this.bigTitleStyle,
+    required this.smallTitleStyle,
+    required this.context,
+  })  : bigTitleHeight = bigTitleStyle.fontSize! * bigTitleStyle.height!,
+        smallTitleHeight = smallTitleStyle.fontSize! * smallTitleStyle.height!;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final theme = Theme.of(context);
+
+    return Container(
+      color: theme.backgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        children: [
+          SizedBox(
+            height: systemBarHeight + 16,
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              ' Список интересных мест',
+              style: smallTitleStyle,
+            ),
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              Consumer<FilterProvider>(
+                builder: (context, filterProvider, child) {
+                  return SearchBar(
+                    onPressed: () {
+                      context.read<SearchProvider>().refreshSightList(
+                            filteredList:
+                                context.read<FilterProvider>().filteredPlaces,
+                            isActive:
+                                context.read<FilterProvider>().isFilterActive(),
+                          );
+                      Navigator.of(context).pushNamed(
+                        AppRouter.searchScreen,
+                      );
+                    },
+                    filters: filterProvider.isFilterActive(),
+                    onSuffixPressed: () async {
+                      await Navigator.of(context)
+                          .pushNamed(
+                            AppRouter.filterScreen,
+                          )
+                          .then((_) => context
+                              .read<SightListProvider>()
+                              .refreshSightList(
+                                filteredList: filterProvider.filteredPlaces,
+                                isActive: filterProvider.isFilterActive(),
+                              ));
+                    },
+                    onSubmit: (_) {},
+                  );
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );
