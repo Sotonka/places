@@ -1,8 +1,9 @@
+import 'package:places/data/model/place.dart';
 import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/sight.dart';
 
 final List<Sight> mocks = [
-  Sight(
+  /* Sight(
     id: '0',
     name: 'Coffee Republic1',
     coord: Coord(
@@ -61,7 +62,7 @@ final List<Sight> mocks = [
         'https://avatars.mds.yandex.net/get-altay/5235198/2a0000017afec79e349484da9c8bea5a0537/XXL',
     details: 'Парк Северный',
     type: SightType.park,
-  ),
+  ), */
 ];
 
 void replaceSight(String id, Sight sight) {
@@ -73,3 +74,39 @@ void replaceSight(String id, Sight sight) {
     }
   }
 }
+
+final List<Place> mocks1 = [
+  Place(
+    id: 888600,
+    lat: 0,
+    lng: 0,
+    name: 'test1',
+    urls: [
+      'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+    ],
+    placeType: 'cafe',
+    description: 'description',
+  ),
+  Place(
+    id: 888601,
+    lat: 0,
+    lng: 0,
+    name: 'test2',
+    urls: [
+      'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+    ],
+    placeType: 'cafe',
+    description: 'description',
+  ),
+  Place(
+    id: 888602,
+    lat: 0,
+    lng: 0,
+    name: 'test3',
+    urls: [
+      'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
+    ],
+    placeType: 'cafe',
+    description: 'description',
+  ),
+];

@@ -142,10 +142,11 @@ class _BuildBody extends StatelessWidget {
                   else
                     CustomScrollView(
                       slivers: [
-                        SliverCardList(
+                        // TODO
+                        /* SliverCardList(
                           iterable: provider.sightList,
                           type: CardType.list,
-                        ),
+                        ), */
                       ],
                     ),
                   Align(

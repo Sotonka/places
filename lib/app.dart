@@ -6,6 +6,7 @@ import 'package:places/domain/settings.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/providers/app_providers.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
+import 'package:places/ui/screen/test_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +51,8 @@ class _AppState extends State<App> {
                   ],
                 ),
           debugShowCheckedModeBanner: false,
-          home: const SightListScreen(),
+          //home: const SightListScreen(),
+          home: const TestScreen(),
         ),
       ),
     );

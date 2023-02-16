@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/place_repository.dart';
+import 'package:places/mocks.dart';
+import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/colored_button.dart';
+import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
@@ -13,7 +20,7 @@ class TestScreen extends StatelessWidget {
 
     return Scaffold(
       bottomNavigationBar: BottomNavBar(index: 4),
-      body: Center(
+      /*  body: Center(
         child: ColoredButton(
           text: 'DIO TEST',
           onPressed: () async {
@@ -23,13 +30,56 @@ class TestScreen extends StatelessWidget {
             print(data[0].urls);
           },
         ),
+      ), */
+      appBar: AppBar(
+        actions: [
+          InkWell(
+            onTap: () {
+              PlaceInteractor().postMocks(3);
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              color: Colors.amber,
+              child: Text('post'),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              //context.read<SightListProvider>().loadPlaces();
+              PlaceInteractor().getPlaces();
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              color: Colors.red,
+              child: Text('get'),
+            ),
+          ),
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: context.read<SightListProvider>().placeList.length,
+        itemBuilder: (context, index) {
+          return context
+                  .read<SightListProvider>()
+                  .placeList[index]
+                  .id
+                  .toString()
+                  .contains('8887')
+              ? ListTile(
+                  title: Text(
+                    '${context.read<SightListProvider>().placeList[index].name} : ${context.read<SightListProvider>().placeList[index].id}',
+                  ),
+                )
+              : const SizedBox.shrink();
+        },
       ),
     );
   }
 }
 
-///
-///
+//place
 ///
 ///
 ///
@@ -60,7 +110,12 @@ Future<dynamic> getPosts() async {
 void initInterceptors() {
   dio.interceptors.add(
     InterceptorsWrapper(
-      onError: (e, handler) {},
+      onError: (e, handler) {
+        // ignore: avoid_print
+        print(e.message);
+
+        return handler.next(e);
+      },
       onRequest: (options, handler) {
         // ignore: avoid_print
         print('Запрос отправляется');

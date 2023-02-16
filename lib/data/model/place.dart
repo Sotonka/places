@@ -1,7 +1,7 @@
 class Place {
-  final String id;
+  final int id;
   final double lat;
-  final double lon;
+  final double lng;
   final String name;
   final List<String>? urls;
   final String placeType;
@@ -10,7 +10,7 @@ class Place {
   Place({
     required this.id,
     required this.lat,
-    required this.lon,
+    required this.lng,
     required this.name,
     required this.urls,
     required this.placeType,
@@ -19,16 +19,13 @@ class Place {
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
-      // TODO ??
-      id: json['id'].toString(),
+      id: json['id'] as int,
       lat: json['lat'] as double,
-      lon: json['lng'] as double,
+      lng: json['lng'] as double,
       name: json['name'] as String,
-      // TODO может быть пустым
       urls: json['urls'] != null
           ? (json['urls'] as List<dynamic>).whereType<String>().toList()
           : null,
-
       placeType: json['placeType'] as String,
       description: json['description'] as String,
     );
@@ -36,6 +33,18 @@ class Place {
 
   @override
   String toString() {
-    return 'Название: $name. Тип: $placeType. Ширина: $lat. Долгота: $lon.';
+    return 'Название: $name. Тип: $placeType. Ширина: $lat. Долгота: $lng.';
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'lat': lat,
+      'lng': lng,
+      'name': name,
+      'urls': urls,
+      'placeType': placeType,
+      'description': description,
+    };
   }
 }

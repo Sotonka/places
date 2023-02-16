@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/widget/sight_card.dart';
 
 class SliverCardList extends StatelessWidget {
-  final Iterable<Sight> iterable;
+  final Iterable<Place> iterable;
   final CardType type;
 
   const SliverCardList({

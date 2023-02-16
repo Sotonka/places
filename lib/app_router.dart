@@ -53,7 +53,7 @@ abstract class AppRouter {
 
       case AppRouter.sightDetailsScreen:
         final arguments = settings.arguments as Map<String, dynamic>;
-        final id = arguments['id'] as String;
+        final id = arguments['id'] as int;
 
         return MaterialPageRoute<Object?>(
           builder: (_) => SightDetails(id: id),

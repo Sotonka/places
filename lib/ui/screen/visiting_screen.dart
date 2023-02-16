@@ -167,7 +167,9 @@ class _DismissibleItem extends StatelessWidget {
             ),
           ),
         ),
-        Dismissible(
+
+        // TODO
+        /* Dismissible(
           direction: DismissDirection.endToStart,
           dismissThresholds: const {
             DismissDirection.endToStart: 0.2,
@@ -218,7 +220,7 @@ class _DismissibleItem extends StatelessWidget {
                     );
             },
           ),
-        ),
+        ), */
       ],
     );
   }

@@ -11,12 +11,25 @@ import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/gradient_button.dart';
 import 'package:places/ui/widget/nothing_found.dart';
+import 'package:places/ui/widget/progress_indicator.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:provider/provider.dart';
 
-class SightListScreen extends StatelessWidget {
+class SightListScreen extends StatefulWidget {
   const SightListScreen({super.key});
+
+  @override
+  State<SightListScreen> createState() => _SightListScreenState();
+}
+
+class _SightListScreenState extends State<SightListScreen> {
+  @override
+  void initState() {
+    context.read<SightListProvider>().isloading = true;
+    context.read<SightListProvider>().loadPlaces();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +61,20 @@ class SightListScreen extends StatelessWidget {
                   context: context,
                 ),
               ),
-            if (provider.sightList.isEmpty)
-              const NotFound()
+            if (provider.isloading)
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: CustomProgress(),
+                ),
+              )
+            else if (provider.placeList.isEmpty)
+              const SliverToBoxAdapter(
+                child: NotFound(),
+              )
             else
               SliverCardList(
-                iterable: provider.sightList,
+                iterable: provider.placeList,
                 type: CardType.list,
               ),
           ],

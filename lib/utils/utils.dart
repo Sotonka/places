@@ -35,11 +35,11 @@ class Utils {
     }
   }
 
-  Sight getById(String id) {
+  Sight getById(int id) {
     final list = <Sight>[];
 
     for (final element in mocks) {
-      if (element.id == id) {
+      if (element.id == id.toString()) {
         list.add(element);
       }
     }

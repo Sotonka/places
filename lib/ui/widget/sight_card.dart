@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
@@ -8,10 +9,7 @@ import 'package:places/ui/widget/loadable_image.dart';
 enum CardType { list, wishlist, visited }
 
 class SightCard extends StatelessWidget {
-  /// [sight] - модель места,
-  /// [type] - тип карточки (list, wishlist, visited) - влияет на отображение
-  /// интерфейса - возможных действий с карточкой
-  final Sight sight;
+  final Place sight;
   final CardType type;
 
   final VoidCallback? onClosePressed;
@@ -70,13 +68,6 @@ class SightCard extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    /* Navigator.of(context).pushNamed(
-                      AppRouter.sightDetailsScreen,
-                      arguments: {
-                        'id': sight.id,
-                      },
-                    ); */
-
                     final maxHeight = MediaQuery.of(context).size.height -
                         MediaQuery.of(context).padding.top -
                         40;
@@ -153,7 +144,7 @@ class SightCard extends StatelessWidget {
 }
 
 class _TopPart extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   final CardType type;
 
   const _TopPart({
@@ -167,13 +158,15 @@ class _TopPart extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         LoadableImage(
-          url: sight.url,
+          url: sight.urls,
         ),
         Positioned(
           left: 16,
           top: 16,
           child: Text(
-            sight.typeAsText,
+            // TODO
+            //sight.typeAsText,
+            sight.placeType,
             style: AppTextStyle.bold14.copyWith(
               color: AppColors.primaryLightFFF,
             ),
@@ -185,7 +178,7 @@ class _TopPart extends StatelessWidget {
 }
 
 class _BottomPart extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   const _BottomPart({
     required this.sight,
   });
@@ -215,7 +208,7 @@ class _BottomPart extends StatelessWidget {
             const SizedBox(height: 2),
             Flexible(
               child: Text(
-                sight.details,
+                sight.description,
                 style: AppTextStyle.normal14.copyWith(
                   color: AppColors.primaryLightE92,
                 ),
