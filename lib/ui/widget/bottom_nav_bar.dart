@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/ui/providers/filter_provider.dart';
-import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
-import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int index;
@@ -28,8 +25,6 @@ class BottomNavBar extends StatelessWidget {
         switch (index) {
           case 0:
             {
-              context.read<SightListProvider>().clearFilteredPlaces();
-              context.read<FilterProvider>().clearFilter();
               Navigator.of(context).pushNamed(
                 AppRouter.sightListScreen,
               );

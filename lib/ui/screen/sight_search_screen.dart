@@ -27,8 +27,6 @@ class SightSearchScreen extends StatelessWidget {
       appBar: SmallAppBar(
         titleWidget: InkWell(
           onTap: () {
-            context.read<SightListProvider>().clearFilteredPlaces();
-            context.read<FilterProvider>().clearFilter();
             Navigator.of(context).pop();
           },
           child: Text(
@@ -50,51 +48,47 @@ class SightSearchScreen extends StatelessWidget {
                   left: 16,
                   right: 16,
                 ),
-                child: Consumer<FilterProvider>(
-                  builder: (context, filterProvider, child) {
-                    return Padding(
-                      padding: orientation == Orientation.landscape
-                          ? const EdgeInsets.symmetric(horizontal: 16)
-                          : EdgeInsets.zero,
-                      child: SearchBar(
-                        onSubmit: (value) {
-                          provider.unfocus();
-                        },
-                        onChange: (value) {
-                          provider.findSights(value);
-                        },
-                        onComplete: () {
-                          provider
-                            ..submittedSearch = provider.searchController.text
-                            ..unfocus();
-                        },
-                        controller: provider.searchController,
-                        readOnly: false,
-                        filters: filterProvider.isFilterActive(),
-                        focus: provider.searchFocus,
-                        suffixClose: provider.searching,
-                        onPressed: () {
-                          provider.notify();
-                        },
-                        onSuffixPressed: provider.searching
-                            ? () {
-                                provider.clearSearch();
-                              }
-                            : () async {
-                                await Navigator.of(context)
-                                    .pushNamed(
-                                      AppRouter.filterScreen,
-                                    )
-                                    .then((_) => provider.refreshSightList(
+                child: Padding(
+                  padding: orientation == Orientation.landscape
+                      ? const EdgeInsets.symmetric(horizontal: 16)
+                      : EdgeInsets.zero,
+                  child: SearchBar(
+                    onSubmit: (value) {
+                      provider.unfocus();
+                    },
+                    onChange: (value) {
+                      provider.findSights(value);
+                    },
+                    onComplete: () {
+                      provider
+                        ..submittedSearch = provider.searchController.text
+                        ..unfocus();
+                    },
+                    controller: provider.searchController,
+                    readOnly: false,
+                    filters: context.watch<FilterProvider>().isEmpty,
+                    focus: provider.searchFocus,
+                    suffixClose: provider.searching,
+                    onPressed: () {
+                      provider.notify();
+                    },
+                    onSuffixPressed: provider.searching
+                        ? () {
+                            provider.clearSearch();
+                          }
+                        : () async {
+                            await Navigator.of(context).pushNamed(
+                              AppRouter.filterScreen,
+                            )
+                                /* .then((_) => provider.refreshSightList(
                                           filteredList:
                                               filterProvider.filteredPlaces,
                                           isActive:
                                               filterProvider.isFilterActive(),
-                                        ));
-                              },
-                      ),
-                    );
-                  },
+                                        )) */
+                                ;
+                          },
+                  ),
                 ),
               ),
               if (orientation == Orientation.portrait)

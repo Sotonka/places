@@ -6,6 +6,7 @@ import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/repository/place_repository.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/colored_button.dart';
@@ -33,6 +34,18 @@ class TestScreen extends StatelessWidget {
       ), */
       appBar: AppBar(
         actions: [
+          InkWell(
+            onTap: () {
+              PlaceInteractor()
+                  .getFilteresPlaces(context.read<FilterProvider>().filter);
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              color: Colors.blue,
+              child: Text('filter'),
+            ),
+          ),
           InkWell(
             onTap: () {
               PlaceInteractor().postMocks(3);

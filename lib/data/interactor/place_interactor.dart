@@ -1,5 +1,8 @@
 import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_dto.dart';
+import 'package:places/data/repository/mapper.dart';
 import 'package:places/data/repository/place_repository.dart';
+import 'package:places/domain/filters.dart';
 
 final repository = PlaceRepository();
 
@@ -20,6 +23,14 @@ class PlaceInteractor {
     final response = await repository.postPlace(place);
 
     return response;
+  }
+
+  Future<List<Place>> getFilteresPlaces(Filter filter) async {
+    final response = await repository.getFilteredPlaces(filter);
+
+    final places = await _fromApiToUI(response);
+
+    return places;
   }
 
   ///
@@ -52,5 +63,13 @@ class PlaceInteractor {
         description: place.description,
       ),
     );
+  }
+
+  Future<Place> _fromApiToUIPlace(PlaceDto place) async {
+    return Mapper.fromApi(place);
+  }
+
+  Future<List<Place>> _fromApiToUI(List<PlaceDto> apiPlaces) async {
+    return apiPlaces.map(Mapper.fromApi).toList();
   }
 }

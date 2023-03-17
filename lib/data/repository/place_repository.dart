@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:places/data/model/place.dart';
+import 'package:places/data/model/place_dto.dart';
+import 'package:places/domain/filters.dart';
 
 const url = 'https://test-backend-flutter.surfstudio.ru';
 
@@ -51,22 +53,31 @@ class PlaceRepository {
       data: jsonEncode(
         place.toJson(),
       ),
-      // TODO ниже рабочая
-      /* data: jsonEncode(
-        <String, dynamic>{
-          'id': 888797,
-          'lat': 0,
-          'lng': 0,
-          'name': 'test97',
-          'urls': ['test97'],
-          'placeType': 'cafe',
-          'description': 'test97',
-        },
-      ), */
     );
 
     if (response.statusCode == 200) {
       return response.data ?? '';
+    }
+    throw Exception('No 200 status code: Error code: ${response.statusCode}');
+  }
+
+  Future<List<PlaceDto>> getFilteredPlaces(Filter filter) async {
+    initInterceptors();
+
+    final response = await dio.post<String>(
+      '/filtered_places',
+      data: jsonEncode(
+        filter.toJson(),
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final dynamic list = jsonDecode(response.data ?? '');
+
+      // ignore: avoid_annotating_with_dynamic
+      return (list as List<dynamic>)
+          .map((dynamic e) => PlaceDto.fromJson(e as Map<String, dynamic>))
+          .toList();
     }
     throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
@@ -76,9 +87,6 @@ void initInterceptors() {
   dio.interceptors.add(
     InterceptorsWrapper(
       onError: (e, handler) {
-        // ignore: avoid_print
-        //print(e.message);
-
         return handler.next(e);
       },
       onRequest: (options, handler) {

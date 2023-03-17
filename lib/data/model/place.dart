@@ -1,3 +1,5 @@
+import 'package:places/ui/ui_kit/strings.dart';
+
 class Place {
   final int id;
   final double lat;
@@ -6,6 +8,8 @@ class Place {
   final List<String>? urls;
   final String placeType;
   final String description;
+
+  String get typeAsText => _typeTranslations[placeType.toString()] ?? '';
 
   Place({
     required this.id,
@@ -48,3 +52,21 @@ class Place {
     };
   }
 }
+
+enum PlaceType {
+  cafe,
+  hotel,
+  museum,
+  park,
+  particular,
+  restaurant,
+}
+
+final Map<String, String> _typeTranslations = {
+  'SightType.cafe': AppStrings.cafe,
+  'SightType.restaurant': AppStrings.restaurant,
+  'SightType.park': AppStrings.park,
+  'SightType.museum': AppStrings.museum,
+  'SightType.hotel': AppStrings.hotel,
+  'SightType.particular': AppStrings.particular,
+};

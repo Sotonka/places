@@ -1,51 +1,69 @@
 import 'dart:collection';
-
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
-import 'package:places/utils/utils.dart';
 
 class Filter {
-  /// фильтр для списка мест
-  /// [categories] - set с enum SightType, по умолчанию пустой
-  /// [distance] - объект класса Range, имеет два поля - минимальный и
-  /// максимальный радиус поиска
-  final UnmodifiableSetView<SightType> categories;
-  final Range<double> distance;
+  final UnmodifiableSetView<String> typeFilter;
+  final String nameFilter;
+  final double lat;
+  final double lng;
+  final double radius;
 
   Filter({
-    Set<SightType>? categories,
-    this.distance =
-        const Range<double>(AppConstants.minDistance, AppConstants.maxDistance),
-  }) : categories = UnmodifiableSetView<SightType>(categories ?? {});
+    Set<String>? typeFilter,
+    this.nameFilter = '',
+    this.lat = AppConstants.centerPointLat,
+    this.lng = AppConstants.centerPointLon,
+    this.radius = AppConstants.maxDistance,
+  }) : typeFilter = UnmodifiableSetView<String>(typeFilter ??
+            {
+              ...AppConstants.placeTypes,
+            });
 
-  Filter toggleCategory(SightType type) {
+  Filter toggleCategory(String type) {
     /// метод для переключения статуса значка категории на экране фильтра
     /// (on/ off), в зависимости от наличия добавляет или удаляет SightType
     /// из множества [categories]
-    final s = categories.toSet();
-    categories.contains(type) ? s.remove(type) : s.add(type);
+    final s = typeFilter.toSet();
+    typeFilter.contains(type) ? s.remove(type) : s.add(type);
 
-    return copyWith(categories: s);
+    return copyWith(typeFilter: s);
   }
 
-  Filter copyWith({Set<SightType>? categories, Range<double>? distance}) {
-    /// принимает необязательные [categories] и [distance],
-    /// возвращает с ними новый [Filter]
+  Filter copyWith({
+    Set<String>? typeFilter,
+    String? nameFilter,
+    double? radius,
+  }) {
     return Filter(
-      categories: categories == null
-          ? this.categories
-          : UnmodifiableSetView<SightType>(categories),
-      distance: distance ?? this.distance,
+      typeFilter: typeFilter == null
+          ? this.typeFilter
+          : UnmodifiableSetView<String>(typeFilter),
+      nameFilter: nameFilter ?? this.nameFilter,
+      radius: radius ?? this.radius,
     );
   }
 
   bool isEmpty() {
-    if (categories.isEmpty &&
-        distance.start == AppConstants.minDistance &&
-        distance.end == AppConstants.maxDistance) {
+    if (typeFilter.contains(AppConstants.placeTypes[0]) &&
+        typeFilter.contains(AppConstants.placeTypes[1]) &&
+        typeFilter.contains(AppConstants.placeTypes[2]) &&
+        typeFilter.contains(AppConstants.placeTypes[3]) &&
+        typeFilter.contains(AppConstants.placeTypes[4]) &&
+        typeFilter.contains(AppConstants.placeTypes[5]) &&
+        radius == AppConstants.maxDistance) {
       return true;
     }
 
     return false;
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'lat': lat.toDouble(),
+      'lng': lng.toDouble(),
+      'radius': radius.toDouble(),
+      'typeFilter': typeFilter.toList(),
+      'nameFilter': nameFilter,
+    };
   }
 }

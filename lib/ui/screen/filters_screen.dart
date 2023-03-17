@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:places/domain/filters.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
+import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/colored_button.dart';
 import 'package:places/ui/widget/filter_tile.dart';
@@ -11,8 +9,7 @@ import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
-  final Filter? filter;
-  const FiltersScreen({super.key, this.filter});
+  const FiltersScreen({super.key});
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
@@ -21,8 +18,7 @@ class FiltersScreen extends StatefulWidget {
 class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
-    context.read<FilterProvider>().filter = widget.filter;
-    context.read<FilterProvider>().updateFilteredPlaces();
+    context.read<FilterProvider>().init();
     super.initState();
   }
 
@@ -46,22 +42,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     left: 16,
                     right: 16,
                   ),
-                  child: Consumer<FilterProvider>(
-                    builder: (context, provider, child) {
-                      return ColoredButton(
-                        isActive: !provider.isEmptySearch,
-                        text:
-                            '${AppStrings.filtersScreenShow} (${provider.filteredPlacesLenght})',
-                        onPressed: () {
-                          Navigator.pop(
-                            context,
-                            {
-                              'filteredPlaces': provider.filteredPlaces,
-                              'isFilterActive': provider.isFilterActive(),
-                              'filter': provider.filter,
-                            },
+                  child: ColoredButton(
+                    isActive: true,
+                    text: '${AppStrings.filtersScreenShow} ',
+                    onPressed: () {
+                      context.read<SightListProvider>().isloading = true;
+                      context.read<SightListProvider>().loadFilteredPlaces(
+                            context.read<FilterProvider>().filter,
                           );
-                        },
+                      Navigator.pop(
+                        context,
                       );
                     },
                   ),
@@ -95,6 +85,7 @@ class _BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             InkWell(
               onTap: () {
+                provider.revertFilter();
                 Navigator.of(context).pop();
               },
               child: Container(
@@ -130,46 +121,45 @@ class _BuildCategories extends StatelessWidget {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
     final mq = MediaQuery.of(context);
-    final orientation = mq.orientation;
     final width = mq.size.width;
     final categories = <_Category>[
       _Category(
-        type: SightType.hotel,
+        type: 'hotel',
         name: AppStrings.hotel.capitalize(),
         icon: AppIcons.hotel(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
-        type: SightType.restaurant,
+        type: 'restaurant',
         name: AppStrings.restaurant.capitalize(),
         icon: AppIcons.restaurant(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
-        type: SightType.particular,
+        type: 'particular',
         name: AppStrings.particular.capitalize(),
         icon: AppIcons.particular(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
-        type: SightType.park,
+        type: 'park',
         name: AppStrings.park.capitalize(),
         icon: AppIcons.park(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
-        type: SightType.museum,
+        type: 'museum',
         name: AppStrings.museum.capitalize(),
         icon: AppIcons.museum(
           color: themeColors.greenAccent,
         ),
       ),
       _Category(
-        type: SightType.cafe,
+        type: 'cafe',
         name: AppStrings.cafe.capitalize(),
         icon: AppIcons.cafe(
           color: themeColors.greenAccent,
@@ -203,9 +193,10 @@ class _BuildCategories extends StatelessWidget {
                       FilterTile(
                         placeType: element.name,
                         icon: element.icon,
-                        isActive: provider.filterContains(element.type),
+                        isActive:
+                            provider.filterContains(element.type.toString()),
                         onPressed: () {
-                          provider.filterToggle(element.type);
+                          provider.filterToggle(element.type.toString());
                         },
                       ),
                   ],
@@ -221,10 +212,13 @@ class _BuildCategories extends StatelessWidget {
                             FilterTile(
                               placeType: categories[i].name,
                               icon: categories[i].icon,
-                              isActive:
-                                  provider.filterContains(categories[i].type),
+                              isActive: provider.filterContains(
+                                categories[i].type.toString(),
+                              ),
                               onPressed: () {
-                                provider.filterToggle(categories[i].type);
+                                provider.filterToggle(
+                                  categories[i].type.toString(),
+                                );
                               },
                             ),
                         ],
@@ -236,10 +230,13 @@ class _BuildCategories extends StatelessWidget {
                             FilterTile(
                               placeType: categories[i].name,
                               icon: categories[i].icon,
-                              isActive:
-                                  provider.filterContains(categories[i].type),
+                              isActive: provider.filterContains(
+                                categories[i].type.toString(),
+                              ),
                               onPressed: () {
-                                provider.filterToggle(categories[i].type);
+                                provider.filterToggle(
+                                  categories[i].type.toString(),
+                                );
                               },
                             ),
                         ],
@@ -277,7 +274,7 @@ class _BuildSlider extends StatelessWidget {
                   style: theme.primaryTextTheme.headline6,
                 ),
                 Text(
-                  '${AppStrings.filtersScreenFrom} ${provider.distanceStart} ${AppStrings.filtersScreenTo} ${provider.distanceEnd} ${AppStrings.filtersScreenKm}',
+                  '${AppStrings.filtersScreenFrom} 0 ${AppStrings.filtersScreenTo} ${provider.distanceEnd} ${AppStrings.filtersScreenKm}',
                   style: theme.primaryTextTheme.headline6!.copyWith(
                     color: AppColors.primaryLightInactive,
                   ),
@@ -291,14 +288,14 @@ class _BuildSlider extends StatelessWidget {
             ),
             child: RangeSlider(
               values: RangeValues(
-                provider.filter.distance.start,
-                provider.filter.distance.end,
+                0,
+                provider.filter.radius,
               ),
               max: 30000,
               divisions: 30,
               onChanged: (values) {
                 if (values.start.round() >= values.end.round()) return;
-                provider.updateRange(values.start, values.end);
+                provider.updateRange(values.end);
               },
             ),
           ),
@@ -309,7 +306,7 @@ class _BuildSlider extends StatelessWidget {
 }
 
 class _Category {
-  SightType type;
+  String type;
   String name;
   Widget icon;
 

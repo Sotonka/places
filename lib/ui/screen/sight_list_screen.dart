@@ -27,7 +27,9 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   void initState() {
     context.read<SightListProvider>().isloading = true;
-    context.read<SightListProvider>().loadPlaces();
+    context
+        .read<SightListProvider>()
+        .loadFilteredPlaces(context.read<FilterProvider>().filter);
     super.initState();
   }
 
@@ -61,7 +63,7 @@ class _SightListScreenState extends State<SightListScreen> {
                   context: context,
                 ),
               ),
-            if (provider.isloading)
+            if (context.watch<SightListProvider>().isloading)
               const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(top: 40),
@@ -111,7 +113,6 @@ class _SightListScreenState extends State<SightListScreen> {
 
 class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
   static const bigTitleOffset = 40;
-
   final double systemBarHeight;
   final TextStyle bigTitleStyle;
   final TextStyle smallTitleStyle;
@@ -173,37 +174,33 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
             Column(
               children: [
                 const SizedBox(height: 30),
-                Consumer<FilterProvider>(
-                  builder: (context, filterProvider, child) {
-                    return SearchBar(
-                      onPressed: () {
-                        context.read<SearchProvider>().refreshSightList(
+                SearchBar(
+                  onPressed: () {
+                    /* context.read<SearchProvider>().refreshSightList(
                               filteredList:
                                   context.read<FilterProvider>().filteredPlaces,
                               isActive: context
                                   .read<FilterProvider>()
                                   .isFilterActive(),
-                            );
-                        Navigator.of(context).pushNamed(
-                          AppRouter.searchScreen,
-                        );
-                      },
-                      filters: filterProvider.isFilterActive(),
-                      onSuffixPressed: () async {
-                        await Navigator.of(context)
-                            .pushNamed(
-                              AppRouter.filterScreen,
-                            )
-                            .then((_) => context
+                            ); */
+                    Navigator.of(context).pushNamed(
+                      AppRouter.searchScreen,
+                    );
+                  },
+                  filters: context.watch<FilterProvider>().isEmpty,
+                  onSuffixPressed: () async {
+                    await Navigator.of(context).pushNamed(
+                      AppRouter.filterScreen,
+                    )
+                        /* .then((_) => context
                                 .read<SightListProvider>()
                                 .refreshSightList(
                                   filteredList: filterProvider.filteredPlaces,
                                   isActive: filterProvider.isFilterActive(),
-                                ));
-                      },
-                      onSubmit: (_) {},
-                    );
+                                )) */
+                        ;
                   },
+                  onSubmit: (_) {},
                 ),
               ],
             ),
@@ -219,7 +216,6 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
 
 class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
   static const bigTitleOffset = 40;
-
   final double systemBarHeight;
   final TextStyle bigTitleStyle;
   final TextStyle smallTitleStyle;
@@ -269,36 +265,32 @@ class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
           Column(
             children: [
               const SizedBox(height: 30),
-              Consumer<FilterProvider>(
-                builder: (context, filterProvider, child) {
-                  return SearchBar(
-                    onPressed: () {
-                      context.read<SearchProvider>().refreshSightList(
+              SearchBar(
+                onPressed: () {
+                  /* context.read<SearchProvider>().refreshSightList(
                             filteredList:
                                 context.read<FilterProvider>().filteredPlaces,
                             isActive:
                                 context.read<FilterProvider>().isFilterActive(),
-                          );
-                      Navigator.of(context).pushNamed(
-                        AppRouter.searchScreen,
-                      );
-                    },
-                    filters: filterProvider.isFilterActive(),
-                    onSuffixPressed: () async {
-                      await Navigator.of(context)
-                          .pushNamed(
-                            AppRouter.filterScreen,
-                          )
-                          .then((_) => context
+                          ); */
+                  Navigator.of(context).pushNamed(
+                    AppRouter.searchScreen,
+                  );
+                },
+                filters: context.watch<FilterProvider>().isEmpty,
+                onSuffixPressed: () async {
+                  await Navigator.of(context).pushNamed(
+                    AppRouter.filterScreen,
+                  )
+                      /* .then((_) => context
                               .read<SightListProvider>()
                               .refreshSightList(
                                 filteredList: filterProvider.filteredPlaces,
                                 isActive: filterProvider.isFilterActive(),
-                              ));
-                    },
-                    onSubmit: (_) {},
-                  );
+                              )) */
+                      ;
                 },
+                onSubmit: (_) {},
               ),
             ],
           ),
