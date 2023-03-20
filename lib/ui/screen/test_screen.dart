@@ -10,6 +10,7 @@ import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/colored_button.dart';
+import 'package:places/ui/widget/sight_card_tab.dart';
 import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class TestScreen extends StatelessWidget {
     dynamic data;
 
     return Scaffold(
-      bottomNavigationBar: BottomNavBar(index: 4),
+      bottomNavigationBar: const BottomNavBar(index: 4),
       /*  body: Center(
         child: ColoredButton(
           text: 'DIO TEST',
@@ -43,7 +44,7 @@ class TestScreen extends StatelessWidget {
               width: 50,
               height: 50,
               color: Colors.blue,
-              child: Text('filter'),
+              child: const Text('filter'),
             ),
           ),
           InkWell(
@@ -54,7 +55,7 @@ class TestScreen extends StatelessWidget {
               width: 50,
               height: 50,
               color: Colors.amber,
-              child: Text('post'),
+              child: const Text('post'),
             ),
           ),
           InkWell(
@@ -66,7 +67,7 @@ class TestScreen extends StatelessWidget {
               width: 50,
               height: 50,
               color: Colors.red,
-              child: Text('get'),
+              child: const Text('get'),
             ),
           ),
         ],

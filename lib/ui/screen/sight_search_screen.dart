@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
+import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
+import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/gradient_button.dart';
 import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/search_bar.dart';
+import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/sight_card_tab.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -108,7 +111,6 @@ class _BuildBody extends StatelessWidget {
               ? Expanded(
                   child: Column(
                     children: [
-                      //const SizedBox(height: 38),
                       Expanded(
                         child: provider.history.isEmpty
                             ? const SizedBox()
@@ -128,11 +130,10 @@ class _BuildBody extends StatelessWidget {
                   else
                     CustomScrollView(
                       slivers: [
-                        // TODO
-                        /* SliverCardList(
-                          iterable: provider.sightList,
+                        SliverCardList(
+                          iterable: context.read<SightListProvider>().placeList,
                           type: CardType.list,
-                        ), */
+                        ),
                       ],
                     ),
                   Align(
@@ -212,6 +213,7 @@ class _BuildSearchHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
+    final width = MediaQuery.of(context).size.width;
 
     return Consumer<SearchProvider>(builder: (context, provider, child) {
       return Padding(
@@ -240,30 +242,38 @@ class _BuildSearchHistory extends StatelessWidget {
                       bottom: 13,
                       top: 15,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            provider
-                                .setSearchController(provider.history[index]);
-                          },
-                          child: Text(
-                            provider.history[index],
-                            style: AppTextStyle.middle16.copyWith(
+                    child: SizedBox(
+                      width: width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              provider
+                                  .setSearchController(provider.history[index]);
+                            },
+                            child: SizedBox(
+                              width: width - 64,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                provider.history[index],
+                                style: AppTextStyle.middle16.copyWith(
+                                  color: AppColors.primaryLightE92,
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              provider.removeAtHistory(index);
+                            },
+                            child: AppIcons.close(
                               color: AppColors.primaryLightE92,
                             ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            provider.removeAtHistory(index);
-                          },
-                          child: AppIcons.close(
-                            color: AppColors.primaryLightE92,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
