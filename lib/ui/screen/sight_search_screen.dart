@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
-import 'package:places/ui/providers/sight_list_provider.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
-import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/gradient_button.dart';
 import 'package:places/ui/widget/nothing_found.dart';
 import 'package:places/ui/widget/search_bar.dart';
-import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/sight_card_tab.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +53,10 @@ class SightSearchScreen extends StatelessWidget {
                       provider.unfocus();
                     },
                     onChange: (value) {
-                      provider.findSights(value);
+                      provider.findSights(
+                        context.read<FilterProvider>().filter,
+                        value,
+                      );
                     },
                     onComplete: () {
                       provider
@@ -79,14 +78,7 @@ class SightSearchScreen extends StatelessWidget {
                         : () async {
                             await Navigator.of(context).pushNamed(
                               AppRouter.filterScreen,
-                            )
-                                /* .then((_) => provider.refreshSightList(
-                                          filteredList:
-                                              filterProvider.filteredPlaces,
-                                          isActive:
-                                              filterProvider.isFilterActive(),
-                                        )) */
-                                ;
+                            );
                           },
                   ),
                 ),
@@ -129,7 +121,7 @@ class _BuildBody extends StatelessWidget {
           : Expanded(
               child: Stack(
                 children: [
-                  if (provider.sightList.isEmpty)
+                  if (provider.placeList.isEmpty)
                     const Align(
                       child: NotFound(),
                     )
@@ -154,8 +146,8 @@ class _BuildBody extends StatelessWidget {
                         children: [
                           GradientButton(
                             text: AppStrings.sightListScreenNew,
-                            onPressed: () async {
-                              context
+                            onPressed: () {
+                              /* context
                                   .read<SearchProvider>()
                                   .appendSigtList(await Navigator.push<Sight>(
                                     context,
@@ -163,7 +155,7 @@ class _BuildBody extends StatelessWidget {
                                       builder: (context) =>
                                           const AddSightScreen(),
                                     ),
-                                  ));
+                                  ));  */
                             },
                             icon: AppIcons.add(
                               height: 18,
@@ -191,19 +183,19 @@ class _BuildSightList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView.builder(
-          itemCount: provider.searchResult!.length,
+          itemCount: provider.placeList.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
-              provider.addHistory(provider.searchResult![index].name);
+              provider.addHistory(provider.placeList[index].name);
               Navigator.of(context).pushNamed(
                 AppRouter.sightDetailsScreen,
                 arguments: {
-                  'sight': provider.searchResult![index],
+                  'id': provider.placeList[index].id,
                 },
               );
             },
             child: SightCardTab(
-              sight: provider.searchResult![index],
+              sight: provider.placeList[index],
               search: [provider.searchController.text],
             ),
           ),

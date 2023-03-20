@@ -74,8 +74,33 @@ class PlaceRepository {
     if (response.statusCode == 200) {
       final dynamic list = jsonDecode(response.data ?? '');
 
-      // ignore: avoid_annotating_with_dynamic
       return (list as List<dynamic>)
+          // ignore: avoid_annotating_with_dynamic
+          .map((dynamic e) => PlaceDto.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    throw Exception('No 200 status code: Error code: ${response.statusCode}');
+  }
+
+  Future<List<PlaceDto>> searchPlace(
+    Filter filter,
+    String name,
+  ) async {
+    initInterceptors();
+    final searchFilter = filter.copyWith(nameFilter: name);
+
+    final response = await dio.post<String>(
+      '/filtered_places',
+      data: jsonEncode(
+        searchFilter.toJson(),
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final dynamic list = jsonDecode(response.data ?? '');
+
+      return (list as List<dynamic>)
+          // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => PlaceDto.fromJson(e as Map<String, dynamic>))
           .toList();
     }

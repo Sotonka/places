@@ -88,14 +88,14 @@ class _SightListScreenState extends State<SightListScreen> {
             GradientButton(
               text: AppStrings.sightListScreenNew,
               onPressed: () async {
-                context
+                /* context
                     .read<SightListProvider>()
                     .appendSigtList(await Navigator.push<Sight>(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const AddSightScreen(),
                       ),
-                    ));
+                    )); */
               },
               icon: AppIcons.add(
                 height: 18,
@@ -176,13 +176,10 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
                 const SizedBox(height: 30),
                 SearchBar(
                   onPressed: () {
-                    /* context.read<SearchProvider>().refreshSightList(
-                              filteredList:
-                                  context.read<FilterProvider>().filteredPlaces,
-                              isActive: context
-                                  .read<FilterProvider>()
-                                  .isFilterActive(),
-                            ); */
+                    context.read<SearchProvider>().newSightList(
+                          context.read<SightListProvider>().placeList,
+                        );
+
                     Navigator.of(context).pushNamed(
                       AppRouter.searchScreen,
                     );
@@ -191,14 +188,7 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
                   onSuffixPressed: () async {
                     await Navigator.of(context).pushNamed(
                       AppRouter.filterScreen,
-                    )
-                        /* .then((_) => context
-                                .read<SightListProvider>()
-                                .refreshSightList(
-                                  filteredList: filterProvider.filteredPlaces,
-                                  isActive: filterProvider.isFilterActive(),
-                                )) */
-                        ;
+                    );
                   },
                   onSubmit: (_) {},
                 ),
@@ -267,12 +257,10 @@ class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
               const SizedBox(height: 30),
               SearchBar(
                 onPressed: () {
-                  /* context.read<SearchProvider>().refreshSightList(
-                            filteredList:
-                                context.read<FilterProvider>().filteredPlaces,
-                            isActive:
-                                context.read<FilterProvider>().isFilterActive(),
-                          ); */
+                  context.read<SearchProvider>().newSightList(
+                        context.read<SightListProvider>().placeList,
+                      );
+
                   Navigator.of(context).pushNamed(
                     AppRouter.searchScreen,
                   );
@@ -281,14 +269,7 @@ class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
                 onSuffixPressed: () async {
                   await Navigator.of(context).pushNamed(
                     AppRouter.filterScreen,
-                  )
-                      /* .then((_) => context
-                              .read<SightListProvider>()
-                              .refreshSightList(
-                                filteredList: filterProvider.filteredPlaces,
-                                isActive: filterProvider.isFilterActive(),
-                              )) */
-                      ;
+                  );
                 },
                 onSubmit: (_) {},
               ),

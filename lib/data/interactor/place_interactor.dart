@@ -33,6 +33,17 @@ class PlaceInteractor {
     return places;
   }
 
+  Future<List<Place>> getSearchPlaces(
+    Filter filter,
+    String search,
+  ) async {
+    final response = await repository.searchPlace(filter, search);
+
+    final places = await _fromApiToUI(response);
+
+    return places;
+  }
+
   ///
   ///
   /// для теста

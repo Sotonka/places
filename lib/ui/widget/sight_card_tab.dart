@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
 import 'package:places/utils/utils.dart';
 import 'package:text_chunk_styling/text_chunk_styling.dart';
 
 class SightCardTab extends StatelessWidget {
-  /// [sight] - модель места
-  /// [search] - список строк, вхождения которых в название места в тайтле
-  /// карточки нужно выделять; аргумент для выделения совпадения по названию
-  /// при поиске места
-  final Sight sight;
+  final Place sight;
   final List<String> search;
 
   const SightCardTab({
@@ -34,7 +30,7 @@ class SightCardTab extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Container(
               child: LoadableImage(
-                url: sight.url,
+                url: sight.urls![0],
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -60,7 +56,7 @@ class SightCardTab extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                sight.typeAsText.capitalize(),
+                sight.name.capitalize(),
                 style: theme.primaryTextTheme.bodyText1!.copyWith(
                   color: AppColors.primaryLightE92,
                 ),
