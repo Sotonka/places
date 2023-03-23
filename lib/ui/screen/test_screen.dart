@@ -48,9 +48,7 @@ class TestScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {
-              PlaceInteractor().postMocks(3);
-            },
+            onTap: () {},
             child: Container(
               width: 50,
               height: 50,

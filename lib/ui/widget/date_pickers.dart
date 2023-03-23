@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/settings.dart';
+import 'package:places/ui/providers/theme_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
+import 'package:provider/provider.dart';
 
 Future<DateTime?> showCupertinoDatePicker({
   required BuildContext context,
@@ -83,7 +84,7 @@ Future<DateTime?> datePicker({
     builder: (context, child) {
       return Theme(
         data: theme.copyWith(
-          colorScheme: Settings.themeIsLight.value
+          colorScheme: context.read<ThemeProvider>().themeIsLight
               ? ColorScheme.light(
                   primary: themeColors.greenAccent!,
                   secondary: themeColors.icons!,

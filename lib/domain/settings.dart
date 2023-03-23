@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-class Settings {
+/* class Settings {
   static ValueNotifier<bool> themeIsLight = ValueNotifier(true);
-}
+} */

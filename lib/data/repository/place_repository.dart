@@ -82,7 +82,7 @@ class PlaceRepository {
     throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
 
-  Future<List<PlaceDto>> searchPlace(
+  Future<List<PlaceDto>> searchPlaces(
     Filter filter,
     String name,
   ) async {

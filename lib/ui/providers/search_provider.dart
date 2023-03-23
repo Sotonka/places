@@ -88,7 +88,7 @@ class SearchProvider extends ChangeNotifier {
   ) async {
     _submittedSearch = '';
 
-    final loadedData = await PlaceInteractor().getSearchPlaces(filter, search);
+    final loadedData = await PlaceInteractor().searchPlaces(filter, search);
     renewPlaceList(loadedData);
     await Future<void>.delayed(const Duration(seconds: 1));
     _isloading = false;

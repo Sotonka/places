@@ -27,53 +27,22 @@ class PlaceInteractor {
 
   Future<List<Place>> getFilteresPlaces(Filter filter) async {
     final response = await repository.getFilteredPlaces(filter);
+    response.sort((a, b) => a.distance.compareTo(b.distance));
 
     final places = await _fromApiToUI(response);
 
     return places;
   }
 
-  Future<List<Place>> getSearchPlaces(
+  Future<List<Place>> searchPlaces(
     Filter filter,
     String search,
   ) async {
-    final response = await repository.searchPlace(filter, search);
+    final response = await repository.searchPlaces(filter, search);
 
     final places = await _fromApiToUI(response);
 
     return places;
-  }
-
-  ///
-  ///
-  /// для теста
-  ///
-  ///
-
-  Future<void> postMocks(int offset) async {
-    final place = Place(
-      id: 888670,
-      lat: 0,
-      lng: 0,
-      name: 'test',
-      urls: [
-        'https://regions.kidsreview.ru/sites/default/files/styles/card_600_400/public/10/02/2015_-_1132/kofe_repablik_habarovsk.png',
-      ],
-      placeType: 'cafe',
-      description: 'description',
-    );
-
-    await repository.postPlace(
-      Place(
-        id: place.id + offset,
-        lat: place.lat,
-        lng: place.lng,
-        name: place.name + (place.id + offset).toString(),
-        urls: place.urls,
-        placeType: place.placeType,
-        description: place.description,
-      ),
-    );
   }
 
   Future<Place> _fromApiToUIPlace(PlaceDto place) async {
