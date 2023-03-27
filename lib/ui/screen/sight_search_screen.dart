@@ -3,7 +3,6 @@ import 'package:places/app_router.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
@@ -148,15 +147,9 @@ class _BuildBody extends StatelessWidget {
                           GradientButton(
                             text: AppStrings.sightListScreenNew,
                             onPressed: () {
-                              /* context
-                                  .read<SearchProvider>()
-                                  .appendSigtList(await Navigator.push<Sight>(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AddSightScreen(),
-                                    ),
-                                  ));  */
+                              Navigator.of(context).pushNamed(
+                                AppRouter.addSightScreen,
+                              );
                             },
                             icon: AppIcons.add(
                               height: 18,

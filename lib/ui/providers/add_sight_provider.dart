@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/domain/coordinates.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
@@ -33,30 +35,24 @@ class AddSightProvider extends ChangeNotifier {
   Icon? get descriptionIcon => _descriptionIcon;
   Icon? get nameIcon => _nameIcon;
 
-  Sight? get sight => _sight;
   bool get sightTypeError => _sightTypeError;
 
-  Map<SightType?, String>? get selectedCategory => _selectedCategory;
+  Map<String?, String>? get selectedCategory => _selectedCategory;
 
-  Map<SightType?, String> get selectedCategoryToPush =>
-      _selectedCategory ?? {null: ''};
+  Map<String?, String> get selectedCategoryToPush =>
+      _selectedCategory ?? {'': ''};
 
-  set selectedCategory(Map<SightType?, String>? value) {
+  set selectedCategory(Map<String?, String>? value) {
     _selectedCategory = value;
     notifyListeners();
-  }
-
-  set sight(Sight? value) {
-    _sight = value;
   }
 
   set sightTypeError(bool value) {
     _sightTypeError = value;
   }
 
-  Map<SightType?, String>? _selectedCategory = {null: ''};
+  Map<String?, String>? _selectedCategory = {'': ''};
 
-  Sight? _sight;
   Icon? _nameIcon;
   Icon? _latIcon;
   Icon? _lonIcon;
@@ -201,28 +197,28 @@ class AddSightProvider extends ChangeNotifier {
     return null;
   }
 
-  void submitForm(BuildContext context) {
+  Future<void> submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate() &&
         !_sightTypeError &&
-        _selectedCategory!.keys.toList()[0] != null) {
-      sight = Sight(
-        id: generateId(),
-        name: _nameController.text,
-        coord: Coord(
-          lat: double.tryParse(_latController.text)!,
-          lon: double.tryParse(_lonController.text)!,
-        ),
-        url:
-            'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
-        details: _descriptionController.text,
-        type: _selectedCategory!.keys.toList()[0]!,
-      );
-      mocks.add(sight!);
-      Navigator.pop(
-        context,
-        context.read<AddSightProvider>().sight,
-      );
-    } else if (_selectedCategory!.keys.toList()[0] == null) {
+        _selectedCategory!.keys.toList()[0] != null &&
+        _selectedCategory!.keys.toList()[0] != '') {
+      await PlaceInteractor()
+          .addNewPlace(Place(
+            id: generateId(_nameController.text),
+            lat: double.tryParse(_latController.text)!,
+            lng: double.tryParse(_lonController.text)!,
+            name: _nameController.text,
+            urls: [
+              'https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg',
+            ],
+            placeType: _selectedCategory!.keys.toList()[0]!,
+            description: _descriptionController.text,
+          ))
+          .then((_) => Navigator.pop(
+                context,
+              ));
+    } else if (_selectedCategory!.keys.toList()[0] == null ||
+        _selectedCategory!.keys.toList()[0] == '') {
       _sightTypeError = true;
       notifyListeners();
     }
@@ -233,7 +229,8 @@ class AddSightProvider extends ChangeNotifier {
         validateLat(latController.text) == null &&
         validateLon(lonController.text) == null &&
         validateDescription(descriptionController.text) == null &&
-        _selectedCategory!.keys.toList()[0] != null) {
+        _selectedCategory!.keys.toList()[0] != null &&
+        _selectedCategory!.keys.toList()[0] != '') {
       return true;
     }
 

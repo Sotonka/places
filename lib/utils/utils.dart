@@ -63,6 +63,11 @@ extension StringExtension on String {
   }
 }
 
-String generateId() {
-  return (mocks.map((e) => int.parse(e.id)).reduce(max) + 1).toString();
+int generateId(String letters) {
+  var result = 0;
+  for (var i = 0; i < letters.length; i++) {
+    result = result * 26 + (letters.codeUnitAt(i) & 0x1f);
+  }
+
+  return result;
 }

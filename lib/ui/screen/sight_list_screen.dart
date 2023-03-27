@@ -1,11 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
@@ -87,15 +85,10 @@ class _SightListScreenState extends State<SightListScreen> {
           children: [
             GradientButton(
               text: AppStrings.sightListScreenNew,
-              onPressed: () async {
-                /* context
-                    .read<SightListProvider>()
-                    .appendSigtList(await Navigator.push<Sight>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AddSightScreen(),
-                      ),
-                    )); */
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  AppRouter.addSightScreen,
+                );
               },
               icon: AppIcons.add(
                 height: 18,

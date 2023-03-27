@@ -10,14 +10,14 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  dio: ^4.0.6 
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter 
   flutter_svg: ^1.1.5  
   provider: ^6.0.4
-  text_chunk_styling: ^2.0.2
-  dio: ^4.0.6 
+  text_chunk_styling: ^2.0.2  
 
 dev_dependencies:
   dart_code_metrics: ^4.21.2

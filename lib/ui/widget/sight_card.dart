@@ -96,7 +96,7 @@ class _SightCardState extends State<SightCard> {
                         constraints: BoxConstraints(
                           maxHeight: maxHeight,
                         ),
-                        child: SightDetails(id: widget.place.id),
+                        child: SightDetails(id: widget.place.id!),
                       ),
                     );
                   },

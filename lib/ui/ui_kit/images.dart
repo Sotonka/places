@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AppImages extends StatelessWidget {
   static const _add = '${_defaultPath}no-img.jpg';

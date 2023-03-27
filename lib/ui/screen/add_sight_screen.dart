@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/add_photo_provider.dart';
 import 'package:places/ui/providers/add_sight_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
@@ -56,8 +55,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     child: ColoredButton(
                       isActive: context.watch<AddSightProvider>().isFormReady(),
                       text: AppStrings.addSightScreenCreate,
-                      onPressed: () {
-                        context.read<AddSightProvider>().submitForm(context);
+                      onPressed: () async {
+                        await context
+                            .read<AddSightProvider>()
+                            .submitForm(context);
                       },
                     ),
                   ),
@@ -146,7 +147,7 @@ class _BuildForm extends StatelessWidget {
                   }
 
                   provider.selectedCategory =
-                      await Navigator.push<Map<SightType?, String>>(
+                      await Navigator.push<Map<String?, String>>(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
@@ -429,7 +430,7 @@ class _BuildForm extends StatelessWidget {
 }
 
 class _CategoriesScreen extends StatefulWidget {
-  final Map<SightType?, String> selecedSight;
+  final Map<String?, String> selecedSight;
 
   const _CategoriesScreen(this.selecedSight);
 
@@ -438,19 +439,19 @@ class _CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<_CategoriesScreen> {
-  late Map<SightType?, String> _selecedSight;
+  late Map<String?, String> _selecedSight;
   bool _init = true;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final placeTypes = {
-      SightType.cafe: AppStrings.cafe.capitalize(),
-      SightType.restaurant: AppStrings.restaurant.capitalize(),
-      SightType.park: AppStrings.park.capitalize(),
-      SightType.museum: AppStrings.museum.capitalize(),
-      SightType.hotel: AppStrings.hotel.capitalize(),
-      SightType.particular: AppStrings.particular.capitalize(),
+      'cafe': AppStrings.cafe.capitalize(),
+      'restaurant': AppStrings.restaurant.capitalize(),
+      'park': AppStrings.park.capitalize(),
+      'museum': AppStrings.museum.capitalize(),
+      'hotel': AppStrings.hotel.capitalize(),
+      'other': AppStrings.particular.capitalize(),
     };
 
     if (_init) {
