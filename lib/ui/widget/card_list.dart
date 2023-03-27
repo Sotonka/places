@@ -30,14 +30,14 @@ class SliverCardList extends StatelessWidget {
             children: [
               if (orientation == Orientation.portrait)
                 SightCard(
-                  sight: iterable.elementAt(index),
+                  place: iterable.elementAt(index),
                   type: type,
                 )
               else
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightCard(
-                    sight: iterable.elementAt(index),
+                    place: iterable.elementAt(index),
                     type: type,
                   ),
                 ),

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
@@ -10,8 +10,21 @@ import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
 
-class VisitingScreen extends StatelessWidget {
+class VisitingScreen extends StatefulWidget {
   const VisitingScreen({super.key});
+
+  @override
+  State<VisitingScreen> createState() => _VisitingScreenState();
+}
+
+class _VisitingScreenState extends State<VisitingScreen> {
+  @override
+  void initState() {
+    // TODO temp
+    //context.read<VisitingProvider>().getFavourite();
+    //context.read<VisitingProvider>().getVisited();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +82,7 @@ class VisitingScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                if (provider.wishlistList.isEmpty)
+                if (provider.favouritePlaces.isEmpty)
                   const Tab(
                     child: Center(child: NotFound()),
                   )
@@ -82,12 +95,13 @@ class VisitingScreen extends StatelessWidget {
                         child: _DismissibleItem(
                           index: index,
                           isVisited: false,
+                          place: provider.favouritePlaces[index],
                         ),
                       ),
-                      itemCount: provider.wishlistList.length,
+                      itemCount: provider.favouritePlaces.length,
                     ),
                   ),
-                if (provider.visitedList.isEmpty)
+                if (provider.visitedPlaces.isEmpty)
                   const Tab(
                     child: Center(child: NotFound()),
                   )
@@ -100,9 +114,10 @@ class VisitingScreen extends StatelessWidget {
                         child: _DismissibleItem(
                           index: index,
                           isVisited: true,
+                          place: provider.visitedPlaces[index],
                         ),
                       ),
-                      itemCount: provider.visitedList.length,
+                      itemCount: provider.visitedPlaces.length,
                       onReorder: (oldIndex, newIndex) {
                         provider.reorderVisited(oldIndex, newIndex);
                       },
@@ -121,9 +136,12 @@ class VisitingScreen extends StatelessWidget {
 class _DismissibleItem extends StatelessWidget {
   final int index;
   final bool isVisited;
+  final Place place;
+
   const _DismissibleItem({
     required this.index,
     required this.isVisited,
+    required this.place,
   });
 
   @override
@@ -131,9 +149,8 @@ class _DismissibleItem extends StatelessWidget {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
     final provider = context.read<VisitingProvider>();
-    var visitDate = provider.visitedList.elementAt(index).visitDate;
-    final visitedSight = provider.visitedList.elementAt(index);
-    final wishSight = provider.wishlistList.elementAt(index);
+
+    var visitDate = DateTime.now();
     final today = DateTime.now();
 
     return Stack(
@@ -167,9 +184,7 @@ class _DismissibleItem extends StatelessWidget {
             ),
           ),
         ),
-
-        // TODO
-        /* Dismissible(
+        Dismissible(
           direction: DismissDirection.endToStart,
           dismissThresholds: const {
             DismissDirection.endToStart: 0.2,
@@ -178,49 +193,53 @@ class _DismissibleItem extends StatelessWidget {
           onDismissed: (_) {
             isVisited
                 ? provider.removeFromVisited(
-                    visitedSight,
+                    place,
                   )
-                : provider.removeFromWishlist(
-                    wishSight,
+                : provider.removeFromFavourite(
+                    place,
                   );
           },
           child: SightCard(
             onCalendarPressed: () async {
-              visitDate = Platform.isIOS
+              visitDate = (Platform.isIOS
                   ? await showCupertinoDatePicker(
                       context: context,
-                      initialDate: visitDate ?? today,
-                      firstDate: visitDate != null && visitDate!.isBefore(today)
-                          ? visitDate!
-                          : today,
+                      initialDate: visitDate,
+                      firstDate: visitDate.isBefore(today) ? visitDate : today,
                     )
                   : await datePicker(
                       context: context,
-                      initialDate: visitDate ?? today,
-                      firstDate: visitDate != null && visitDate!.isBefore(today)
-                          ? visitDate!
+                      initialDate: visitDate,
+                      firstDate: visitDate.isBefore(today)
+                          ? visitDate
                           : DateTime.now(),
                       lastDate: DateTime(today.year + 10, 12, 31),
-                    );
+                    ))!;
 
-              if (visitDate != null) {
+              // TODO
+              // при нажатии на календарь -> отмена - краш (исправлю при создании БД)
+
+              // TODO
+
+              /*  if (visitDate != null) {
                 final newSight = visitedSight.copyWith(visitDate: visitDate);
                 replaceSight(visitedSight.id, newSight);
-              }
+              }  */
             },
-            sight: isVisited ? visitedSight : wishSight,
+            //sight: isVisited ? visitedPlace : favouritePlace,
+            place: place,
             type: isVisited ? CardType.visited : CardType.wishlist,
             onClosePressed: () {
               isVisited
                   ? provider.removeFromVisited(
-                      provider.visitedList.elementAt(index),
+                      provider.visitedPlaces.elementAt(index),
                     )
-                  : provider.removeFromWishlist(
-                      provider.wishlistList.elementAt(index),
+                  : provider.removeFromFavourite(
+                      provider.favouritePlaces.elementAt(index),
                     );
             },
           ),
-        ), */
+        ),
       ],
     );
   }

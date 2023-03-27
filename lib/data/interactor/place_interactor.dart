@@ -7,6 +7,10 @@ import 'package:places/domain/filters.dart';
 final repository = PlaceRepository();
 
 class PlaceInteractor {
+  // TODO temp
+  final favouritePlaces = <Place>[];
+  final visitedPlaces = <Place>[];
+
   Future<List<Place>> getPlaces() async {
     final places = await repository.getPlaces();
 
@@ -43,6 +47,41 @@ class PlaceInteractor {
     final places = await _fromApiToUI(response);
 
     return places;
+  }
+
+  Future<List<Place>> getFavouritePlaces() async {
+    // TODO temp
+    final places = <Place>[];
+
+    return favouritePlaces;
+  }
+
+  Future<List<Place>> addToFavourite(Place place) async {
+    favouritePlaces.add(place);
+
+    return favouritePlaces;
+  }
+
+  Future<List<Place>> removeFromFavourite(Place place) async {
+    favouritePlaces.removeWhere((element) => element.id == place.id);
+
+    return favouritePlaces;
+  }
+
+  Future<List<Place>> getVisitedPlaces() async {
+    final places = <Place>[];
+
+    return visitedPlaces;
+  }
+
+  Future<List<Place>> addToVisited(Place place) async {
+    return favouritePlaces;
+  }
+
+  Future<List<Place>> removeFromVisited(Place place) async {
+    visitedPlaces.removeWhere((element) => element.id == place.id);
+
+    return visitedPlaces;
   }
 
   Future<Place> _fromApiToUIPlace(PlaceDto place) async {
