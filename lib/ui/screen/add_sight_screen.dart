@@ -31,38 +31,44 @@ class _AddSightScreenState extends State<AddSightScreen> {
       resizeToAvoidBottomInset: true,
       appBar: const _BuildAppBar(),
       body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
         slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
+          SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: const [
-                      _PhotoCards(),
-                      SizedBox(height: 24),
-                      _BuildForm(),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height - 116,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: const [
+                        _PhotoCards(),
+                        SizedBox(height: 24),
+                        _BuildForm(),
+                      ],
                     ),
-                    child: ColoredButton(
-                      isActive: context.watch<AddSightProvider>().isFormReady(),
-                      text: AppStrings.addSightScreenCreate,
-                      onPressed: () async {
-                        await context
-                            .read<AddSightProvider>()
-                            .submitForm(context);
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                      ),
+                      child: ColoredButton(
+                        isActive:
+                            context.watch<AddSightProvider>().isFormReady(),
+                        text: AppStrings.addSightScreenCreate,
+                        onPressed: () async {
+                          await context
+                              .read<AddSightProvider>()
+                              .submitForm(context);
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

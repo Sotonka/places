@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/domain/coordinates.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/ui_kit/strings.dart';
 import 'package:places/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class AddSightProvider extends ChangeNotifier {
   final _nameController = TextEditingController();
