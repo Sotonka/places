@@ -35,11 +35,11 @@ class Utils {
     }
   }
 
-  Sight getById(String id) {
+  Sight getById(int id) {
     final list = <Sight>[];
 
     for (final element in mocks) {
-      if (element.id == id) {
+      if (element.id == id.toString()) {
         list.add(element);
       }
     }
@@ -63,6 +63,11 @@ extension StringExtension on String {
   }
 }
 
-String generateId() {
-  return (mocks.map((e) => int.parse(e.id)).reduce(max) + 1).toString();
+int generateId(String letters) {
+  var result = 0;
+  for (var i = 0; i < letters.length; i++) {
+    result = result * 26 + (letters.codeUnitAt(i) & 0x1f);
+  }
+
+  return result;
 }

@@ -1,22 +1,35 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
 import 'package:places/ui/widget/gradient_button.dart';
 import 'package:places/ui/widget/nothing_found.dart';
+import 'package:places/ui/widget/progress_indicator.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:provider/provider.dart';
 
-class SightListScreen extends StatelessWidget {
+class SightListScreen extends StatefulWidget {
   const SightListScreen({super.key});
+
+  @override
+  State<SightListScreen> createState() => _SightListScreenState();
+}
+
+class _SightListScreenState extends State<SightListScreen> {
+  @override
+  void initState() {
+    context.read<SightListProvider>().isloading = true;
+    context
+        .read<SightListProvider>()
+        .loadFilteredPlaces(context.read<FilterProvider>().filter);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +61,20 @@ class SightListScreen extends StatelessWidget {
                   context: context,
                 ),
               ),
-            if (provider.sightList.isEmpty)
-              const NotFound()
+            if (context.watch<SightListProvider>().isloading)
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: CustomProgress(),
+                ),
+              )
+            else if (provider.placeList.isEmpty)
+              const SliverToBoxAdapter(
+                child: NotFound(),
+              )
             else
               SliverCardList(
-                iterable: provider.sightList,
+                iterable: provider.placeList,
                 type: CardType.list,
               ),
           ],
@@ -63,15 +85,10 @@ class SightListScreen extends StatelessWidget {
           children: [
             GradientButton(
               text: AppStrings.sightListScreenNew,
-              onPressed: () async {
-                context
-                    .read<SightListProvider>()
-                    .appendSigtList(await Navigator.push<Sight>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AddSightScreen(),
-                      ),
-                    ));
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  AppRouter.addSightScreen,
+                );
               },
               icon: AppIcons.add(
                 height: 18,
@@ -89,7 +106,6 @@ class SightListScreen extends StatelessWidget {
 
 class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
   static const bigTitleOffset = 40;
-
   final double systemBarHeight;
   final TextStyle bigTitleStyle;
   final TextStyle smallTitleStyle;
@@ -151,37 +167,23 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
             Column(
               children: [
                 const SizedBox(height: 30),
-                Consumer<FilterProvider>(
-                  builder: (context, filterProvider, child) {
-                    return SearchBar(
-                      onPressed: () {
-                        context.read<SearchProvider>().refreshSightList(
-                              filteredList:
-                                  context.read<FilterProvider>().filteredPlaces,
-                              isActive: context
-                                  .read<FilterProvider>()
-                                  .isFilterActive(),
-                            );
-                        Navigator.of(context).pushNamed(
-                          AppRouter.searchScreen,
+                SearchBar(
+                  onPressed: () {
+                    context.read<SearchProvider>().newSightList(
+                          context.read<SightListProvider>().placeList,
                         );
-                      },
-                      filters: filterProvider.isFilterActive(),
-                      onSuffixPressed: () async {
-                        await Navigator.of(context)
-                            .pushNamed(
-                              AppRouter.filterScreen,
-                            )
-                            .then((_) => context
-                                .read<SightListProvider>()
-                                .refreshSightList(
-                                  filteredList: filterProvider.filteredPlaces,
-                                  isActive: filterProvider.isFilterActive(),
-                                ));
-                      },
-                      onSubmit: (_) {},
+
+                    Navigator.of(context).pushNamed(
+                      AppRouter.searchScreen,
                     );
                   },
+                  filters: context.watch<FilterProvider>().isEmpty,
+                  onSuffixPressed: () async {
+                    await Navigator.of(context).pushNamed(
+                      AppRouter.filterScreen,
+                    );
+                  },
+                  onSubmit: (_) {},
                 ),
               ],
             ),
@@ -197,7 +199,6 @@ class _SliverTitleDelegate extends SliverPersistentHeaderDelegate {
 
 class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
   static const bigTitleOffset = 40;
-
   final double systemBarHeight;
   final TextStyle bigTitleStyle;
   final TextStyle smallTitleStyle;
@@ -247,36 +248,23 @@ class _LandscapeSliverTitleDelegate extends SliverPersistentHeaderDelegate {
           Column(
             children: [
               const SizedBox(height: 30),
-              Consumer<FilterProvider>(
-                builder: (context, filterProvider, child) {
-                  return SearchBar(
-                    onPressed: () {
-                      context.read<SearchProvider>().refreshSightList(
-                            filteredList:
-                                context.read<FilterProvider>().filteredPlaces,
-                            isActive:
-                                context.read<FilterProvider>().isFilterActive(),
-                          );
-                      Navigator.of(context).pushNamed(
-                        AppRouter.searchScreen,
+              SearchBar(
+                onPressed: () {
+                  context.read<SearchProvider>().newSightList(
+                        context.read<SightListProvider>().placeList,
                       );
-                    },
-                    filters: filterProvider.isFilterActive(),
-                    onSuffixPressed: () async {
-                      await Navigator.of(context)
-                          .pushNamed(
-                            AppRouter.filterScreen,
-                          )
-                          .then((_) => context
-                              .read<SightListProvider>()
-                              .refreshSightList(
-                                filteredList: filterProvider.filteredPlaces,
-                                isActive: filterProvider.isFilterActive(),
-                              ));
-                    },
-                    onSubmit: (_) {},
+
+                  Navigator.of(context).pushNamed(
+                    AppRouter.searchScreen,
                   );
                 },
+                filters: context.watch<FilterProvider>().isEmpty,
+                onSuffixPressed: () async {
+                  await Navigator.of(context).pushNamed(
+                    AppRouter.filterScreen,
+                  );
+                },
+                onSubmit: (_) {},
               ),
             ],
           ),

@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/model/place.dart';
 
 class VisitingProvider extends ChangeNotifier {
-  // TODO
-  // пока список создается из всех элементов mocks,
-  // соответственно при каждом переходе на VisitingScreen все удаленные
-  // элементы будут восстанавливаться
-  // когда у моделей появятся поля  - буду фильтровать по ним
-  final List<Sight> _wishlistList = List<Sight>.from(mocks);
-  final List<Sight> _visitedList = List<Sight>.from(mocks);
+  final List<Place> _favouritePlaces = <Place>[];
+  final List<Place> _visitedPlaces = <Place>[];
 
   TabController get tabController => _tabController;
-  List<Sight> get wishlistList => _wishlistList;
-  List<Sight> get visitedList => _visitedList;
+
+  List<Place> get favouritePlaces => _favouritePlaces;
+  List<Place> get visitedPlaces => _visitedPlaces;
 
   set tabController(TabController value) {
     _tabController = value;
@@ -22,14 +17,40 @@ class VisitingProvider extends ChangeNotifier {
 
   late TabController _tabController;
 
-  void removeFromWishlist(Sight sight) {
-    _wishlistList.removeWhere((element) => element.id == sight.id);
+  Future<void> addToFavourite(Place place) async {
+    //_favouritePlaces = await PlaceInteractor().addToFavourite(place);
+
+    _favouritePlaces.add(place);
+
     notifyListeners();
   }
 
-  void removeFromVisited(Sight sight) {
-    _visitedList.removeWhere((element) => element.id == sight.id);
+  Future<void> removeFromFavourite(Place place) async {
+    // _favouritePlaces = await PlaceInteractor().removeFromFavourite(place);
+
+    _favouritePlaces.removeWhere((element) => element.id == place.id);
+
     notifyListeners();
+  }
+
+  Future<void> removeFromVisited(Place place) async {
+    // _visitedPlaces = await PlaceInteractor().removeFromVisited(place);
+
+    _visitedPlaces.removeWhere((element) => element.id == place.id);
+
+    notifyListeners();
+  }
+
+  bool isInFavourite(Place place) {
+    var isPresent = false;
+
+    for (final element in _favouritePlaces) {
+      if (place.id == element.id) {
+        isPresent = true;
+      }
+    }
+
+    return isPresent;
   }
 
   void reorderWishlist(int oldIndex, int newIndex) {
@@ -37,8 +58,8 @@ class VisitingProvider extends ChangeNotifier {
     if (oldIndex < newIndex) {
       index -= 1;
     }
-    final item = _wishlistList.removeAt(oldIndex);
-    _wishlistList.insert(index, item);
+    final item = _favouritePlaces.removeAt(oldIndex);
+    _favouritePlaces.insert(index, item);
     notifyListeners();
   }
 
@@ -47,8 +68,8 @@ class VisitingProvider extends ChangeNotifier {
     if (oldIndex < newIndex) {
       index -= 1;
     }
-    final item = _visitedList.removeAt(oldIndex);
-    _visitedList.insert(index, item);
+    final item = _visitedPlaces.removeAt(oldIndex);
+    _visitedPlaces.insert(index, item);
     notifyListeners();
   }
 }

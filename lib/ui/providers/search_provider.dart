@@ -1,59 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/domain/filters.dart';
 
 class SearchProvider extends ChangeNotifier {
-  /// [_history] - список найденных мест
-  /// [searchInitState] - состояние начала ввода в поле поиска
-  /// [_searchResult] - список мест, обновляющийся в процессе ввода в
-  /// поле поиска места
-  /// [_submittedSearch] - строка для поиска по названию места
-  /// [sightList] - возвращает список мест с учетом фильтра и _submittedSearch
-
-  /// [findSights] - вызывается при изменении поля ввода поиска, изменяет
-  /// _searchResult в зависимости от вхождения вводимых данных в название места
-  /// в _sightList
   final _searchController = TextEditingController();
   final _searchFocus = FocusNode();
 
   List<String> get history => _history;
+  List<Place> get placeList => _placeList;
   FocusNode get searchFocus => _searchFocus;
   TextEditingController get searchController => _searchController;
   bool get searching => _searchFocus.hasFocus;
   bool get searchInitState =>
       _searchFocus.hasFocus && _searchController.text.isEmpty;
-  List<Sight>? get searchResult => _searchResult;
+
   String get submittedSearch => _submittedSearch;
-
-  List<Sight> get sightList {
-    _resultList = null;
-
-    _sightList = _filteredPlaces != null ? _filteredPlaces! : mocks;
-
-    if (_submittedSearch.isNotEmpty) {
-      _resultList = [];
-      for (final element in _sightList!) {
-        if (element.name
-            .toLowerCase()
-            .contains(_submittedSearch.toLowerCase())) {
-          _resultList!.add(element);
-        }
-      }
-    }
-
-    return _resultList ?? _sightList!;
-  }
 
   set submittedSearch(String value) {
     _submittedSearch = value;
     notifyListeners();
   }
 
-  List<Sight>? _filteredPlaces;
-  List<Sight>? _searchResult;
+  // ignore: unnecessary_getters_setters
+  bool get isloading {
+    return _isloading;
+  }
+
+  set isloading(bool value) {
+    _isloading = value;
+  }
+
+  bool _isloading = false;
+  List<Place> _placeList = [];
   List<String> _history = [];
-  late List<Sight>? _sightList;
-  List<Sight>? _resultList;
   String _submittedSearch = '';
 
   @override
@@ -102,41 +82,36 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void findSights(String value) {
+  Future<void> findSights(
+    Filter filter,
+    String search,
+  ) async {
     _submittedSearch = '';
-    _searchResult = [];
 
-    _sightList = sightList;
+    final loadedData = await PlaceInteractor().searchPlaces(filter, search);
+    renewPlaceList(loadedData);
+    await Future<void>.delayed(const Duration(seconds: 1));
+    _isloading = false;
 
-    for (final element in sightList) {
-      if (element.name.toLowerCase().contains(value.toLowerCase())) {
-        _searchResult!.add(element);
+    notifyListeners();
+  }
+
+  void renewPlaceList(List<Place> data) {
+    _placeList.clear();
+    for (final place in data) {
+      if (place.id != 530) {
+        _placeList.add(place);
       }
     }
+    notifyListeners();
+  }
 
+  void newSightList(List<Place> list) {
+    _placeList = list;
     notifyListeners();
   }
 
   void notify() {
     notifyListeners();
-  }
-
-  void appendSigtList(Sight? newSight) {
-    if (newSight != null) {
-      notifyListeners();
-    }
-  }
-
-  void refreshSightList({
-    required List<Sight>? filteredList,
-    required bool isActive,
-  }) {
-    if (filteredList != null && isActive) {
-      _filteredPlaces = filteredList;
-
-      _sightList = _filteredPlaces ?? mocks;
-
-      notifyListeners();
-    }
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/place.dart';
 import 'package:places/ui/widget/sight_card.dart';
 
 class SliverCardList extends StatelessWidget {
-  final Iterable<Sight> iterable;
+  final Iterable<Place> iterable;
   final CardType type;
 
   const SliverCardList({
@@ -30,14 +30,14 @@ class SliverCardList extends StatelessWidget {
             children: [
               if (orientation == Orientation.portrait)
                 SightCard(
-                  sight: iterable.elementAt(index),
+                  place: iterable.elementAt(index),
                   type: type,
                 )
               else
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SightCard(
-                    sight: iterable.elementAt(index),
+                    place: iterable.elementAt(index),
                     type: type,
                   ),
                 ),

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
 
 class SightListProvider extends ChangeNotifier {
-  /// [_sightList] - список мест для отображения
-  /// [sightList] - в зависимости, активен ли фильтр, возвращает список мест
-  /// [_sightList], либо список отфильтрованных мест [_filteredPlaces]
+  final List<Place> _placeList = [];
 
-  final List<Sight> _sightList = mocks;
-
-  List<Sight> get sightList {
-    if (_filteredPlaces != null) {
-      return _filteredPlaces!;
-    }
-
-    return _sightList;
+  List<Place> get placeList {
+    return _placeList;
   }
 
-  List<Sight>? _filteredPlaces;
+  // ignore: unnecessary_getters_setters
+  bool get isloading {
+    return _isloading;
+  }
+
+  set isloading(bool value) {
+    _isloading = value;
+  }
+
+  bool _isloading = false;
 
   void appendSigtList(Sight? newSight) {
     if (newSight != null) {
@@ -25,19 +28,48 @@ class SightListProvider extends ChangeNotifier {
     }
   }
 
-  void refreshSightList({
-    required List<Sight>? filteredList,
-    required bool isActive,
-  }) {
-    if (filteredList != null && isActive) {
-      _filteredPlaces = filteredList;
-
-      notifyListeners();
+  void renewPlaceList(List<Place> data) {
+    _placeList.clear();
+    for (final place in data) {
+      if (place.id != 530) {
+        _placeList.add(place);
+      }
     }
+    notifyListeners();
   }
 
-  void clearFilteredPlaces() {
-    _filteredPlaces = null;
+  Future<void> loadPlaces() async {
+    final loadedData = await PlaceInteractor().getPlaces();
+
+    /* for (final place in loadedData) {
+      if (place.id.toString().contains('8886')) {
+        _placeList.add(place);
+      }
+    } */
+
+    for (final place in loadedData) {
+      //renew вместо add
+      if ([
+        '528',
+        '531',
+        '532',
+        '533',
+        '534',
+        '535',
+      ].any(place.id.toString().contains)) {
+        _placeList.add(place);
+      }
+    }
+
+    _isloading = false;
+    notifyListeners();
+  }
+
+  Future<void> loadFilteredPlaces(Filter filter) async {
+    final loadedData = await PlaceInteractor().getFilteresPlaces(filter);
+    renewPlaceList(loadedData);
+    await Future<void>.delayed(const Duration(seconds: 1));
+    _isloading = false;
     notifyListeners();
   }
 }

@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:places/app_router.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/place.dart';
+import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/loadable_image.dart';
+import 'package:provider/provider.dart';
 
 enum CardType { list, wishlist, visited }
 
-class SightCard extends StatelessWidget {
-  /// [sight] - модель места,
-  /// [type] - тип карточки (list, wishlist, visited) - влияет на отображение
-  /// интерфейса - возможных действий с карточкой
-  final Sight sight;
+class SightCard extends StatefulWidget {
+  final Place place;
   final CardType type;
 
   final VoidCallback? onClosePressed;
-  final VoidCallback? onFavPressed;
   final VoidCallback? onCalendarPressed;
   final VoidCallback? onSharePressed;
 
   const SightCard({
     super.key,
-    required this.sight,
+    required this.place,
     required this.type,
     this.onClosePressed,
-    this.onFavPressed,
     this.onCalendarPressed,
     this.onSharePressed,
   });
+
+  @override
+  State<SightCard> createState() => _SightCardState();
+}
+
+class _SightCardState extends State<SightCard> {
+  bool _isInFav = false;
+
+  @override
+  void initState() {
+    _isInFav = context.read<VisitingProvider>().isInFavourite(widget.place);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +60,12 @@ class SightCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _TopPart(
-                      sight: sight,
-                      type: type,
+                      sight: widget.place,
+                      type: widget.type,
                     ),
                   ),
                   Expanded(
-                    child: _BottomPart(sight: sight),
+                    child: _BottomPart(sight: widget.place),
                   ),
                 ],
               ),
@@ -70,13 +79,6 @@ class SightCard extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    /* Navigator.of(context).pushNamed(
-                      AppRouter.sightDetailsScreen,
-                      arguments: {
-                        'id': sight.id,
-                      },
-                    ); */
-
                     final maxHeight = MediaQuery.of(context).size.height -
                         MediaQuery.of(context).padding.top -
                         40;
@@ -94,7 +96,7 @@ class SightCard extends StatelessWidget {
                         constraints: BoxConstraints(
                           maxHeight: maxHeight,
                         ),
-                        child: SightDetails(id: sight.id),
+                        child: SightDetails(id: widget.place.id!),
                       ),
                     );
                   },
@@ -103,25 +105,40 @@ class SightCard extends StatelessWidget {
               Positioned(
                 right: 16,
                 top: 16,
-                child: type == CardType.list
+                child: widget.type == CardType.list
                     ? InkWell(
-                        onTap: onFavPressed,
-                        child: AppIcons.heart(
-                          color: AppColors.primaryLightFFF,
-                        ),
+                        onTap: () {
+                          _isInFav
+                              ? context
+                                  .read<VisitingProvider>()
+                                  .removeFromFavourite(widget.place)
+                              : context
+                                  .read<VisitingProvider>()
+                                  .addToFavourite(widget.place);
+                          setState(() {
+                            _isInFav = !_isInFav;
+                          });
+                        },
+                        child: _isInFav
+                            ? AppIcons.heartFull(
+                                color: AppColors.primaryLightFFF,
+                              )
+                            : AppIcons.heart(
+                                color: AppColors.primaryLightFFF,
+                              ),
                       )
                     : Row(
-                        children: type == CardType.wishlist
+                        children: widget.type == CardType.wishlist
                             ? [
                                 InkWell(
-                                  onTap: onCalendarPressed,
+                                  onTap: widget.onCalendarPressed,
                                   child: AppIcons.calendar(
                                     color: AppColors.primaryLightFFF,
                                   ),
                                 ),
                                 const SizedBox(width: 16),
                                 InkWell(
-                                  onTap: onClosePressed,
+                                  onTap: widget.onClosePressed,
                                   child: AppIcons.close(
                                     color: AppColors.primaryLightFFF,
                                   ),
@@ -129,14 +146,14 @@ class SightCard extends StatelessWidget {
                               ]
                             : [
                                 InkWell(
-                                  onTap: onSharePressed,
+                                  onTap: widget.onSharePressed,
                                   child: AppIcons.share(
                                     color: Colors.white,
                                   ),
                                 ),
                                 const SizedBox(width: 16),
                                 InkWell(
-                                  onTap: onClosePressed,
+                                  onTap: widget.onClosePressed,
                                   child: AppIcons.close(
                                     color: AppColors.primaryLightFFF,
                                   ),
@@ -153,7 +170,7 @@ class SightCard extends StatelessWidget {
 }
 
 class _TopPart extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   final CardType type;
 
   const _TopPart({
@@ -167,13 +184,15 @@ class _TopPart extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         LoadableImage(
-          url: sight.url,
+          url: sight.urls,
         ),
         Positioned(
           left: 16,
           top: 16,
           child: Text(
-            sight.typeAsText,
+            // TODO
+            //sight.typeAsText,
+            sight.placeType,
             style: AppTextStyle.bold14.copyWith(
               color: AppColors.primaryLightFFF,
             ),
@@ -185,7 +204,7 @@ class _TopPart extends StatelessWidget {
 }
 
 class _BottomPart extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   const _BottomPart({
     required this.sight,
   });
@@ -215,7 +234,7 @@ class _BottomPart extends StatelessWidget {
             const SizedBox(height: 2),
             Flexible(
               child: Text(
-                sight.details,
+                sight.description,
                 style: AppTextStyle.normal14.copyWith(
                   color: AppColors.primaryLightE92,
                 ),

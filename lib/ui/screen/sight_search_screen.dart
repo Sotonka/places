@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/providers/search_provider.dart';
 import 'package:places/ui/providers/sight_list_provider.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/card_list.dart';
@@ -27,8 +25,6 @@ class SightSearchScreen extends StatelessWidget {
       appBar: SmallAppBar(
         titleWidget: InkWell(
           onTap: () {
-            context.read<SightListProvider>().clearFilteredPlaces();
-            context.read<FilterProvider>().clearFilter();
             Navigator.of(context).pop();
           },
           child: Text(
@@ -50,51 +46,43 @@ class SightSearchScreen extends StatelessWidget {
                   left: 16,
                   right: 16,
                 ),
-                child: Consumer<FilterProvider>(
-                  builder: (context, filterProvider, child) {
-                    return Padding(
-                      padding: orientation == Orientation.landscape
-                          ? const EdgeInsets.symmetric(horizontal: 16)
-                          : EdgeInsets.zero,
-                      child: SearchBar(
-                        onSubmit: (value) {
-                          provider.unfocus();
-                        },
-                        onChange: (value) {
-                          provider.findSights(value);
-                        },
-                        onComplete: () {
-                          provider
-                            ..submittedSearch = provider.searchController.text
-                            ..unfocus();
-                        },
-                        controller: provider.searchController,
-                        readOnly: false,
-                        filters: filterProvider.isFilterActive(),
-                        focus: provider.searchFocus,
-                        suffixClose: provider.searching,
-                        onPressed: () {
-                          provider.notify();
-                        },
-                        onSuffixPressed: provider.searching
-                            ? () {
-                                provider.clearSearch();
-                              }
-                            : () async {
-                                await Navigator.of(context)
-                                    .pushNamed(
-                                      AppRouter.filterScreen,
-                                    )
-                                    .then((_) => provider.refreshSightList(
-                                          filteredList:
-                                              filterProvider.filteredPlaces,
-                                          isActive:
-                                              filterProvider.isFilterActive(),
-                                        ));
-                              },
-                      ),
-                    );
-                  },
+                child: Padding(
+                  padding: orientation == Orientation.landscape
+                      ? const EdgeInsets.symmetric(horizontal: 16)
+                      : EdgeInsets.zero,
+                  child: SearchBar(
+                    onSubmit: (value) {
+                      provider.unfocus();
+                    },
+                    onChange: (value) {
+                      provider.findSights(
+                        context.read<FilterProvider>().filter,
+                        value,
+                      );
+                    },
+                    onComplete: () {
+                      provider
+                        ..submittedSearch = provider.searchController.text
+                        ..unfocus();
+                    },
+                    controller: provider.searchController,
+                    readOnly: false,
+                    filters: context.watch<FilterProvider>().isEmpty,
+                    focus: provider.searchFocus,
+                    suffixClose: provider.searching,
+                    onPressed: () {
+                      provider.notify();
+                    },
+                    onSuffixPressed: provider.searching
+                        ? () {
+                            provider.clearSearch();
+                          }
+                        : () async {
+                            await Navigator.of(context).pushNamed(
+                              AppRouter.filterScreen,
+                            );
+                          },
+                  ),
                 ),
               ),
               if (orientation == Orientation.portrait)
@@ -122,7 +110,6 @@ class _BuildBody extends StatelessWidget {
               ? Expanded(
                   child: Column(
                     children: [
-                      //const SizedBox(height: 38),
                       Expanded(
                         child: provider.history.isEmpty
                             ? const SizedBox()
@@ -135,7 +122,7 @@ class _BuildBody extends StatelessWidget {
           : Expanded(
               child: Stack(
                 children: [
-                  if (provider.sightList.isEmpty)
+                  if (provider.placeList.isEmpty)
                     const Align(
                       child: NotFound(),
                     )
@@ -143,7 +130,7 @@ class _BuildBody extends StatelessWidget {
                     CustomScrollView(
                       slivers: [
                         SliverCardList(
-                          iterable: provider.sightList,
+                          iterable: context.read<SightListProvider>().placeList,
                           type: CardType.list,
                         ),
                       ],
@@ -159,16 +146,10 @@ class _BuildBody extends StatelessWidget {
                         children: [
                           GradientButton(
                             text: AppStrings.sightListScreenNew,
-                            onPressed: () async {
-                              context
-                                  .read<SearchProvider>()
-                                  .appendSigtList(await Navigator.push<Sight>(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AddSightScreen(),
-                                    ),
-                                  ));
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                AppRouter.addSightScreen,
+                              );
                             },
                             icon: AppIcons.add(
                               height: 18,
@@ -196,19 +177,19 @@ class _BuildSightList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView.builder(
-          itemCount: provider.searchResult!.length,
+          itemCount: provider.placeList.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
-              provider.addHistory(provider.searchResult![index].name);
+              provider.addHistory(provider.placeList[index].name);
               Navigator.of(context).pushNamed(
                 AppRouter.sightDetailsScreen,
                 arguments: {
-                  'sight': provider.searchResult![index],
+                  'id': provider.placeList[index].id,
                 },
               );
             },
             child: SightCardTab(
-              sight: provider.searchResult![index],
+              sight: provider.placeList[index],
               search: [provider.searchController.text],
             ),
           ),
@@ -225,6 +206,7 @@ class _BuildSearchHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeColors = theme.extension<AppThemeColors>()!;
+    final width = MediaQuery.of(context).size.width;
 
     return Consumer<SearchProvider>(builder: (context, provider, child) {
       return Padding(
@@ -253,30 +235,38 @@ class _BuildSearchHistory extends StatelessWidget {
                       bottom: 13,
                       top: 15,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            provider
-                                .setSearchController(provider.history[index]);
-                          },
-                          child: Text(
-                            provider.history[index],
-                            style: AppTextStyle.middle16.copyWith(
+                    child: SizedBox(
+                      width: width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              provider
+                                  .setSearchController(provider.history[index]);
+                            },
+                            child: SizedBox(
+                              width: width - 64,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                provider.history[index],
+                                style: AppTextStyle.middle16.copyWith(
+                                  color: AppColors.primaryLightE92,
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              provider.removeAtHistory(index);
+                            },
+                            child: AppIcons.close(
                               color: AppColors.primaryLightE92,
                             ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            provider.removeAtHistory(index);
-                          },
-                          child: AppIcons.close(
-                            color: AppColors.primaryLightE92,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },

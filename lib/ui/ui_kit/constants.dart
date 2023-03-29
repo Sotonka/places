@@ -1,8 +1,17 @@
 class AppConstants {
   static const minDistance = 0.0;
-  static const maxDistance = 10000.0;
-  static const centerPointLat = 48.483385;
-  static const centerPointLon = 135.07593;
+  static const maxDistance = 10000.1;
+  static const centerPointLat = 55.989198;
+  static const centerPointLon = 37.601605;
+
+  static const placeTypes = [
+    'cafe',
+    'hotel',
+    'museum',
+    'park',
+    'particular',
+    'restaurant',
+  ];
 
   AppConstants._();
 }
