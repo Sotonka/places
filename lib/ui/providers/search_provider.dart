@@ -90,9 +90,7 @@ class SearchProvider extends ChangeNotifier {
 
     final loadedData = await PlaceInteractor().searchPlaces(filter, search);
     loadedData.fold(
-      (left) {
-        //_showErrorDialog(context);
-      },
+      (left) {},
       renewPlaceList,
     );
 

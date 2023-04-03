@@ -4,6 +4,7 @@ import 'package:places/data/model/place.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/widget/error_dialog.dart';
+import 'package:places/utils/utils.dart';
 
 class SightListProvider extends ChangeNotifier {
   final List<Place> _placeList = [];
@@ -43,13 +44,12 @@ class SightListProvider extends ChangeNotifier {
 
   Future<void> loadFilteredPlaces(
     Filter filter,
-    BuildContext context,
   ) async {
     _placeList.clear();
     final loadedData = await PlaceInteractor().getFilteredPlaces(filter);
     loadedData.fold(
       (left) {
-        _showErrorDialog(context);
+        _showErrorDialog();
       },
       renewPlaceList,
     );
@@ -60,9 +60,11 @@ class SightListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future _showErrorDialog(BuildContext context) {
+  Future _showErrorDialog() {
+    final context = NavigationService.navigatorKey.currentContext;
+
     return showDialog<void>(
-      context: context,
+      context: context!,
       builder: (context) {
         return const Center(child: ErrorDialog());
       },

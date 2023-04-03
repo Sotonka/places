@@ -27,7 +27,7 @@ class _SightListScreenState extends State<SightListScreen> {
     context.read<SightListProvider>().isloading = true;
     context
         .read<SightListProvider>()
-        .loadFilteredPlaces(context.read<FilterProvider>().filter, context);
+        .loadFilteredPlaces(context.read<FilterProvider>().filter);
     super.initState();
   }
 
