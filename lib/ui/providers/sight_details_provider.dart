@@ -35,7 +35,15 @@ class SightDetailsProvider extends ChangeNotifier {
   Future<void> loadPlace(int id) async {
     final loadedPlace = await PlaceInteractor().getPlaceDetails(id);
     _isloading = false;
-    _place = loadedPlace;
+
+    loadedPlace.fold(
+      (left) {
+        //_showErrorDialog(context);
+      },
+      (right) {
+        _place = right;
+      },
+    );
 
     notifyListeners();
   }

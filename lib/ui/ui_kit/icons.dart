@@ -12,6 +12,7 @@ class AppIcons extends StatelessWidget {
   static const _choice = '${_defaultPath}choice.svg';
   static const _close = '${_defaultPath}close.svg';
   static const _confirm = '${_defaultPath}confirm.svg';
+  static const _error = '${_defaultPath}error.svg';
   static const _file = '${_defaultPath}file.svg';
   static const _filter = '${_defaultPath}filter.svg';
   static const _forward = '${_defaultPath}forward.svg';
@@ -168,6 +169,18 @@ class AppIcons extends StatelessWidget {
   }) =>
       AppIcons(
         assetPath: _confirm,
+        color: color,
+        height: height,
+        width: width,
+      );
+
+  factory AppIcons.error({
+    final Color? color,
+    final double? height,
+    final double? width,
+  }) =>
+      AppIcons(
+        assetPath: _error,
         color: color,
         height: height,
         width: width,

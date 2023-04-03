@@ -3,6 +3,7 @@ import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/domain/filters.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/widget/error_dialog.dart';
 
 class SightListProvider extends ChangeNotifier {
   final List<Place> _placeList = [];
@@ -30,6 +31,8 @@ class SightListProvider extends ChangeNotifier {
 
   void renewPlaceList(List<Place> data) {
     _placeList.clear();
+    // места беру которые уже есть в БД, место с id некорректное, так что просто
+    // таким образом его не включаю
     for (final place in data) {
       if (place.id != 530) {
         _placeList.add(place);
@@ -38,38 +41,31 @@ class SightListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadPlaces() async {
-    final loadedData = await PlaceInteractor().getPlaces();
+  Future<void> loadFilteredPlaces(
+    Filter filter,
+    BuildContext context,
+  ) async {
+    _placeList.clear();
+    final loadedData = await PlaceInteractor().getFilteredPlaces(filter);
+    loadedData.fold(
+      (left) {
+        _showErrorDialog(context);
+      },
+      renewPlaceList,
+    );
 
-    /* for (final place in loadedData) {
-      if (place.id.toString().contains('8886')) {
-        _placeList.add(place);
-      }
-    } */
-
-    for (final place in loadedData) {
-      //renew вместо add
-      if ([
-        '528',
-        '531',
-        '532',
-        '533',
-        '534',
-        '535',
-      ].any(place.id.toString().contains)) {
-        _placeList.add(place);
-      }
-    }
-
+    await Future<void>.delayed(const Duration(seconds: 1));
     _isloading = false;
+
     notifyListeners();
   }
 
-  Future<void> loadFilteredPlaces(Filter filter) async {
-    final loadedData = await PlaceInteractor().getFilteresPlaces(filter);
-    renewPlaceList(loadedData);
-    await Future<void>.delayed(const Duration(seconds: 1));
-    _isloading = false;
-    notifyListeners();
+  Future _showErrorDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        return const Center(child: ErrorDialog());
+      },
+    );
   }
 }

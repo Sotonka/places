@@ -49,6 +49,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       context.read<SightListProvider>().isloading = true;
                       context.read<SightListProvider>().loadFilteredPlaces(
                             context.read<FilterProvider>().filter,
+                            context,
                           );
                       Navigator.pop(
                         context,

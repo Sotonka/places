@@ -54,6 +54,9 @@ class AppStrings {
   static const String searchScreenList = 'Список интересных мест';
   static const String searchBarSearch = 'Поиск';
   static const String onboardingSkip = 'Пропустить';
+  static const String errorDialogError = 'Ошибка';
+  static const String errorDialogMsg1 = 'Что-то пошло не так';
+  static const String errorDialogMsg2 = 'Попробуйте позже';
   static const String onboardingFirstTitle = 'Добро пожаловать в Путеводитель';
   static const String onboardingFirstDesc =
       'Ищи новые локации и сохраняй самые любимые.';
