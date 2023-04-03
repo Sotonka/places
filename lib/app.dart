@@ -7,6 +7,7 @@ import 'package:places/ui/providers/app_providers.dart';
 import 'package:places/ui/providers/theme_provider.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
+import 'package:places/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
@@ -28,6 +29,7 @@ class _AppState extends State<App> {
       child: Consumer<ThemeProvider>(
         builder: (context, provider, child) {
           return MaterialApp(
+            navigatorKey: NavigationService.navigatorKey,
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
             ],

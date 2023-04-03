@@ -6,7 +6,7 @@ class SightDetailsProvider extends ChangeNotifier {
   final _controller = PageController();
 
   PageController get controller => _controller;
-  Place get place => _place;
+  Place? get place => _place;
   int get page => _page;
   // ignore: unnecessary_getters_setters
   bool get isloading {
@@ -24,7 +24,7 @@ class SightDetailsProvider extends ChangeNotifier {
 
   int _page = 0;
   bool _isloading = false;
-  late Place _place;
+  Place? _place;
 
   @override
   void dispose() {
@@ -35,7 +35,15 @@ class SightDetailsProvider extends ChangeNotifier {
   Future<void> loadPlace(int id) async {
     final loadedPlace = await PlaceInteractor().getPlaceDetails(id);
     _isloading = false;
-    _place = loadedPlace;
+
+    loadedPlace.fold(
+      (left) {
+        _place = null;
+      },
+      (right) {
+        _place = right;
+      },
+    );
 
     notifyListeners();
   }

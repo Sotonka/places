@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:places/data/exceptions/network_exception.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/domain/filters.dart';
@@ -21,65 +22,79 @@ class PlaceRepository {
   Future<List<Place>> getPlaces() async {
     initInterceptors();
 
-    final response = await dio.get<String>('/place');
-    if (response.statusCode == 200) {
+    try {
+      final response = await dio.get<String>('/place');
+
       final dynamic placesListJson = jsonDecode(response.data ?? '');
 
       return (placesListJson as List<dynamic>)
           .whereType<Map<String, dynamic>>()
           .map(Place.fromJson)
           .toList();
+    } on DioError catch (e) {
+      throw NetworkException(
+        message: e.message,
+      );
     }
-    throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
 
   Future<Place> getPlace(int id) async {
     initInterceptors();
 
-    final response = await dio.get<String>('/place/$id');
-    if (response.statusCode == 200) {
+    try {
+      final response = await dio.get<String>('/place/$id');
+
       final dynamic placeJson = jsonDecode(response.data ?? '');
 
       return Place.fromJson(placeJson as Map<String, dynamic>);
+    } on DioError catch (e) {
+      throw NetworkException(
+        message: e.message,
+      );
     }
-    throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
 
   Future<String> postPlace(Place place) async {
     initInterceptors();
 
-    final response = await dio.post<String>(
-      '/place',
-      data: jsonEncode(
-        place.toJson(),
-      ),
-    );
+    try {
+      final response = await dio.post<String>(
+        '/place',
+        data: jsonEncode(
+          place.toJson(),
+        ),
+      );
 
-    if (response.statusCode == 200) {
       return response.data ?? '';
+    } on DioError catch (e) {
+      throw NetworkException(
+        message: e.message,
+      );
     }
-    throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
 
   Future<List<PlaceDto>> getFilteredPlaces(Filter filter) async {
     initInterceptors();
 
-    final response = await dio.post<String>(
-      '/filtered_places',
-      data: jsonEncode(
-        filter.toJson(),
-      ),
-    );
+    try {
+      final response = await dio.post<String>(
+        '/filtered_places',
+        data: jsonEncode(
+          filter.toJson(),
+        ),
+      );
 
-    if (response.statusCode == 200) {
       final dynamic list = jsonDecode(response.data ?? '');
 
       return (list as List<dynamic>)
           // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => PlaceDto.fromJson(e as Map<String, dynamic>))
           .toList();
+    } on DioError catch (e) {
+      throw NetworkException(
+        message: e.message,
+      );
     }
-    throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
 
   Future<List<PlaceDto>> searchPlaces(
@@ -89,22 +104,25 @@ class PlaceRepository {
     initInterceptors();
     final searchFilter = filter.copyWith(nameFilter: name);
 
-    final response = await dio.post<String>(
-      '/filtered_places',
-      data: jsonEncode(
-        searchFilter.toJson(),
-      ),
-    );
+    try {
+      final response = await dio.post<String>(
+        '/filtered_places',
+        data: jsonEncode(
+          searchFilter.toJson(),
+        ),
+      );
 
-    if (response.statusCode == 200) {
       final dynamic list = jsonDecode(response.data ?? '');
 
       return (list as List<dynamic>)
           // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => PlaceDto.fromJson(e as Map<String, dynamic>))
           .toList();
+    } on DioError catch (e) {
+      throw NetworkException(
+        message: e.message,
+      );
     }
-    throw Exception('No 200 status code: Error code: ${response.statusCode}');
   }
 }
 

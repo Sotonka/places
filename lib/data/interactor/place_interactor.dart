@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:places/data/exceptions/network_exception.dart';
+import 'package:places/data/exceptions/network_failure.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/data/repository/mapper.dart';
@@ -11,42 +14,54 @@ class PlaceInteractor {
   final favouritePlaces = <Place>[];
   final visitedPlaces = <Place>[];
 
-  Future<List<Place>> getPlaces() async {
-    final places = await repository.getPlaces();
+  Future<Either<Exception, Place>> getPlaceDetails(int id) async {
+    try {
+      final place = await repository.getPlace(id);
 
-    return places;
+      return Right(place);
+    } on NetworkException {
+      return Left(NetworkFailure());
+    }
   }
 
-  Future<Place> getPlaceDetails(int id) async {
-    final place = await repository.getPlace(id);
+  Future<Either<Exception, String>> addNewPlace(Place place) async {
+    try {
+      final response = await repository.postPlace(place);
 
-    return place;
+      return Right(response);
+    } on NetworkException {
+      return Left(NetworkFailure());
+    }
   }
 
-  Future<String> addNewPlace(Place place) async {
-    final response = await repository.postPlace(place);
+  Future<Either<Exception, List<Place>>> getFilteredPlaces(
+    Filter filter,
+  ) async {
+    try {
+      final response = await repository.getFilteredPlaces(filter);
+      response.sort((a, b) => a.distance.compareTo(b.distance));
 
-    return response;
+      final places = await _fromApiToUI(response);
+
+      return Right(places);
+    } on NetworkException {
+      return Left(NetworkFailure());
+    }
   }
 
-  Future<List<Place>> getFilteresPlaces(Filter filter) async {
-    final response = await repository.getFilteredPlaces(filter);
-    response.sort((a, b) => a.distance.compareTo(b.distance));
-
-    final places = await _fromApiToUI(response);
-
-    return places;
-  }
-
-  Future<List<Place>> searchPlaces(
+  Future<Either<Exception, List<Place>>> searchPlaces(
     Filter filter,
     String search,
   ) async {
-    final response = await repository.searchPlaces(filter, search);
+    try {
+      final response = await repository.searchPlaces(filter, search);
 
-    final places = await _fromApiToUI(response);
+      final places = await _fromApiToUI(response);
 
-    return places;
+      return Right(places);
+    } on NetworkException {
+      return Left(NetworkFailure());
+    }
   }
 
   Future<List<Place>> getFavouritePlaces() async {

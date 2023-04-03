@@ -87,14 +87,14 @@ class _TestScreenState extends State<TestScreen> {
     placesController.add(null);
     await Future<void>.delayed(const Duration(milliseconds: 1000));
 
-    final places = await PlaceInteractor().getFilteresPlaces(filter);
+    final places = await PlaceInteractor().getFilteredPlaces(filter);
     // id 530 нет какого-то обязательного параметра, крашит программу, пусть пока так
     final sortedPlaces = <Place>[];
-    for (final place in places) {
+    /* for (final place in places) {
       if (place.id != 530) {
         sortedPlaces.add(place);
       }
-    }
+    } */
     placesController.add(sortedPlaces);
   }
 }

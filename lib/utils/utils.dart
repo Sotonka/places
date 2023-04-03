@@ -71,3 +71,7 @@ int generateId(String letters) {
 
   return result;
 }
+
+class NavigationService {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+}
