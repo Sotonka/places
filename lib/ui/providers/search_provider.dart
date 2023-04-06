@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/filters.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/domain/filters.dart';
 
 class SearchProvider extends ChangeNotifier {
   final _searchController = TextEditingController();

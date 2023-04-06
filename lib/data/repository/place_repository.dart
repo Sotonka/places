@@ -1,9 +1,10 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:places/data/exceptions/network_exception.dart';
+import 'package:places/data/model/filters.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_dto.dart';
-import 'package:places/domain/filters.dart';
 
 const url = 'https://test-backend-flutter.surfstudio.ru';
 

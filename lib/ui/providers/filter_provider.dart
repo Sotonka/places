@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/filters.dart';
+import 'package:places/data/model/filters.dart';
 
 class FilterProvider extends ChangeNotifier {
   bool isEmpty = true;

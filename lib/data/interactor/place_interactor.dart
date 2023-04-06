@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:places/data/exceptions/network_exception.dart';
 import 'package:places/data/exceptions/network_failure.dart';
+import 'package:places/data/model/filters.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_dto.dart';
 import 'package:places/data/repository/mapper.dart';
 import 'package:places/data/repository/place_repository.dart';
-import 'package:places/domain/filters.dart';
 
 final repository = PlaceRepository();
 

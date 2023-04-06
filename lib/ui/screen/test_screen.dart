@@ -1,8 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/filters.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/domain/filters.dart';
 import 'package:places/ui/providers/filter_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';

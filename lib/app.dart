@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:places/app_router.dart';
-import 'package:places/domain/filters.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/providers/app_providers.dart';
 import 'package:places/ui/providers/theme_provider.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
@@ -18,10 +16,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final filter = Filter();
-  final placesList = mocks;
-  final List<String> searchHistory = [];
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

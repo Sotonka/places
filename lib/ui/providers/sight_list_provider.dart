@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/filters.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/domain/filters.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/widget/error_dialog.dart';
 import 'package:places/utils/utils.dart';
 
@@ -23,12 +22,6 @@ class SightListProvider extends ChangeNotifier {
   }
 
   bool _isloading = false;
-
-  void appendSigtList(Sight? newSight) {
-    if (newSight != null) {
-      notifyListeners();
-    }
-  }
 
   void renewPlaceList(List<Place> data) {
     _placeList.clear();
