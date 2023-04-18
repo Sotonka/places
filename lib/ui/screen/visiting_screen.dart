@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:places/bloc/favourites/favourites_bloc.dart';
+import 'package:places/bloc/visited/visited_bloc.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/ui/providers/visiting_screen_provider.dart';
 import 'package:places/ui/ui_kit/ui_kit.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
 import 'package:places/ui/widget/date_pickers.dart';
 import 'package:places/ui/widget/nothing_found.dart';
+import 'package:places/ui/widget/progress_indicator.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:places/ui/widget/small_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -17,13 +21,35 @@ class VisitingScreen extends StatefulWidget {
   State<VisitingScreen> createState() => _VisitingScreenState();
 }
 
-class _VisitingScreenState extends State<VisitingScreen> {
+class _VisitingScreenState extends State<VisitingScreen>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
-    // TODO temp
-    //context.read<VisitingProvider>().getFavourite();
-    //context.read<VisitingProvider>().getVisited();
     super.initState();
+    context.read<FavouritesBloc>().add(
+          const FavouritesEvent.loadFavourites(),
+        );
+
+    _tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(() {
+      if (_tabController.index == 0) {
+        context.read<FavouritesBloc>().add(
+              const FavouritesEvent.loadFavourites(),
+            );
+      } else if (_tabController.index == 1) {
+        context.read<VisitedBloc>().add(
+              const VisitedEvent.loadVisited(),
+            );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -50,6 +76,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                     ),
                   ),
                   TabBar(
+                    controller: _tabController,
                     unselectedLabelColor: AppColors.primaryLightE92,
                     labelColor: themeColors.tabSwitchText,
                     indicatorSize: TabBarIndicatorSize.tab,
@@ -81,8 +108,67 @@ class _VisitingScreenState extends State<VisitingScreen> {
               ),
             ),
             body: TabBarView(
+              controller: _tabController,
               children: [
-                if (provider.favouritePlaces.isEmpty)
+                Tab(
+                  child: BlocBuilder<FavouritesBloc, FavouritesState>(
+                    builder: (context, state) {
+                      return state.when(
+                        loading: () {
+                          return const CustomProgress();
+                        },
+                        loaded: (placesList) {
+                          return placesList.isEmpty
+                              ? const Center(child: NotFound())
+                              : ListView.builder(
+                                  itemBuilder: (context, index) => Padding(
+                                    key: ValueKey('value$index'),
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: _DismissibleItem(
+                                      index: index,
+                                      isVisited: false,
+                                      place: placesList[index],
+                                    ),
+                                  ),
+                                  itemCount: placesList.length,
+                                );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                Tab(
+                  child: BlocBuilder<VisitedBloc, VisitedState>(
+                    builder: (context, state) {
+                      return state.when(
+                        loading: () {
+                          return const CustomProgress();
+                        },
+                        loaded: (placesList) {
+                          return placesList.isEmpty
+                              ? const Center(child: NotFound())
+                              : ListView.builder(
+                                  itemBuilder: (context, index) => Padding(
+                                    key: ValueKey('value$index'),
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: _DismissibleItem(
+                                      index: index,
+                                      isVisited: false,
+                                      place: placesList[index],
+                                    ),
+                                  ),
+                                  itemCount: placesList.length,
+                                );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                /* Tab(
+                  child: BlocBuilder<FavouritesBloc, FavouritesState>(builder: (context, state) {}),
+                ), */
+
+                /* if (provider.favouritePlaces.isEmpty)
                   const Tab(
                     child: Center(child: NotFound()),
                   )
@@ -122,7 +208,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                         provider.reorderVisited(oldIndex, newIndex);
                       },
                     ),
-                  ),
+                  ), */
               ],
             ),
             bottomNavigationBar: const BottomNavBar(index: 2),

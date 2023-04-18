@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:places/data/exceptions/network_exception.dart';
 import 'package:places/data/exceptions/network_failure.dart';
@@ -67,8 +68,18 @@ class PlaceInteractor {
   Future<List<Place>> getFavouritePlaces() async {
     // TODO temp
     final places = <Place>[];
+    places.add(Place(
+      id: 0,
+      lat: 0,
+      lng: 0,
+      name: 'fav1',
+      urls: [],
+      placeType: '',
+      description: '',
+    ));
+    await Future<void>.delayed(const Duration(seconds: 2));
 
-    return favouritePlaces;
+    return places;
   }
 
   Future<List<Place>> addToFavourite(Place place) async {
@@ -84,9 +95,20 @@ class PlaceInteractor {
   }
 
   Future<List<Place>> getVisitedPlaces() async {
+    // TODO temp
     final places = <Place>[];
+    places.add(Place(
+      id: 0,
+      lat: 0,
+      lng: 0,
+      name: 'visited1',
+      urls: [],
+      placeType: '',
+      description: '',
+    ));
+    await Future<void>.delayed(const Duration(seconds: 2));
 
-    return visitedPlaces;
+    return places;
   }
 
   Future<List<Place>> addToVisited(Place place) async {
