@@ -164,51 +164,6 @@ class _VisitingScreenState extends State<VisitingScreen>
                     },
                   ),
                 ),
-                /* Tab(
-                  child: BlocBuilder<FavouritesBloc, FavouritesState>(builder: (context, state) {}),
-                ), */
-
-                /* if (provider.favouritePlaces.isEmpty)
-                  const Tab(
-                    child: Center(child: NotFound()),
-                  )
-                else
-                  Tab(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => Padding(
-                        key: ValueKey('value$index'),
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: _DismissibleItem(
-                          index: index,
-                          isVisited: false,
-                          place: provider.favouritePlaces[index],
-                        ),
-                      ),
-                      itemCount: provider.favouritePlaces.length,
-                    ),
-                  ),
-                if (provider.visitedPlaces.isEmpty)
-                  const Tab(
-                    child: Center(child: NotFound()),
-                  )
-                else
-                  Tab(
-                    child: ReorderableListView.builder(
-                      itemBuilder: (context, index) => Padding(
-                        key: ValueKey('value$index'),
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: _DismissibleItem(
-                          index: index,
-                          isVisited: true,
-                          place: provider.visitedPlaces[index],
-                        ),
-                      ),
-                      itemCount: provider.visitedPlaces.length,
-                      onReorder: (oldIndex, newIndex) {
-                        provider.reorderVisited(oldIndex, newIndex);
-                      },
-                    ),
-                  ), */
               ],
             ),
             bottomNavigationBar: const BottomNavBar(index: 2),
