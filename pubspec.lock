@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: d976d24314f193899a3079b14fe336215a63a3b1e1c3743eabba8f83e049e9a9
+      sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
       url: "https://pub.dev"
     source: hosted
-    version: "49.0.0"
+    version: "58.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "40ba2c6d2ab41a66476f8f1f099da6be0795c1b47221f5e2c5f8ad6048cdffae"
+      sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.10.0"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  bloc:
+    dependency: transitive
+    description:
+      name: bloc
+      sha256: "658a5ae59edcf1e58aac98b000a71c762ad8f46f1394c34a52050cafb3e11a80"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.1.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -56,9 +64,6 @@ packages:
       sha256: "6cfb5af12253eaf2b368f07bacc5a80d1301a071c73360d746b7f2e32d762c66"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
-    version: "2.1.0"
-=======
     version: "2.1.1"
   build:
     dependency: transitive
@@ -124,7 +129,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.4.4"
->>>>>>> Stashed changes
   characters:
     dependency: transitive
     description:
@@ -133,8 +137,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-<<<<<<< Updated upstream
-=======
   checked_yaml:
     dependency: transitive
     description:
@@ -143,7 +145,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
->>>>>>> Stashed changes
   clock:
     dependency: transitive
     description:
@@ -152,8 +153,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-<<<<<<< Updated upstream
-=======
   code_builder:
     dependency: transitive
     description:
@@ -162,7 +161,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.4.0"
->>>>>>> Stashed changes
   collection:
     dependency: transitive
     description:
@@ -207,10 +205,18 @@ packages:
     dependency: "direct dev"
     description:
       name: dart_code_metrics
-      sha256: "219607f5abbf4c0d254ca39ee009f9ff28df91c40aef26718fde15af6b7a6c24"
+      sha256: "873890861a3d7e06fd5a6cd17d802e215ee1301dfb7cbcc7aeab9576e69330d0"
       url: "https://pub.dev"
     source: hosted
-    version: "4.21.3"
+    version: "5.7.2"
+  dart_code_metrics_presets:
+    dependency: transitive
+    description:
+      name: dart_code_metrics_presets
+      sha256: "9c9b0ecc5e23937a4b62c1fe3b3edb72d3c1b08563a1eac69fb75f1306bb57c4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.0"
   dart_style:
     dependency: transitive
     description:
@@ -251,8 +257,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
-<<<<<<< Updated upstream
-=======
   fixnum:
     dependency: transitive
     description:
@@ -261,27 +265,32 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
->>>>>>> Stashed changes
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      sha256: "434951eea948dbe87f737b674281465f610b8259c16c097b8163ce138749a775"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.1.2"
   flutter_lints:
     dependency: transitive
     description:
       name: flutter_lints
-      sha256: b543301ad291598523947dc534aaddc5aaad597b709d2426d3a0e0d44c5cb493
+      sha256: aeb0b80a8b3709709c9cc496cdc027c5b3216796bc0af0ce1007eaf24464fd4c
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "2.0.1"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< Updated upstream
-=======
   flutter_mobx:
     dependency: "direct main"
     description:
@@ -290,7 +299,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.6+5"
->>>>>>> Stashed changes
   flutter_svg:
     dependency: "direct main"
     description:
@@ -304,8 +312,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< Updated upstream
-=======
+  freezed:
+    dependency: "direct main"
+    description:
+      name: freezed
+      sha256: e819441678f1679b719008ff2ff0ef045d66eed9f9ec81166ca0d9b02a187454
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  freezed_annotation:
+    dependency: "direct dev"
+    description:
+      name: freezed_annotation
+      sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -314,7 +336,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
->>>>>>> Stashed changes
   glob:
     dependency: transitive
     description:
@@ -322,9 +343,6 @@ packages:
       sha256: "4515b5b6ddb505ebdd242a5f2cc5d22d3d6a80013789debfbda7777f47ea308c"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
-    version: "2.1.0"
-=======
     version: "2.1.1"
   graphs:
     dependency: transitive
@@ -334,7 +352,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
->>>>>>> Stashed changes
   html:
     dependency: transitive
     description:
@@ -351,8 +368,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.5"
-<<<<<<< Updated upstream
-=======
   http_multi_server:
     dependency: transitive
     description:
@@ -361,7 +376,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
->>>>>>> Stashed changes
   http_parser:
     dependency: transitive
     description:
@@ -378,8 +392,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.0"
-<<<<<<< Updated upstream
-=======
   io:
     dependency: transitive
     description:
@@ -396,7 +408,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
->>>>>>> Stashed changes
   json_annotation:
     dependency: transitive
     description:
@@ -409,12 +420,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: a2c3d198cb5ea2e179926622d433331d8b58374ab8f29cdda6e863bd62fd369c
+      sha256: "5e4a9cd06d447758280a8ac2405101e0e2094d2a1dbdd3756aec3fe7775ba593"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
-<<<<<<< Updated upstream
-=======
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:
@@ -423,7 +432,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
->>>>>>> Stashed changes
   matcher:
     dependency: transitive
     description:
@@ -448,8 +456,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
-<<<<<<< Updated upstream
-=======
   mime:
     dependency: transitive
     description:
@@ -474,7 +480,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
->>>>>>> Stashed changes
   nested:
     dependency: transitive
     description:
@@ -531,8 +536,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
-<<<<<<< Updated upstream
-=======
   pool:
     dependency: transitive
     description:
@@ -541,7 +544,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
->>>>>>> Stashed changes
   process:
     dependency: transitive
     description:
@@ -573,9 +575,6 @@ packages:
       sha256: "42890302ab2672adf567dc2b20e55b4ecc29d7e19c63b6b98143ab68dd717d3a"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
-    version: "0.2.2"
-=======
     version: "0.2.4"
   pubspec_parse:
     dependency: transitive
@@ -601,14 +600,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
->>>>>>> Stashed changes
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
-<<<<<<< Updated upstream
-=======
   source_gen:
     dependency: transitive
     description:
@@ -617,7 +613,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.6"
->>>>>>> Stashed changes
   source_span:
     dependency: transitive
     description:
@@ -641,8 +636,6 @@ packages:
       sha256: "83615bee9045c1d322bbbd1ba209b7a749c2cbcdcb3fdd1df8eb488b3279c1c8"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
-=======
     version: "2.1.1"
   stream_transform:
     dependency: transitive
@@ -651,7 +644,6 @@ packages:
       sha256: "14a00e794c7c11aa145a170587321aedce29769c08d7f58b1d141da75e3b1c6f"
       url: "https://pub.dev"
     source: hosted
->>>>>>> Stashed changes
     version: "2.1.0"
   string_scanner:
     dependency: transitive
@@ -665,10 +657,10 @@ packages:
     dependency: "direct dev"
     description:
       name: surf_lint_rules
-      sha256: "0b21d70ad3ca3cac583dc156774d41bb02f833fa0d4cd60221474fcc8668a872"
+      sha256: "0465c70586a137db13a1e6afb1bd10b48a95c90fe29fdcee15a96c9f70fe2b19"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "2.1.0"
   term_glyph:
     dependency: transitive
     description:
@@ -693,8 +685,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
-<<<<<<< Updated upstream
-=======
   timing:
     dependency: transitive
     description:
@@ -703,7 +693,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
->>>>>>> Stashed changes
   typed_data:
     dependency: transitive
     description:
@@ -712,6 +701,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -728,8 +725,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-<<<<<<< Updated upstream
-=======
   web_socket_channel:
     dependency: transitive
     description:
@@ -738,7 +733,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
->>>>>>> Stashed changes
   xml:
     dependency: transitive
     description:
