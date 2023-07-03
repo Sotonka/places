@@ -1,2 +1,2 @@
 # places
- ~in progress~
+ in progress
